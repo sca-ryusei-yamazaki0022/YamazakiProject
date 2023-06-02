@@ -5,10 +5,7 @@ using UnityEngine;
 namespace FPS
 {
 	
-	public enum PlayerState
-	{
-		Idle, Walking, Running, Jumping
-	}
+	
 
 	[RequireComponent(typeof(CharacterController), typeof(AudioSource))]
 	public class PlayerController : MonoBehaviour
@@ -23,27 +20,42 @@ namespace FPS
 		//private float shakeIntensity = 0.1f;
 
 		private CharacterController charaController;
-
+		[SerializeField] GameObject Mirror;
+		[SerializeField] Light light;
+		[SerializeField] GameObject Map;
+		int mouseDownCount = 0;
 		// Åöí«â¡
 		private GameObject FPSCamera;
 		private Vector3 moveDir = Vector3.zero;
-
+		float MaxStamina=5;
+		float NowStamina=0;
 		void Start()
 		{
 			// Åöí«â¡
 			FPSCamera = GameObject.Find("Main Camera");
 
 			charaController = GetComponent<CharacterController>();
-
+			Mirror.SetActive(false);
+			Map.SetActive(false);
+			light.range = 0.0f;
 			//cameraShake = Camera.main.GetComponent<CameraShake>();
+		}
+
+		void Update()
+        {
+			WalkMove();
+			if (Input.GetMouseButtonDown(1))
+			{
+				ViewMM();//Debug.Log(NowStamina);
+			}
 		}
 
 		void FixedUpdate()
 		{
-			Move();
+			
 		}
 
-		void Move()
+		void WalkMove()
 		{
 			float moveH = Input.GetAxis("Horizontal");
 			float moveV = Input.GetAxis("Vertical");
@@ -62,16 +74,46 @@ namespace FPS
 			// ÅöèCê≥
 			if (Input.GetKey(KeyCode.LeftShift))
 			{
-				charaController.Move(moveDir * Time.fixedDeltaTime * runSpeed);
+				RunMove();
 				//cameraShake.Shake(shakeDuration, shakeIntensity);
 			}
 			else
 			{
 				charaController.Move(moveDir * Time.fixedDeltaTime * walkSpeed);
+				NowStamina-= Time.deltaTime;
+                if (NowStamina <= 0) { NowStamina=0;}
 				//cameraShake.Shake(shakeDuration, shakeIntensity);
 			}
 		}
-	}
+		void RunMove()
+        {
+			NowStamina+= Time.deltaTime;
+			if (MaxStamina>NowStamina)
+			{ 
+				charaController.Move(moveDir * Time.fixedDeltaTime * runSpeed);
+				//GameManager.PlayerState.pl= PlayerState.Walking;
+				//Debug.Log("hasu");
+			}
+			else
+            {
+				charaController.Move(moveDir * Time.fixedDeltaTime * walkSpeed);
+				Debug.Log("ëñÇÍÇ»Ç¢");
+            }
+		}
 
+		void ViewMM()
+		{
+			mouseDownCount++;
+
+			switch (mouseDownCount)
+			{
+				case 1: Mirror.SetActive(true); light.range = 5.0f; Map.SetActive(true); break;
+				case 2: Mirror.SetActive(false); light.range = 0.0f; Map.SetActive(false); mouseDownCount = 0; break;
+				default: Mirror.SetActive(false); light.range = 0.0f; mouseDownCount = 0; Map.SetActive(false); break;
+			}
+		}
+		
+            
+	}
 
 }

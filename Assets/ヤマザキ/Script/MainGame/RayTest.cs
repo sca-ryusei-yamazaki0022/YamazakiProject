@@ -10,7 +10,7 @@ public class RayTest : MonoBehaviour
     private bool chest;
     private bool weapon;
     private int Ecount=0;
-    private int mirrorcount=0;
+    //private int mirrorcount=0;
     private float MirrorBreakTiem1=0;
     private float MirrorBreakTiem2 = 0;
     private float MirrorBreakTiem3 = 0;
@@ -18,74 +18,72 @@ public class RayTest : MonoBehaviour
     private bool Mirrorcheck;
     //public WeaponController Weaponcontroller;
     GameObject child;
-
+    GameManager gameManager;
     void Start()
     {
+        gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         rayDistance = 10.0f;//RAYの長さ
     }
 
     void Update()
+    {
+        Ray();
+    }
+
+    void Ray()
     {
         //メインカメラからRAYを飛ばす
         Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
         //RAYの可視化、後で消す（デバック用）
         Debug.DrawRay(transform.position, transform.forward * rayDistance, Color.red);
-        
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             //Rayが当たったオブジェクトの名前表示
             //Debug.Log(hit.collider.gameObject.name);
-            if(hit.collider.gameObject.CompareTag("Light"))
+            if (hit.collider.gameObject.CompareTag("Light")&& Input.GetMouseButtonDown(0))
             {
-                if(Input.GetMouseButtonDown(0))
-                { 
-                    light =true;
-                    //Debug.Log(lCheck);
+                light = true;
+            }
+            if (hit.collider.gameObject.CompareTag("Chest")&& Input.GetKeyDown(KeyCode.E))
+            {               
+                if (Ecount < 1)
+                {
+                     chest = true;
+                     child = hit.collider.gameObject.transform.GetChild(0).gameObject;
+                     child.SetActive(true);
+                     Ecount++;
                 }
 
+                
             }
-            if(hit.collider.gameObject.CompareTag("Chest"))
+            if (hit.collider.gameObject.CompareTag("Weapon") && Input.GetKeyDown(KeyCode.E))
             {
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    if(Ecount<1)
-                    { 
-                    chest = true;
-                    child = hit.collider.gameObject.transform.GetChild(0).gameObject;
-                    child.SetActive(true);
-                    Ecount++;
-                    }
-
-                }
-            }
-            if (hit.collider.gameObject.CompareTag("Weapon"))
-            {
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    weapon=true;
+                //if (Input.GetKeyDown(KeyCode.E))
+                //{
+                    weapon = true;
                     hit.collider.gameObject.SetActive(false);
                     //Debug.Log(weapon);
-                }
+                //}
             }
-            
-            if (hit.collider.gameObject.CompareTag("Mirror1")|| hit.collider.gameObject.CompareTag("Mirror2") || hit.collider.gameObject.CompareTag("Mirror3"))
+
+            if (hit.collider.gameObject.CompareTag("Mirror1") || hit.collider.gameObject.CompareTag("Mirror2") || hit.collider.gameObject.CompareTag("Mirror3"))
             {
-                if (Input.GetKey(KeyCode.E)&&weapon==true)
+                if (Input.GetKey(KeyCode.E) && weapon == true)
                 {
                     switch (hit.collider.gameObject.tag)
                     {
                         case "Mirror1":
-                            Tag= hit.collider.gameObject.tag;
+                            Tag = hit.collider.gameObject.tag;
                             Mirrorcheck = true;
                             MirrorBreakTiem1 += Time.deltaTime;
                             //Debug.Log(MirrorBreakTiem1);
-                            if(MirrorBreakTiem1>=10)
+                            if (MirrorBreakTiem1 >= 10)
                             {
+                                gameManager.MBreak += 1;
                                 hit.collider.gameObject.SetActive(false);
+                                //mirrorcount++;
                                 
-                                
-                                mirrorcount++;
                             }
                             break;
                         case "Mirror2":
@@ -94,10 +92,9 @@ public class RayTest : MonoBehaviour
                             MirrorBreakTiem2 += Time.deltaTime;
                             if (MirrorBreakTiem2 >= 10)
                             {
+                                gameManager.MBreak += 1;
                                 hit.collider.gameObject.SetActive(false);
-                                
-                                
-                                mirrorcount++;
+                                //mirrorcount++;
                             }
                             break;
                         case "Mirror3":
@@ -106,27 +103,20 @@ public class RayTest : MonoBehaviour
                             MirrorBreakTiem3 += Time.deltaTime;
                             if (MirrorBreakTiem3 >= 10)
                             {
+                                gameManager.MBreak += 1;
                                 hit.collider.gameObject.SetActive(false);
-                                
-                                mirrorcount++;
+                                //mirrorcount++;
                             }
                             break;
-                            
-                    }
 
-                    
-                   
-                    
+                    }
                 }
-                
                 //Mirrorcheck = false;
             }
-
             else
             {
                 Mirrorcheck = false;
             }
-
         }
 
 
@@ -144,13 +134,13 @@ public class RayTest : MonoBehaviour
         get { return this.chest;}
         private set { this.chest = value; }
     }
-
+    /*
     public int Mirror
     {
         get { return this.mirrorcount; }
         private set { this.mirrorcount = value; }
     }
-
+    */
     public float Mirror1
     {
         get { return this.MirrorBreakTiem1; }
@@ -166,11 +156,13 @@ public class RayTest : MonoBehaviour
         get { return this.MirrorBreakTiem3; }
         private set { this.MirrorBreakTiem3 = value; }
     }
+    
     public bool MirrorCheck
     {
         get { return this.Mirrorcheck; }
         private set { this.Mirrorcheck = value; }
     }
+    
     public string TagMirror
     {
         get { return this.Tag; }

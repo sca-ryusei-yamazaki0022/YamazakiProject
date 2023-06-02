@@ -20,7 +20,7 @@ public class LightFlash : MonoBehaviour
         ICheck = rayTest.LightCheck;
         if (ICheck==true)
         {
-            lt.range = 10f;
+            this.lt.range = 10f;
             
         }
     }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Getangry : MonoBehaviour
 {
     int ICheck;
-    public RayTest rayTest;
+    public GameManager GM;
     [SerializeField] private Image Enemy;
     [SerializeField] private GameObject Image;
     [SerializeField] private GameObject EnemyView;
@@ -22,7 +22,7 @@ public class Getangry : MonoBehaviour
     void Update()
     {
         
-        ICheck = rayTest.Mirror;
+        ICheck = GM.MBreak;
         switch(ICheck)
         {
             case 1:
