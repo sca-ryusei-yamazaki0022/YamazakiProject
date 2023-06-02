@@ -11,11 +11,11 @@ public class RayTest : MonoBehaviour
     private bool weapon;
     private int Ecount=0;
     //private int mirrorcount=0;
-    private float MirrorBreakTiem1=0;
-    private float MirrorBreakTiem2 = 0;
-    private float MirrorBreakTiem3 = 0;
-    private string Tag;
-    private bool Mirrorcheck;
+    //private float MirrorBreakTiem1=0;
+    //private float MirrorBreakTiem2 = 0;
+    //private float MirrorBreakTiem3 = 0;
+    
+    
     //public WeaponController Weaponcontroller;
     GameObject child;
     GameManager gameManager;
@@ -27,7 +27,7 @@ public class RayTest : MonoBehaviour
 
     void Update()
     {
-        Ray();
+        Ray(); 
     }
 
     void Ray()
@@ -49,13 +49,11 @@ public class RayTest : MonoBehaviour
             {               
                 if (Ecount < 1)
                 {
-                     chest = true;
+                     //chest = true;
                      child = hit.collider.gameObject.transform.GetChild(0).gameObject;
                      child.SetActive(true);
                      Ecount++;
-                }
-
-                
+                }      
             }
             if (hit.collider.gameObject.CompareTag("Weapon") && Input.GetKeyDown(KeyCode.E))
             {
@@ -69,54 +67,61 @@ public class RayTest : MonoBehaviour
 
             if (hit.collider.gameObject.CompareTag("Mirror1") || hit.collider.gameObject.CompareTag("Mirror2") || hit.collider.gameObject.CompareTag("Mirror3"))
             {
-                if (Input.GetKey(KeyCode.E) && weapon == true)
-                {
+                if (weapon == true)
+                { 
+                    if (Input.GetKey(KeyCode.E))
+                    {
+                    gameManager.MirrorUi = true; gameManager.Pstop = true;
+                    //Debug.Log("ここでカメラと移動を制限");
                     switch (hit.collider.gameObject.tag)
                     {
                         case "Mirror1":
-                            Tag = hit.collider.gameObject.tag;
-                            Mirrorcheck = true;
-                            MirrorBreakTiem1 += Time.deltaTime;
-                            //Debug.Log(MirrorBreakTiem1);
-                            if (MirrorBreakTiem1 >= 10)
+                            gameManager.HitTag = hit.collider.gameObject.tag;
+                            gameManager.MirrorT1 += Time.deltaTime;
+                            if (gameManager.MirrorT1 >= 10)
                             {
-                                gameManager.MBreak += 1;
+                                gameManager.MBreak += 1;                               
                                 hit.collider.gameObject.SetActive(false);
-                                //mirrorcount++;
-                                
                             }
                             break;
                         case "Mirror2":
-                            Tag = hit.collider.gameObject.tag;
-                            Mirrorcheck = true;
-                            MirrorBreakTiem2 += Time.deltaTime;
-                            if (MirrorBreakTiem2 >= 10)
+                            gameManager.HitTag = hit.collider.gameObject.tag;
+                            gameManager.MirrorT2 += Time.deltaTime;                            
+                            if (gameManager.MirrorT2 >= 10)
                             {
-                                gameManager.MBreak += 1;
+                                gameManager.MBreak += 1;                                
                                 hit.collider.gameObject.SetActive(false);
-                                //mirrorcount++;
                             }
                             break;
                         case "Mirror3":
-                            Tag = hit.collider.gameObject.tag;
-                            Mirrorcheck = true;
-                            MirrorBreakTiem3 += Time.deltaTime;
-                            if (MirrorBreakTiem3 >= 10)
+                            gameManager.HitTag = hit.collider.gameObject.tag;
+                            gameManager.MirrorT3 += Time.deltaTime;
+                            if (gameManager.MirrorT3 >= 10)
                             {
-                                gameManager.MBreak += 1;
+                                gameManager.MBreak += 1;                               
                                 hit.collider.gameObject.SetActive(false);
-                                //mirrorcount++;
                             }
                             break;
-
+                        
+                        }
                     }
+                    else
+                    {
+                        gameManager.MirrorUi = false; gameManager.Pstop = false;
+                    }
+                }                
+                switch (weapon)
+                {
+                    case true:
+                        Debug.Log("壊せそうだ");
+                        break;
+                    case false:
+                        Debug.Log("アイテムがない");
+                        break;
                 }
                 //Mirrorcheck = false;
             }
-            else
-            {
-                Mirrorcheck = false;
-            }
+          
         }
 
 
@@ -128,51 +133,7 @@ public class RayTest : MonoBehaviour
         get { return this.light; }  //取得用
         private set { this.light = value; } //値入力用
     }
+      
     
-    public bool Chest
-    {
-        get { return this.chest;}
-        private set { this.chest = value; }
-    }
-    /*
-    public int Mirror
-    {
-        get { return this.mirrorcount; }
-        private set { this.mirrorcount = value; }
-    }
-    */
-    public float Mirror1
-    {
-        get { return this.MirrorBreakTiem1; }
-        private set { this.MirrorBreakTiem1 = value; }
-    }
-    public float Mirror2
-    {
-        get { return this.MirrorBreakTiem2; }
-        private set { this.MirrorBreakTiem2 = value; }
-    }
-    public float Mirror3
-    {
-        get { return this.MirrorBreakTiem3; }
-        private set { this.MirrorBreakTiem3 = value; }
-    }
     
-    public bool MirrorCheck
-    {
-        get { return this.Mirrorcheck; }
-        private set { this.Mirrorcheck = value; }
-    }
-    
-    public string TagMirror
-    {
-        get { return this.Tag; }
-        private set { this.Tag = value; }
-    }
-    /*
-    public bool Weapon
-    {
-        get { return this.weapon; }  //取得用
-        private set { this.weapon = value; } //値入力用
-    }
-    */
 }

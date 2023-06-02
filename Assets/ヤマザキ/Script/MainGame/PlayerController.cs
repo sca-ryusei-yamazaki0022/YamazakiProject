@@ -29,11 +29,12 @@ namespace FPS
 		private Vector3 moveDir = Vector3.zero;
 		float MaxStamina=5;
 		float NowStamina=0;
+		GameManager gameManager;
 		void Start()
 		{
 			// Åöí«â¡
 			FPSCamera = GameObject.Find("Main Camera");
-
+			gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
 			charaController = GetComponent<CharacterController>();
 			Mirror.SetActive(false);
 			Map.SetActive(false);
@@ -43,7 +44,10 @@ namespace FPS
 
 		void Update()
         {
-			WalkMove();
+			
+				Debug.Log(gameManager.Pstop);
+				WalkMove();
+			
 			if (Input.GetMouseButtonDown(1))
 			{
 				ViewMM();//Debug.Log(NowStamina);
@@ -70,8 +74,10 @@ namespace FPS
 			Vector3 desiredMove = FPSCamera.transform.forward * movement.z + FPSCamera.transform.right * movement.x;
 			moveDir.x = desiredMove.x * 5f;
 			moveDir.z = desiredMove.z * 5f;
-
+			
 			// ÅöèCê≥
+			if(gameManager.Pstop)
+			{ 
 			if (Input.GetKey(KeyCode.LeftShift))
 			{
 				RunMove();
@@ -84,6 +90,7 @@ namespace FPS
                 if (NowStamina <= 0) { NowStamina=0;}
 				//cameraShake.Shake(shakeDuration, shakeIntensity);
 			}
+		}
 		}
 		void RunMove()
         {
