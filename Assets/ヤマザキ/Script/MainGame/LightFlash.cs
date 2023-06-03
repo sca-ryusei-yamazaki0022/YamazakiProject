@@ -6,23 +6,23 @@ public class LightFlash : MonoBehaviour
 {
     
     private Light lt;
-    public RayTest rayTest;
+    string tag;
     
     // Start is called before the first frame update
     void Start()
     {
         lt = gameObject.GetComponent<Light>();
+
     }
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        bool ICheck;
-        ICheck = rayTest.LightCheck;
-        if (ICheck==true)
-        {
+        //tag=this.gameObject.tag;
+        if (this.gameObject.tag == "LightOn")
+            { 
             this.lt.range = 10f;
-            
         }
+        
     }
 
     //プロパティー

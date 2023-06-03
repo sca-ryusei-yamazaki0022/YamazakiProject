@@ -44,9 +44,11 @@ namespace FPS
 
 		void Update()
         {
-			
+			if(!gameManager.Pstop)
+			{ 
 				Debug.Log(gameManager.Pstop);
 				WalkMove();
+			}
 			
 			if (Input.GetMouseButtonDown(1))
 			{
@@ -56,7 +58,7 @@ namespace FPS
 
 		void FixedUpdate()
 		{
-			
+			//WalkMove();
 		}
 
 		void WalkMove()
@@ -75,9 +77,11 @@ namespace FPS
 			moveDir.x = desiredMove.x * 5f;
 			moveDir.z = desiredMove.z * 5f;
 			
+			Debug.Log(moveDir.y);
+			
 			// ÅöèCê≥
-			if(gameManager.Pstop)
-			{ 
+			//if(gameManager.Pstop)
+			//{ 
 			if (Input.GetKey(KeyCode.LeftShift))
 			{
 				RunMove();
@@ -90,7 +94,7 @@ namespace FPS
                 if (NowStamina <= 0) { NowStamina=0;}
 				//cameraShake.Shake(shakeDuration, shakeIntensity);
 			}
-		}
+		//}
 		}
 		void RunMove()
         {
