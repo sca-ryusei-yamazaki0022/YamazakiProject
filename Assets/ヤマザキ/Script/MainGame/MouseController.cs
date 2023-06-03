@@ -18,9 +18,15 @@ public class MouseController : MonoBehaviour
 
 	private float yRotVelocity;
 	private float xRotVelocity;
-
+	GameManager gameManager;
+	void Start()
+    {
+		gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+	}
 	void Update()
 	{
+		if(gameManager.Pstop==false)
+		{ 
 		yRot += Input.GetAxis("Mouse X") * lookSensitivity;  // マウスの横移動
 		xRot -= Input.GetAxis("Mouse Y") * lookSensitivity;  // マウスの縦移動
 
@@ -32,5 +38,6 @@ public class MouseController : MonoBehaviour
 		currentYRot = Mathf.SmoothDamp(currentYRot, yRot, ref yRotVelocity, lookSmooth);
 
 		transform.rotation = Quaternion.Euler(currentXRot, currentYRot, 0);
+		}
 	}
 }

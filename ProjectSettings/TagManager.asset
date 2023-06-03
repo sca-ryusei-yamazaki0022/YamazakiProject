@@ -11,11 +11,12 @@ TagManager:
   - Mirror1
   - Mirror2
   - Mirror3
+  - LightOn
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - OutLine
   - Water
   - UI
   - EnemyUI
