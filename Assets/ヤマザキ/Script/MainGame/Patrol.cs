@@ -104,7 +104,7 @@ public class Patrol : MonoBehaviour
     // ゲーム実行中の繰り返し処理
     void FixedUpdate()
     {
-        Debug.Log(bPoint);
+        //Debug.Log(bPoint);
         //Debug.Log(destPoint);
         // エージェントが現在の巡回地点に到達したら
         if (!agent.pathPending && agent.remainingDistance < 0.05f) {
