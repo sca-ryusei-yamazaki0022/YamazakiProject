@@ -46,7 +46,7 @@ namespace FPS
         {
 			if(!gameManager.Pstop)
 			{ 
-				Debug.Log(gameManager.Pstop);
+				//Debug.Log(gameManager.Pstop);
 				WalkMove();
 			}
 			
@@ -77,7 +77,7 @@ namespace FPS
 			moveDir.x = desiredMove.x * 5f;
 			moveDir.z = desiredMove.z * 5f;
 			
-			Debug.Log(moveDir.y);
+			//Debug.Log(moveDir.y);
 			
 			// ÅöèCê≥
 			//if(gameManager.Pstop)

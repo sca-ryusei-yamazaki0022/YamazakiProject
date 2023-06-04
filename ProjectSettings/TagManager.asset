@@ -12,6 +12,9 @@ TagManager:
   - Mirror2
   - Mirror3
   - LightOn
+  - EnemyBoss
+  - BPoint
+  - BPointEnd
   layers:
   - Default
   - TransparentFX

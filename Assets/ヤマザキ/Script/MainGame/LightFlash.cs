@@ -7,7 +7,7 @@ public class LightFlash : MonoBehaviour
     
     private Light lt;
     string tag;
-    
+    int Oncount;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,9 +18,10 @@ public class LightFlash : MonoBehaviour
     void FixedUpdate()
     {
         //tag=this.gameObject.tag;
-        if (this.gameObject.tag == "LightOn")
+        if (this.gameObject.tag == "LightOn"&&Oncount==0)
             { 
             this.lt.range = 10f;
+            Oncount++;
         }
         
     }
