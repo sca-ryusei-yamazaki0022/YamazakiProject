@@ -4,33 +4,31 @@ using UnityEngine;
 
 public class EnemyBoss : MonoBehaviour
 {
-    [SerializeField] GameObject Player;
-    private Renderer objectRenderer;
+    public Camera cam;
+    public GameObject target;
 
-    private void Start()
+    private RectTransform rect;
+    //private GameObject textObject;
+    // Start is called before the first frame update
+    void Start()
     {
-        objectRenderer = Player.GetComponent<Renderer>();
+        rect = GetComponent<RectTransform>();
+        //textObject = transform.Find("Text")?.gameObject;
     }
 
-    private void OnBecameVisible()
+    // Update is called once per frame
+    void Update()
     {
-        // オブジェクトがカメラに写ったときの処理をここに記述します
-        Debug.Log("Object became visible!");
-    }
-
-    private void OnBecameInvisible()
-    {
-        // オブジェクトがカメラから見えなくなったときの処理をここに記述します
-        Debug.Log("Object became invisible!");
-    }
-
-    private void Update()
-    {
-        // オブジェクトが画面外に出たかどうかの判定を行います
-        if (!objectRenderer.isVisible)
+        if (cam == null || target == null || rect == null)
         {
-            // オブジェクトが画面外に出たときの処理をここに記述します
-            Debug.Log("Object went off-screen!");
+            return;
         }
+
+        rect.position = cam.WorldToScreenPoint(target.transform.position) + new Vector3(0.0f, 10.0f, 0.0f);
+
+        var vp = cam.WorldToViewportPoint(target.transform.position);
+        bool active = vp.x >= 0.0f && vp.x <= 1.0f && vp.y >= 0.0f && vp.y <= 1.0f && vp.z >= 0.0f;
+        Debug.Log("写って");
+        //textObject.SetActive(active);
     }
 }
