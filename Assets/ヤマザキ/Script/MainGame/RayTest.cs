@@ -80,6 +80,7 @@ public class RayTest : MonoBehaviour
                             if (gameManager.MirrorT1 >= 10)
                             {
                                 gameManager.MBreak += 1;
+                                gameManager.Clear();
                                 hit.collider.gameObject.SetActive(false);
                                 gameManager.MirrorUi = false; gameManager.Pstop = false;
                             }
@@ -101,6 +102,7 @@ public class RayTest : MonoBehaviour
                             if (gameManager.MirrorT2 >= 10)
                             {
                                 gameManager.MBreak += 1;
+                                gameManager.Clear();
                                 hit.collider.gameObject.SetActive(false);
                                 gameManager.MirrorUi = false; gameManager.Pstop = false;
                             }
@@ -122,6 +124,7 @@ public class RayTest : MonoBehaviour
                             if (gameManager.MirrorT3 >= 10)
                             {
                                 gameManager.MBreak += 1;
+                                gameManager.Clear();
                                 hit.collider.gameObject.SetActive(false);
                                 gameManager.MirrorUi = false; gameManager.Pstop = false;
                             }
@@ -135,9 +138,5 @@ public class RayTest : MonoBehaviour
             }
             //gameManager.MirrorUi = false; gameManager.Pstop = false;
         }
-    }
-            
-
-    
-    
+    }    
 }

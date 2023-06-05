@@ -15,6 +15,7 @@ TagManager:
   - EnemyBoss
   - BPoint
   - BPointEnd
+  - AudioManager
   layers:
   - Default
   - TransparentFX

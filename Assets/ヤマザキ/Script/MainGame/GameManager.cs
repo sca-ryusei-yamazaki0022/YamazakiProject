@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     private float Timer=0;
     [SerializeField] private GameObject MirrirUI;
     [SerializeField] private Slider slider;
-
+    [SerializeField] private GameObject CDoor;
     private void Awake()
     {   /*
         if (instance == null) { instance=this;DontDestroyOnLoad(this.gameObject);}
@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //Debug.Log(MirrorUII);
-        Clear();
+        
         
     }
     void FixedUpdate()
@@ -58,10 +58,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("TitleScence");
     }
 
-    void Clear()
-    {
-        
-    }
+    
     void MirorrBreakUI()
     {
         
@@ -95,7 +92,13 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-   
+    public void Clear()
+    {
+        if (MirrorBreakcount==3)
+        { 
+            CDoor.SetActive(false);
+        }
+    }
 
     public int MBreak
     {
