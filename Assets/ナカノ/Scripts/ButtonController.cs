@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class ButtonController : MonoBehaviour
 {
+    private void Start()
+    {
+    }
+
     public void Setting()
     {
         SceneManager.LoadScene("SettingScene");
