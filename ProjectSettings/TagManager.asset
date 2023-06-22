@@ -16,6 +16,10 @@ TagManager:
   - BPoint
   - BPointEnd
   - AudioManager
+  - Up
+  - Down
+  - Left
+  - Right
   layers:
   - Default
   - TransparentFX
