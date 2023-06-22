@@ -4,16 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class OpeningController : MonoBehaviour
+public class EndRollController : MonoBehaviour
 {
     [SerializeField] Image FadeImage;
     float fadeAlpha = 1;
-    [SerializeField] Text prologue;
+    [SerializeField] Text endroll;
     float textAlpha = 0;
+    [SerializeField] RectTransform text;
     [SerializeField] Text explain;
     float explainAlpha = 0;
+    [SerializeField] float rollSpeed;
+    [SerializeField] float limit;
+    float clearTime = 0;
 
-    enum STATE { IN = 0, TEXT, EXPLAIN, OUT};
+    enum STATE { IN = 0, TEXT, STAFROLL, EXPLAIN, OUT };
     STATE state = 0;
 
     bool isOut;
@@ -25,16 +29,28 @@ public class OpeningController : MonoBehaviour
         fadeAlpha = 1;
         textAlpha = 0;
         explainAlpha = 0;
-}
+        clearTime = 0;
+
+        endroll.text = 
+        "外はまだ大雨でしたが、もう関係ありませんでした。" +
+        "\n\n私は必死に走って、気が付いたらもう自宅の前にいました。" +
+        "\n\nあれ以来あそこの帰り道は使っていません。" +
+        "\n\nあの廃墟と化け物たちは一体何だったのでしょう。\n\n\n\n\n\n\n\n\n\n\n\n" +
+        "プランナー\n\n佐藤　陸\n\n\n\n" +
+        "プログラマー\n\n山崎　流聖\n\n中野　綾女\n\n猪野　天斗\n\n\n\n" +
+        "2Dデザイナー\n\n長倉　愛華\n\n安孫子　要人\n\n\n\n" +
+        "3Dデザイナー\n\n笠井　郁斗\n\n八巻　佑駿\n\n\n\n\n\n\n\n\n\n\n\n" +
+        "クリアタイム\n\n" + clearTime;
+    }
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0) && state != STATE.IN)
+        if (Input.GetMouseButtonDown(0) && state != STATE.IN)
         {
             isOut = true;
         }
 
-        if(isOut)
+        if (isOut)
         {
             if (fadeAlpha <= 1)
             {
@@ -56,6 +72,9 @@ public class OpeningController : MonoBehaviour
                 case STATE.TEXT:
                     TEXT();
                     break;
+                case STATE.STAFROLL:
+                    STAFROLL();
+                    break;
                 case STATE.EXPLAIN:
                     EXPLAIN();
                     break;
@@ -73,7 +92,7 @@ public class OpeningController : MonoBehaviour
             fadeAlpha -= 0.25f * Time.deltaTime;
             FadeImage.GetComponent<Image>().color = new Color(0, 0, 0, fadeAlpha);
         }
-        if(fadeAlpha <= 0)
+        if (fadeAlpha <= 0)
         {
             state = STATE.TEXT;
         }
@@ -81,12 +100,12 @@ public class OpeningController : MonoBehaviour
 
     void TEXT()
     {
-        if(textAlpha <= 1)
+        if (textAlpha <= 1)
         {
             textAlpha += 1f * Time.deltaTime;
-            prologue.GetComponent<Text>().color = new Color(255, 255, 255, textAlpha);
+            endroll.GetComponent<Text>().color = new Color(255, 255, 255, textAlpha);
         }
-        if(textAlpha >= 1)
+        if (textAlpha >= 1)
         {
             StartCoroutine("waitTime");
         }
@@ -95,7 +114,19 @@ public class OpeningController : MonoBehaviour
     IEnumerator waitTime()
     {
         yield return new WaitForSeconds(3);
-        state = STATE.EXPLAIN;
+        state = STATE.STAFROLL;
+    }
+
+    void STAFROLL()
+    {
+        if (text.position.y <= limit)
+        {
+            text.position += new Vector3(0f, rollSpeed * Time.deltaTime, 0f);
+        }
+        if(text.position.y >= limit)
+        {
+            state = STATE.EXPLAIN;
+        }
     }
 
     void EXPLAIN()
@@ -105,7 +136,7 @@ public class OpeningController : MonoBehaviour
             explainAlpha += 1f * Time.deltaTime;
             explain.GetComponent<Text>().color = new Color(255, 255, 255, explainAlpha);
         }
-        if(Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         {
             state = STATE.OUT;
         }
