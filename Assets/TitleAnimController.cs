@@ -39,6 +39,7 @@ public class TitleAnimController : MonoBehaviour
 
     public void SceneChange()
     {
+        GameManager.count += 1;
         SceneManager.LoadScene("OpeningScene");
     }
 }

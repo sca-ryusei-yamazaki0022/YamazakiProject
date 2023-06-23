@@ -1,32 +1,21 @@
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
 
-[PostProcess(typeof(CameraShakeRenderer), PostProcessEvent.AfterStack, "Custom/CameraShake")]
-public class CameraShakeEffect : PostProcessEffectSettings
+public class CameraShake : MonoBehaviour
 {
-    [Range(0f, 1f)]
-    public FloatParameter shakeAmount = new FloatParameter { value = 0.1f };
-    public FloatParameter shakeSpeed = new FloatParameter { value = 1.0f };
-}
+    public float shakeAmount = 0.1f;  // óhÇÍÇÃã≠Ç≥
+    public float shakeSpeed = 1.0f;  // óhÇÍÇÃë¨ìx
 
-public class CameraShakeRenderer : PostProcessEffectRenderer<CameraShakeEffect>
-{
-    private float elapsedTime = 0f;
+    private Vector3 originalPosition;
 
-    public override void Render(PostProcessRenderContext context)
+    void Start()
     {
-        if (Application.isPlaying)
-        {
-            elapsedTime += Time.deltaTime;
-            float shakeOffset = Mathf.Sin(elapsedTime * settings.shakeSpeed) * settings.shakeAmount;
+        originalPosition = transform.localPosition;
+    }
 
-            PropertySheet sheet = context.propertySheets.Get(Shader.Find("Hidden/Custom/CameraShake"));
-            sheet.properties.SetFloat("_ShakeOffset", shakeOffset);
-            context.command.BlitFullscreenTriangle(context.source, context.destination, sheet, 0);
-        }
-        else
-        {
-            context.command.BlitFullscreenTriangle(context.source, context.destination);
-        }
+    void Update()
+    {
+        // ï‡çséûÇÃóhÇÍÇï\åª
+        float shakeOffset = Mathf.Sin(Time.time * shakeSpeed) * shakeAmount;
+        transform.localPosition = originalPosition + new Vector3(0f, shakeOffset, 0f);
     }
 }

@@ -58,14 +58,15 @@ public class EnemyBoss : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log(EnemyState);
+        //Debug.Log(destPoint);
         switch (EnemyState)
         {
             case Enemy.Patrol://巡回
-                Debug.Log("巡回");
-                if (!agent.pathPending && agent.remainingDistance < 0.05f)
+                //Debug.Log("巡回");
+                if (!agent.pathPending && agent.remainingDistance < 0.1f)
                 {
-                    Debug.Log(Branch);
+                    //GotoNextPoint();
+                    //Debug.Log(Branch);
                     // 次の巡回地点を設定する処理を実行
                     if (!Branch)
                     {
@@ -78,15 +79,15 @@ public class EnemyBoss : MonoBehaviour
                 }
                 break;
             case Enemy.PlayerLook://怒る
-                Debug.Log("プレイヤー発見");
+                //Debug.Log("プレイヤー発見");
                 agent.destination = player.transform.position;
                 ChaseTime();
                 break;
             case Enemy.Frightening://怯み
-                Debug.Log("プレイヤーアイテム使用");
+                //Debug.Log("プレイヤーアイテム使用");
                 break;
             case Enemy.Capture://捕獲
-                Debug.Log("プレイヤーを捕まえた");
+                //Debug.Log("プレイヤーを捕まえた");
                 break;
         }
 
@@ -113,8 +114,9 @@ public class EnemyBoss : MonoBehaviour
             //もしhitのタグが"Player"と一致していた場合．．．の処理内容
             EnemyState = Enemy.PlayerLook;
             Chasetime = 0;
-
         }
+       
+       
     }
     // 次の巡回地点を設定する処理
     void GotoNextPoint()
@@ -130,7 +132,6 @@ public class EnemyBoss : MonoBehaviour
     }
     void GotoBranchPoint()
     {
-
         switch (destPoint)
         {
             case 3:

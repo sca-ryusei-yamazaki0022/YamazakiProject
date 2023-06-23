@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
 
     void StartScene()
     {  
-        SceneManager.LoadScene("TitleScence");
+        SceneManager.LoadScene("TitleScene");
     }
 
     
@@ -64,12 +64,12 @@ public class GameManager : MonoBehaviour
         
         if (MirrorUII==true)
         {
-            Debug.Log("ここでゲージを出したい");
+            //Debug.Log("ここでゲージを出したい");
             MirrirUI.SetActive(true);
         }
         else
         {
-            Debug.Log("ここでゲージを非表示");
+            //Debug.Log("ここでゲージを非表示");
             MirrirUI.SetActive(false);
         }        
     }

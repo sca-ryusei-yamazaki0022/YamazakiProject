@@ -15,10 +15,12 @@ public class SetUpItem : MonoBehaviour
     //[SerializeField] [Range(0f, 1f)] float capacity;
     int WeponC=1;
     int TrapC=3;
-    
+    Quaternion test;
+
     // Start is called before the first frame update
     void Start()
     {
+        
         // 0以上の整数がPointの数だけ並んだ配列
         int[] array1 = Enumerable.Range(0, transform.childCount).ToArray();
         // array1をシャッフルする
@@ -31,33 +33,25 @@ public class SetUpItem : MonoBehaviour
         for (int n = 0; n < count; n++)
         {
             
-            //Debug.Log(transform.GetChild(array2[n]).gameObject.tag);
+          
             tag = transform.GetChild(array2[n]).gameObject.tag;
-            //SquareCorners = transform.GetChild(array2[n]).gameObject;
-            //SquareCorners.transform.Rotate(new Vector3(0, 180, 0));
-            //Debug.Log(SquareCorners.transform.Rotate);
+           
             if (WeponC>n)
             {
-                //SquareCorners=Wepon;
                 Rotation();
-                Instantiate(Wepon, transform.GetChild(array2[n]).position, Wepon.transform.rotation);
-                //Wepon.transform.Rotate(new Vector3(0, 180, 0));
+                Instantiate(Wepon, transform.GetChild(array2[n]).position, test);
+            
             }
             else if(TrapC >= n)
             {
-                //SquareCorners = Trap;
                 Rotation();
-                Instantiate(Trap, transform.GetChild(array2[n]).position, Trap.transform.rotation);
-                //Trap.transform.Rotate(new Vector3(0, 180, 0));
-                //Debug.Log("T");
+                Instantiate(Trap, transform.GetChild(array2[n]).position, test);
             }
             else
             {
-                //SquareCorners = Light;
                 Rotation();
-                Instantiate(Light, transform.GetChild(array2[n]).position, Light.transform.rotation);
-                //Light.transform.Rotate(new Vector3(0, 180, 0));
-                //Debug.Log("L");
+                Instantiate(Light, transform.GetChild(array2[n]).position, test);
+
             }
         }
         // 破壊
@@ -69,18 +63,20 @@ public class SetUpItem : MonoBehaviour
        switch(tag)
         {
             case "Up":
-                //SquareCorners.transform.Rotate(new Vector3(0, 270, 0));
+                test = Quaternion.Euler(0, 270f, 0);
                 Debug.Log("上だよー");
                 break;
             case "Down":
-                //SquareCorners.transform.Rotate(new Vector3(0, 90, 0));
+                test = Quaternion.Euler(0, 90f, 0);
                 Debug.Log("sitaだよー");
                 break;
             case "Left":
+                test = Quaternion.Euler(0, 0f, 0);
                 //SquareCorners.transform.Rotate(new Vector3(0, 180, 0));
                 Debug.Log("hidariだよー");
                 break;
             case "Right":
+                test = Quaternion.Euler(0, 180f, 0);
                 //SquareCorners.transform.Rotate(new Vector3(0, 0, 0));
                 Debug.Log("migiだよー");
                 break;

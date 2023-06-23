@@ -43,7 +43,7 @@ public class OpeningController : MonoBehaviour
             }
             if (fadeAlpha >= 1)
             {
-                SceneManager.LoadScene("TitleScene");
+                SceneManager.LoadScene("MainGame");
             }
         }
         else
