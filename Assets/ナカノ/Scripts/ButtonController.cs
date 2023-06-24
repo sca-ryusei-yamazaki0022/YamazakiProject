@@ -10,11 +10,13 @@ public class ButtonController : MonoBehaviour
     {
     }
 
+    //İ’è‰æ–Ê‚Ö
     public void Setting()
     {
         SceneManager.LoadScene("SettingScene");
     }
 
+    //ƒAƒvƒŠI—¹
     public void OnExit()
     {
         Application.Quit();

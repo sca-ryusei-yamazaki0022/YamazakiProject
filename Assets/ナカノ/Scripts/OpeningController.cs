@@ -6,10 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class OpeningController : MonoBehaviour
 {
+    //フェードイン
     [SerializeField] Image FadeImage;
     float fadeAlpha = 1;
+
+    //プロローグ
     [SerializeField] Text prologue;
     float textAlpha = 0;
+
+    //「クリックでスタート」
     [SerializeField] Text explain;
     float explainAlpha = 0;
 
@@ -29,6 +34,7 @@ public class OpeningController : MonoBehaviour
 
     void Update()
     {
+        //クリックでメインゲームに遷移
         if(Input.GetMouseButtonDown(0) && state != STATE.IN)
         {
             isOut = true;
@@ -36,6 +42,7 @@ public class OpeningController : MonoBehaviour
 
         if(isOut)
         {
+            //フェードアウト
             if (fadeAlpha <= 1)
             {
                 fadeAlpha += 0.3f * Time.deltaTime;
@@ -66,6 +73,7 @@ public class OpeningController : MonoBehaviour
         }
     }
 
+    //フェードイン
     void IN()
     {
         if (fadeAlpha >= 0)
@@ -79,6 +87,7 @@ public class OpeningController : MonoBehaviour
         }
     }
 
+    //プロローグ表示
     void TEXT()
     {
         if(textAlpha <= 1)
@@ -98,6 +107,7 @@ public class OpeningController : MonoBehaviour
         state = STATE.EXPLAIN;
     }
 
+    //「クリックでスタート」
     void EXPLAIN()
     {
         if (explainAlpha <= 1)

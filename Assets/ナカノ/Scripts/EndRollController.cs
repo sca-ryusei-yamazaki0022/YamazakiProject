@@ -6,26 +6,35 @@ using UnityEngine.SceneManagement;
 
 public class EndRollController : MonoBehaviour
 {
+    //フェードイン
     [SerializeField] Image FadeImage;
     float fadeAlpha = 1;
+
+    //エンドロール
     [SerializeField] Text endroll;
     float textAlpha = 0;
-    [SerializeField] RectTransform text;
-    [SerializeField] Text explain;
-    float explainAlpha = 0;
+    [SerializeField] RectTransform text; //テキスト移動用
     [SerializeField] float rollSpeed;
     [SerializeField] float limit;
+
+    //「クリックでタイトルに戻る」
+    [SerializeField] Text explain;
+    float explainAlpha = 0;
+
+    //クリアタイム　メインゲームから取得予定
     float clearTime = 0;
+
+    bool isOut;
+    bool isSkip;
 
     enum STATE { IN = 0, TEXT, STAFROLL, EXPLAIN, OUT };
     STATE state = 0;
-
-    bool isOut;
 
     void Start()
     {
         state = 0;
         isOut = false;
+        isSkip = false;
         fadeAlpha = 1;
         textAlpha = 0;
         explainAlpha = 0;
@@ -45,9 +54,22 @@ public class EndRollController : MonoBehaviour
 
     void Update()
     {
+        //一回クリックでエンドロールスキップ
         if (Input.GetMouseButtonDown(0) && state != STATE.IN)
         {
-            isOut = true;
+            isSkip = true;
+        }
+
+        if (isSkip)
+        {
+            text.localPosition = new Vector3(0f, 1500f, 0f);
+            state = STATE.EXPLAIN;
+        }
+
+        //二回目クリックでタイトルへ遷移
+        if (Input.GetMouseButtonDown(0) && isSkip)
+        {
+            StartCoroutine("wait");
         }
 
         if (isOut)
@@ -85,6 +107,7 @@ public class EndRollController : MonoBehaviour
         }
     }
 
+    //フェードイン
     void IN()
     {
         if (fadeAlpha >= 0)
@@ -98,6 +121,7 @@ public class EndRollController : MonoBehaviour
         }
     }
 
+    //エピローグ表示
     void TEXT()
     {
         if (textAlpha <= 1)
@@ -117,6 +141,7 @@ public class EndRollController : MonoBehaviour
         state = STATE.STAFROLL;
     }
 
+    //スタッフロール
     void STAFROLL()
     {
         if (text.position.y <= limit)
@@ -129,6 +154,7 @@ public class EndRollController : MonoBehaviour
         }
     }
 
+    //「クリックでタイトルに戻る」
     void EXPLAIN()
     {
         if (explainAlpha <= 1)
@@ -140,5 +166,11 @@ public class EndRollController : MonoBehaviour
         {
             state = STATE.OUT;
         }
+    }
+
+    IEnumerator wait()
+    {
+        yield return new WaitForSeconds(1);
+        isOut = true;
     }
 }
