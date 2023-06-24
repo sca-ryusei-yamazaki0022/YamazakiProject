@@ -21,7 +21,7 @@ namespace FPS
 
 		private CharacterController charaController;
 		[SerializeField] GameObject Mirror;
-		[SerializeField] Light light;
+		//[SerializeField] Light light;
 		[SerializeField] GameObject Map;
 		int mouseDownCount = 0;
 		// Åöí«â¡
@@ -38,7 +38,7 @@ namespace FPS
 			charaController = GetComponent<CharacterController>();
 			Mirror.SetActive(false);
 			Map.SetActive(false);
-			light.range = 0.0f;
+			//light.range = 0.0f;
 			//cameraShake = Camera.main.GetComponent<CameraShake>();
 		}
 
@@ -118,9 +118,9 @@ namespace FPS
 
 			switch (mouseDownCount)
 			{
-				case 1: Mirror.SetActive(true); light.range = 5.0f; Map.SetActive(true); break;
-				case 2: Mirror.SetActive(false); light.range = 0.0f; Map.SetActive(false); mouseDownCount = 0; break;
-				default: Mirror.SetActive(false); light.range = 0.0f; mouseDownCount = 0; Map.SetActive(false); break;
+				case 1: Mirror.SetActive(true);  Map.SetActive(true); break;
+				case 2: Mirror.SetActive(false);  Map.SetActive(false); mouseDownCount = 0; break;
+				default: Mirror.SetActive(false);  mouseDownCount = 0; Map.SetActive(false); break;
 			}
 		}
 		

@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
   m_AmbientEquatorColor: {r: 0, g: 0, b: 0, a: 1}
   m_AmbientGroundColor: {r: 0, g: 0, b: 0, a: 1}
-  m_AmbientIntensity: 1.71
+  m_AmbientIntensity: 0.46
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0, g: 0, b: 0, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
@@ -1261,43 +1261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebe131e5bc3a44f47b22ab9effc5ad0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points:
-  - {fileID: 519039275}
-  - {fileID: 1352337397}
-  - {fileID: 557929652}
-  - {fileID: 318801250}
-  - {fileID: 825835220}
-  - {fileID: 1514431252}
-  - {fileID: 309156111}
-  - {fileID: 1513229284}
-  - {fileID: 2129653642}
-  - {fileID: 412424647}
-  - {fileID: 346253655}
-  - {fileID: 1267594667}
-  - {fileID: 1578074382}
-  - {fileID: 699903150}
-  - {fileID: 809578109}
-  BranchpointsOne:
-  - {fileID: 951006817}
-  - {fileID: 748364287}
-  - {fileID: 97742901}
-  - {fileID: 1076870930}
-  BranchpointsTwo:
-  - {fileID: 1931470872}
-  - {fileID: 2114763812}
-  - {fileID: 2085692489}
-  - {fileID: 1543557870}
-  - {fileID: 1068996776}
-  BranchpointsThree:
-  - {fileID: 517602901}
-  - {fileID: 1083413510}
-  BranchpointsFour:
-  - {fileID: 1851882113}
-  - {fileID: 1252388632}
-  destPoint: 0
-  bPoint: 0
-  agent: {fileID: 0}
-  Branch: 0
 --- !u!195 &184505978
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -8256,7 +8219,6 @@ MonoBehaviour:
   walkSpeed: 0.132
   runSpeed: 1
   Mirror: {fileID: 680063441}
-  light: {fileID: 0}
   Map: {fileID: 79439747}
 --- !u!143 &1947041130
 CharacterController:
@@ -8691,11 +8653,11 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 30.33
-  m_SpotAngle: 109.46615
-  m_InnerSpotAngle: 94.56605
+  m_Color: {r: 1, g: 0.9010488, b: 0.44716978, a: 1}
+  m_Intensity: 50
+  m_Range: 100
+  m_SpotAngle: 72.948425
+  m_InnerSpotAngle: 40
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
