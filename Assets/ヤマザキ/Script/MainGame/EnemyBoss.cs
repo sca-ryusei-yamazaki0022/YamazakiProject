@@ -30,7 +30,7 @@ public class EnemyBoss : MonoBehaviour
     private NavMeshAgent agent;// NavMesh Agent コンポーネントを格納する変数
     private bool Branch;//分岐点を決める
     private Enemy EnemyState;//敵の状態をENUMから引き出す関数
-
+    GameManager gameManager;
 
     public enum Enemy
     {
@@ -47,6 +47,8 @@ public class EnemyBoss : MonoBehaviour
         //textObject = transform.Find("Text")?.gameObject;
         // 変数"agent"に NavMesh Agent コンポーネントを格納
         agent = GetComponent<NavMeshAgent>();
+        //ゲームなねージャーを格納
+        gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         // 巡回地点間の移動を継続させるために自動ブレーキを無効化
         //（エージェントは目的地点に近づいても減速しない)
         agent.autoBraking = false;
@@ -87,6 +89,7 @@ public class EnemyBoss : MonoBehaviour
                 //Debug.Log("プレイヤーアイテム使用");
                 break;
             case Enemy.Capture://捕獲
+                Predation();
                 //Debug.Log("プレイヤーを捕まえた");
                 break;
         }
@@ -109,12 +112,19 @@ public class EnemyBoss : MonoBehaviour
         {
             //Debug.Log(hit.point);
         }
+        else
+        {
+            return;
+        }
+        
         if (hit.collider.gameObject.CompareTag("Player"))
         {
             //もしhitのタグが"Player"と一致していた場合．．．の処理内容
             EnemyState = Enemy.PlayerLook;
             Chasetime = 0;
         }
+
+        
        
        
     }
@@ -185,7 +195,7 @@ public class EnemyBoss : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("AAAAAAAAA");
+        
         if (other.gameObject.CompareTag("BPoint"))
         {
             Branchpoint();
@@ -233,4 +243,11 @@ public class EnemyBoss : MonoBehaviour
             EnemyState = Enemy.PlayerLook;
         }
     }
+
+    void Predation()//捕食時
+    {
+        //ここでアニメーション再生系を設定
+        gameManager.PredationScene();
+    }
+
 }

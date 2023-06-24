@@ -27,7 +27,7 @@ public class RayTest : MonoBehaviour
         rayDistance = 5.0f;//RAY‚Ì’·‚³
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Ray(); 
     }
@@ -42,8 +42,10 @@ public class RayTest : MonoBehaviour
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             Tagname = hit.collider.gameObject.tag;
+            
             switch (Tagname)
             {
+                
                 case "Light":
                     hit.collider.gameObject.layer=3;
                     if (Input.GetMouseButtonDown(0))

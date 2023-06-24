@@ -43,8 +43,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(MirrorUII);
-        
+
         
     }
     void FixedUpdate()
@@ -98,6 +97,10 @@ public class GameManager : MonoBehaviour
         { 
             CDoor.SetActive(false);
         }
+    }
+    public void PredationScene()
+    {
+
     }
 
     public int MBreak
