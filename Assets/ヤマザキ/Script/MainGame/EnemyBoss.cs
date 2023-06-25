@@ -29,7 +29,7 @@ public class EnemyBoss : MonoBehaviour
     private float Chasetime;//巡回モードに戻るときに10秒間見られていないかの確認
     private NavMeshAgent agent;// NavMesh Agent コンポーネントを格納する変数
     private bool Branch;//分岐点を決める
-    private Enemy EnemyState;//敵の状態をENUMから引き出す関数
+    public Enemy EnemyState;//敵の状態をENUMから引き出す関数
     GameManager gameManager;
 
     public enum Enemy
@@ -60,7 +60,8 @@ public class EnemyBoss : MonoBehaviour
 
     void FixedUpdate()
     {
-        //Debug.Log(destPoint);
+        
+        Debug.Log(EnemyState);
         switch (EnemyState)
         {
             case Enemy.Patrol://巡回
@@ -122,6 +123,7 @@ public class EnemyBoss : MonoBehaviour
             //もしhitのタグが"Player"と一致していた場合．．．の処理内容
             EnemyState = Enemy.PlayerLook;
             Chasetime = 0;
+            Debug.Log(Chasetime);
         }
 
         
