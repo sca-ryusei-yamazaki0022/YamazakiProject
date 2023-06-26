@@ -13,7 +13,7 @@ public class EnemyBoss : MonoBehaviour
     private RectTransform rect;
 
     float distance = 100; // 飛ばす&表示するRayの長さ
-    float duration = 3;   // 表示期間（秒）
+    float duration = 0.1f;   // 表示期間（秒）
     bool GetAngry;//怒っているフラグ
 
     // 巡回地点オブジェクトを格納する配列
@@ -197,7 +197,10 @@ public class EnemyBoss : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("kakuho");
+        }
         if (other.gameObject.CompareTag("BPoint"))
         {
             Branchpoint();
@@ -232,6 +235,7 @@ public class EnemyBoss : MonoBehaviour
 
         }
     }
+    
     void ChaseTime()
     {
         Chasetime += Time.deltaTime;

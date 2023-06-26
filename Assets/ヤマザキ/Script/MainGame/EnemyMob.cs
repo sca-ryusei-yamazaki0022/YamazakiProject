@@ -12,6 +12,7 @@ public class EnemyMob : MonoBehaviour
     private int destPoint = 0;
     // NavMesh Agent コンポーネントを格納する変数
     private NavMeshAgent agent;
+    private NavMeshAgent agentBoss;
     private EnemyMobClass EnemyMobState;
     private EnemyBoss enemyBoss;
     [SerializeField] private GameObject EnemyBossP;//呼び出すBOSSのオブジェクトを設定
@@ -28,6 +29,7 @@ public class EnemyMob : MonoBehaviour
     {
         // 変数"agent"に NavMesh Agent コンポーネントを格納
         agent = GetComponent<NavMeshAgent>();
+        agentBoss=EnemyBossP.GetComponent<NavMeshAgent>();
         // 巡回地点間の移動を継続させるために自動ブレーキを無効化
         //（エージェントは目的地点に近づいても減速しない)
         agent.autoBraking = false;
@@ -74,9 +76,11 @@ public class EnemyMob : MonoBehaviour
     {
         if (OnCount)
         {
+            agentBoss.enabled = false;
             EnemyBossP.transform.position= new Vector3(SummoningPoints.gameObject.transform.position.x, SummoningPoints.gameObject.transform.position.y, SummoningPoints.gameObject.transform.position.z); 
             enemyBoss.EnemyState = EnemyBoss.Enemy.PlayerLook;
-            OnCount=false;
+            agentBoss.enabled = true;
+            OnCount =false;
         }
         Debug.Log("なくよー");
     }
