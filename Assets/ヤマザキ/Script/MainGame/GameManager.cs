@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
         */
         if (count == 0)
         {
-            StartScene();
+            //StartScene();
         }
         slider.value = 0;
         slider.maxValue = 10;

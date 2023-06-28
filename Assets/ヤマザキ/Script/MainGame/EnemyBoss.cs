@@ -6,14 +6,23 @@ using UnityEngine.AI;
 
 public class EnemyBoss : MonoBehaviour
 {
+    public Camera targetCamera; // フラグを返したい特定のカメラ
+    public GameObject targetObject; // フラグを返したい特定のオブジェクト
+    public LayerMask obstacleLayer; // 壁や障害物のレイヤーマスク
+    public bool flag = false; // フラグ
+    private bool wasVisible = false; // 前回の可視状態
+    private bool isChangingFlag = false; // フラグの変更中かどうか
+    private bool TimeBool;//５秒立った時見分けるため
+    /*
     public Camera cam;
     public GameObject target;
     public GameObject test;
     [SerializeField] private Camera targetCamera;
-    private RectTransform rect;
+    */
+    //private RectTransform rect;
 
-    float distance = 100; // 飛ばす&表示するRayの長さ
-    float duration = 0.1f;   // 表示期間（秒）
+    //float distance = 100; // 飛ばす&表示するRayの長さ
+    //float duration = 0.1f;   // 表示期間（秒）
     bool GetAngry;//怒っているフラグ
 
     // 巡回地点オブジェクトを格納する配列
@@ -43,7 +52,7 @@ public class EnemyBoss : MonoBehaviour
 
     void Start()
     {
-        rect = GetComponent<RectTransform>();
+        //rect = GetComponent<RectTransform>();
         //textObject = transform.Find("Text")?.gameObject;
         // 変数"agent"に NavMesh Agent コンポーネントを格納
         agent = GetComponent<NavMeshAgent>();
@@ -60,14 +69,16 @@ public class EnemyBoss : MonoBehaviour
 
     void FixedUpdate()
     {
-        
-        Debug.Log(EnemyState);
+        Camera();
+        //Debug.Log(EnemyState);
         switch (EnemyState)
         {
             case Enemy.Patrol://巡回
                 //Debug.Log("巡回");
+                
                 if (!agent.pathPending && agent.remainingDistance < 0.1f)
                 {
+                    //Debug.Log("巡回に入りました");
                     //GotoNextPoint();
                     //Debug.Log(Branch);
                     // 次の巡回地点を設定する処理を実行
@@ -79,6 +90,10 @@ public class EnemyBoss : MonoBehaviour
                     {
                         GotoBranchPoint();
                     }
+                }else if(agent.pathPending == null)
+                {
+                    Branch=false;
+                    agent.destination = points[destPoint].position;
                 }
                 break;
             case Enemy.PlayerLook://怒る
@@ -94,8 +109,10 @@ public class EnemyBoss : MonoBehaviour
                 //Debug.Log("プレイヤーを捕まえた");
                 break;
         }
-
-        PLRay();
+        
+        Debug.Log(agent.pathPending);
+        Debug.Log(EnemyState);
+        //PLRay();
 
     }
     // Update is called once per frame
@@ -103,6 +120,7 @@ public class EnemyBoss : MonoBehaviour
     {
 
     }
+    /*
     void PLRay()
     {
         Ray ray = new Ray(test.transform.position, test.transform.forward);
@@ -123,13 +141,9 @@ public class EnemyBoss : MonoBehaviour
             //もしhitのタグが"Player"と一致していた場合．．．の処理内容
             EnemyState = Enemy.PlayerLook;
             Chasetime = 0;
-            Debug.Log(Chasetime);
+            //Debug.Log(Chasetime);
         }
-
-        
-       
-       
-    }
+    }*/
     // 次の巡回地点を設定する処理
     void GotoNextPoint()
     {
@@ -199,7 +213,7 @@ public class EnemyBoss : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("kakuho");
+            //Debug.Log("kakuho");
         }
         if (other.gameObject.CompareTag("BPoint"))
         {
@@ -212,22 +226,22 @@ public class EnemyBoss : MonoBehaviour
             switch (destPoint)
             {
                 case 8:
-                    Debug.Log("8で０担ってます");
+                    //Debug.Log("8で０担ってます");
                     bPoint = 0; destPoint = 14;
                     Branch = false;
                     break;
                 case 9:
-                    Debug.Log("９で０担ってます");
+                    //Debug.Log("９で０担ってます");
                     bPoint = 0; destPoint = 9;
                     Branch = false;
                     break;
                 case 10:
-                    Debug.Log("10で０担ってます");
+                    //Debug.Log("10で０担ってます");
                     bPoint = 0; destPoint = 13;
                     Branch = false;
                     break;
                 case 12:
-                    Debug.Log("12で0担ってます");
+                    //Debug.Log("12で0担ってます");
                     bPoint = 0; destPoint = 13;
                     Branch = false;
                     break;
@@ -236,18 +250,24 @@ public class EnemyBoss : MonoBehaviour
         }
     }
     
-    void ChaseTime()
+    void ChaseTime()//逃走時間
     {
-        Chasetime += Time.deltaTime;
-        if (Chasetime >= 5)
-        {
-            Debug.Log("５秒経過");
-            EnemyState = Enemy.Patrol;
+        if(!flag)
+        { 
+            Chasetime += Time.deltaTime;
+            //Debug.Log("回転して");
         }
         else
         {
-            EnemyState = Enemy.PlayerLook;
+            Chasetime=0;
         }
+        if (Chasetime >= 5)
+        {
+            //Debug.Log("５秒経過");
+            EnemyState = Enemy.Patrol;
+            TimeBool=true;
+        }
+       
     }
 
     void Predation()//捕食時
@@ -255,5 +275,87 @@ public class EnemyBoss : MonoBehaviour
         //ここでアニメーション再生系を設定
         gameManager.PredationScene();
     }
+    void Camera()
+    {
+        if (targetCamera == null || targetObject == null)
+        {
+            return;
+        }
 
+        Vector3 targetPosition = targetObject.transform.position;
+        Vector3 viewportPosition = targetCamera.WorldToViewportPoint(targetPosition);
+
+        if (viewportPosition.x < 0 || viewportPosition.x > 1 || viewportPosition.y < 0 || viewportPosition.y > 1 || viewportPosition.z < 0 || viewportPosition.z > targetCamera.farClipPlane)
+        {
+            flag = false; // オブジェクトがカメラの描画外に出たらフラグを下ろす
+            //EnemyState = Enemy.Patrol;
+            //return;
+        }
+
+        bool isVisible = IsVisibleFromCamera(targetObject) && !IsBehindCamera(targetPosition) && !IsObstacleBetweenCamera(targetPosition);
+
+        if (isVisible && !wasVisible && !isChangingFlag)
+        {
+            flag = true; // オブジェクトがカメラに見えてカメラの後ろにいないかつ壁がない場合はフラグを立てる
+            EnemyState = Enemy.PlayerLook;//Enum変更
+            StartCoroutine(FlagChangeDelay()); // フラグ変更の遅延処理を開始
+        }
+        else if(EnemyState == Enemy.PlayerLook && TimeBool)
+        {
+            Debug.Log("パトロールに戻したよ");
+            EnemyState = Enemy.Patrol;
+            TimeBool=false;
+        }
+
+        wasVisible = isVisible; // 現在の可視状態を保存
+    }
+    private IEnumerator FlagChangeDelay()
+    {
+        isChangingFlag = true; // フラグ変更中フラグを立てる
+
+        yield return new WaitForSeconds(0.1f); // フラグ変更の遅延時間（例として1秒）
+
+        isChangingFlag = false; // フラグ変更中フラグを解除
+
+        //Debug.Log(flag);
+    }
+
+    private bool IsVisibleFromCamera(GameObject obj)
+    {
+        Renderer renderer = obj.GetComponent<Renderer>();
+        if (renderer == null || !renderer.enabled)
+        {
+            return false;
+        }
+
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(targetCamera);
+        return GeometryUtility.TestPlanesAABB(planes, renderer.bounds);
+    }
+
+    private bool IsBehindCamera(Vector3 targetPosition)
+    {
+        Vector3 cameraToTarget = targetPosition - targetCamera.transform.position;
+        Vector3 cameraForward = targetCamera.transform.forward;
+
+        if (Vector3.Dot(cameraToTarget, cameraForward) <= 0)
+        {
+            return true; // オブジェクトがカメラの後ろにいる
+        }
+
+        return false; // オブジェクトがカメラの前にいる
+    }
+
+    private bool IsObstacleBetweenCamera(Vector3 targetPosition)
+    {
+        Vector3 cameraPosition = targetCamera.transform.position;
+        Vector3 direction = targetPosition - cameraPosition;
+        RaycastHit hit;
+        if (Physics.Raycast(cameraPosition, direction, out hit, direction.magnitude, obstacleLayer))
+        {
+            Debug.Log("壁あるよ");
+            return true; // カメラとターゲットの間に壁がある
+        }
+        Debug.Log("壁ないよ");
+        return false; // カメラとターゲットの間に壁がない
+    }
 }
