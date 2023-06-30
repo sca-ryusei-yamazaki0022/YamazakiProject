@@ -6,136 +6,138 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance=null;
-  　public static int count=0;
-    bool MirrorUII=false;
-    bool PStop=false;
-    int MachMaxCount=3;
-    int FlashMaxCount=2;
-    int MirrorBreakcount=0;
-    float MirrorBreakTime1;
-    float MirrorBreakTime2;
-    float MirrorBreakTime3;
-    string Tagname;
-    private float Timer=0;
-    [SerializeField] private GameObject MirrirUI;
+    public static GameManager instance = null;
+    public static int count = 0;
+
+    [SerializeField] private GameObject mirrorUI;
     [SerializeField] private Slider slider;
-    [SerializeField] private GameObject CDoor;
+    [SerializeField] private GameObject closingDoor;
+
+    private bool mirrorUIActive = false;
+    private bool pauseGame = false;
+    private int maxMirrorCount = 3;
+    private int maxFlashCount = 2;
+    private int mirrorBreakCount = 0;
+    private float mirrorBreakTime1;
+    private float mirrorBreakTime2;
+    private float mirrorBreakTime3;
+    private string hitTag;
+    private float timer = 0;
+    private float timer1 = 0;
+    private float timer2 = 0;
+
     private void Awake()
-    {   /*
-        if (instance == null) { instance=this;DontDestroyOnLoad(this.gameObject);}
-        else { Destroy(this.gameObject);}        
-        */
+    {
+
         if (count == 0)
         {
             //StartScene();
         }
+
         slider.value = 0;
         slider.maxValue = 10;
     }
+
     // Start is called before the first frame update
     void Start()
     {
         //PlayerPrefs.SetInt("count", count);
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        
+        // Update game logic
     }
+
     void FixedUpdate()
     {
-        MirorrBreakUI();
-        MirrorBreakTime();
+        UpdateMirrorBreakUI();
+        UpdateMirrorBreakTime();
     }
 
     void StartScene()
-    {  
+    {
         SceneManager.LoadScene("TitleScene");
     }
 
-    
-    void MirorrBreakUI()
+    void UpdateMirrorBreakUI()
     {
-        
-        if (MirrorUII==true)
-        {
-            //Debug.Log("ここでゲージを出したい");
-            MirrirUI.SetActive(true);
-        }
-        else
-        {
-            //Debug.Log("ここでゲージを非表示");
-            MirrirUI.SetActive(false);
-        }        
+        mirrorUI.SetActive(mirrorUIActive);
     }
-    void MirrorBreakTime()
+
+    void UpdateMirrorBreakTime()
     {
-        
-        switch (Tagname)
+        switch (hitTag)
         {
             case "Mirror1":
-                Timer = MirrorBreakTime1;
-                slider.value = Timer;
+                timer = mirrorBreakTime1;
+                slider.value = timer;
                 break;
             case "Mirror2":
-                Timer = MirrorBreakTime2;
-                slider.value = Timer;
+                timer1 = mirrorBreakTime2;
+                slider.value = timer1;
                 break;
             case "Mirror3":
-                Timer = MirrorBreakTime3;
-                slider.value = Timer;
+                timer2 = mirrorBreakTime3;
+                slider.value = timer2;
                 break;
         }
     }
+
     public void Clear()
     {
-        if (MirrorBreakcount==3)
-        { 
-            CDoor.SetActive(false);
+        if (mirrorBreakCount == 3)
+        {
+            closingDoor.SetActive(false);
         }
+
     }
+
     public void PredationScene()
     {
-
+        // Enter Predation scene logic
     }
 
     public int MBreak
     {
-          get { return this.MirrorBreakcount; }
-          set { this.MirrorBreakcount = value; }
+        get { return mirrorBreakCount; }
+        set { mirrorBreakCount = value; }
     }
+
     public bool MirrorUi
     {
-        get { return this.MirrorUII; }
-        set { this.MirrorUII = value; }
+        get { return mirrorUIActive; }
+        set { mirrorUIActive = value; }
     }
+
     public bool Pstop
     {
-        get { return this.PStop; }
-        set { this.PStop = value; }
+        get { return pauseGame; }
+        set { pauseGame = value; }
     }
+
     public float MirrorT1
     {
-        get { return this. MirrorBreakTime1; }
-        set { this.MirrorBreakTime1 = value; }
+        get { return mirrorBreakTime1; }
+        set { mirrorBreakTime1 = value; }
     }
+
     public float MirrorT2
     {
-        get { return this.MirrorBreakTime2; }
-        set { this.MirrorBreakTime2 = value; }
+        get { return mirrorBreakTime2; }
+        set { mirrorBreakTime2 = value; }
     }
+
     public float MirrorT3
     {
-        get { return this.MirrorBreakTime3; }
-        set { this.MirrorBreakTime3 = value; }
+        get { return mirrorBreakTime3; }
+        set { mirrorBreakTime3 = value; }
     }
+
     public string HitTag
     {
-        get { return this.Tagname; }
-        set { this.Tagname = value; }
+        get { return hitTag; }
+        set { hitTag = value; }
     }
 }

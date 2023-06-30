@@ -1,165 +1,184 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RayTest : MonoBehaviour
 {
     private float rayDistance;
-    //public LightTest lightTest;
-    private bool light;
-    private bool chest;
+    private RaycastHit hit;
+    private string tagname;
+    private GameObject child;
+    private GameManager gameManager;
     private bool weapon;
-    private int Ecount=0;
-    private string Tagname;
-    //private int mirrorcount=0;
-    //private float MirrorBreakTiem1=0;
-    //private float MirrorBreakTiem2 = 0;
-    //private float MirrorBreakTiem3 = 0;
+    private int Ecount;
+    private GameObject previousHitObject; // 前回の当たり判定で使用したオブジェクトを保持する変数
 
-    RaycastHit hit;
-
-    //public WeaponController Weaponcontroller;
-    GameObject child;
-    GameManager gameManager;
-    void Start()
+    private void Start()
     {
         gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-        rayDistance = 5.0f;//RAYの長さ
+        rayDistance = 5.0f;
+        previousHitObject = null;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        Ray(); 
+        CastRay();
     }
 
-    void Ray()
+    private void CastRay()
     {
-        //メインカメラからRAYを飛ばす
         Ray ray = new Ray(transform.position, transform.forward);
-        
-        //RAYの可視化、後で消す（デバック用）
-        Debug.DrawRay(transform.position, transform.forward * rayDistance, Color.red);
+        Debug.DrawRay(ray.origin, ray.direction * rayDistance, Color.red);
+
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            Tagname = hit.collider.gameObject.tag;
-            
-            switch (Tagname)
+
+
+            //GameObject currentHitObject = hit.collider.gameObject;
+            GameObject currentHitObject = hit.collider.gameObject;
+            tagname = hit.collider.gameObject.tag;
+
+            if (currentHitObject != previousHitObject)
             {
-                
+                if (previousHitObject != null && previousHitObject.layer != 8) // Layerが8でない場合にのみLayerを変更する
+                {
+                    previousHitObject.layer = 0;
+                }
+
+                previousHitObject = currentHitObject;
+
+                if (previousHitObject.layer != 8) // Layerが8でない場合にのみLayerを変更する
+                {
+                    previousHitObject.layer = 3;
+                }
+            }
+
+                switch (tagname)
+            {
                 case "Light":
-                    hit.collider.gameObject.layer=3;
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        hit.collider.gameObject.tag = "LightOn";
-                        hit.collider.gameObject.layer = 0;
-                    }
+                    HandleLightObject();
                     break;
 
                 case "Chest":
-                    hit.collider.gameObject.layer = 3;
-                    if (Input.GetKeyDown(KeyCode.E))
-                    {
-                        if (Ecount < 1)
-                        {
-                            //chest = true;
-                            child = hit.collider.gameObject.transform.GetChild(0).gameObject;
-                            child.SetActive(true); hit.collider.gameObject.layer = 0;
-                            Ecount++;
-                        }
-                    }
+                    HandleChestObject();
                     break;
+
                 case "Weapon":
-                    hit.collider.gameObject.layer = 3;
-                    if (Input.GetKeyDown(KeyCode.E))
-                    {
-                        weapon = true;
-                        hit.collider.gameObject.SetActive(false);
-                    }
+                    HandleWeaponObject();
                     break;
+
                 case "Mirror1":
-                    hit.collider.gameObject.layer = 3;
-                    if (weapon == true)
-                    {
-                        if (Input.GetKey(KeyCode.E))
-                        {
-                            gameManager.MirrorUi = true; gameManager.Pstop = true;
-                            gameManager.HitTag = hit.collider.gameObject.tag;
-                            gameManager.MirrorT1 += Time.deltaTime;
-                            TimeCount();
-                        }
-                        else
-                        {
-                            gameManager.MirrorUi = false; gameManager.Pstop = false;
-                        }
-                    }
-                    break;
-                case"Mirror2":
-                    hit.collider.gameObject.layer = 3;
-                    if (weapon == true)
-                    {
-                        if (Input.GetKey(KeyCode.E))
-                        {
-                            gameManager.MirrorUi = true; gameManager.Pstop = true;
-                            gameManager.HitTag = hit.collider.gameObject.tag;
-                            gameManager.MirrorT2 += Time.deltaTime;
-                            TimeCount();
-                        }
-                        else
-                        {
-                            gameManager.MirrorUi = false; gameManager.Pstop = false;
-                        }
-                    }
-                    break;
+                case "Mirror2":
                 case "Mirror3":
-                    hit.collider.gameObject.layer = 3;
-                    if (weapon == true)
-                    {
-                        if (Input.GetKey(KeyCode.E))
-                        {
-                            gameManager.MirrorUi = true; gameManager.Pstop = true;
-                            gameManager.HitTag = hit.collider.gameObject.tag;
-                            gameManager.MirrorT3 += Time.deltaTime;
-                            TimeCount();
-                        }
-                        else
-                        {
-                            gameManager.MirrorUi = false; gameManager.Pstop = false;
-                        }
-                    }
+                    HandleMirrorObject();
                     break;
-                default:         //その他の場合
-                    //hit.collider.gameObject.layer = 0;
+
+                default:
                     break;
             }
-            //gameManager.MirrorUi = false; gameManager.Pstop = false;
         }
-        //else
-        //{
-            //hit.collider.gameObject.layer = 0;
-        //}
-    }    
-    void TimeCount()
+        else
+        {
+            if (previousHitObject != null && previousHitObject.layer != 8) // Layerが8でない場合にのみLayerを変更する
+            {
+                previousHitObject.layer = 0;
+            }
+            previousHitObject = null;
+        }
+    }
+
+    private void HandleLightObject()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            hit.collider.gameObject.tag = "LightOn";
+            hit.collider.gameObject.layer = 0;
+        }
+    }
+
+    private void HandleChestObject()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && Ecount < 1)
+        {
+            child = hit.collider.gameObject.transform.GetChild(0).gameObject;
+            child.SetActive(true);
+            hit.collider.gameObject.layer = 0;
+            Ecount++;
+        }
+    }
+
+    private void HandleWeaponObject()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            weapon = true;
+            hit.collider.gameObject.SetActive(false);
+        }
+    }
+
+    private void HandleMirrorObject()
+    {
+        if (weapon && Input.GetKey(KeyCode.E))
+        {
+            gameManager.MirrorUi = true;
+            gameManager.Pstop = true;
+            gameManager.HitTag = hit.collider.gameObject.tag;
+
+            switch (tagname)
+            {
+                case "Mirror1":
+                    gameManager.MirrorT1 += Time.deltaTime; TimeCount();
+                    break;
+                case "Mirror2":
+                    gameManager.MirrorT2 += Time.deltaTime; TimeCount1();
+                    break;
+                case "Mirror3":
+                    gameManager.MirrorT3 += Time.deltaTime; TimeCount2();
+                    break;
+            }
+
+            
+        }
+        else
+        {
+            gameManager.MirrorUi = false;
+            gameManager.Pstop = false;
+        }
+    }
+
+    private void TimeCount()
     {
         if (gameManager.MirrorT1 >= 10)
         {
             gameManager.MBreak += 1;
             gameManager.Clear();
             hit.collider.gameObject.SetActive(false);
-            gameManager.MirrorUi = false; gameManager.Pstop = false;
+            gameManager.MirrorUi = false;
+            gameManager.Pstop = false;
         }
+       
+       
+    }
+    private void TimeCount1()
+    {
         if (gameManager.MirrorT2 >= 10)
         {
             gameManager.MBreak += 1;
             gameManager.Clear();
             hit.collider.gameObject.SetActive(false);
-            gameManager.MirrorUi = false; gameManager.Pstop = false;
+            gameManager.MirrorUi = false;
+            gameManager.Pstop = false;
         }
+    }
+    private void TimeCount2()
+    {
         if (gameManager.MirrorT3 >= 10)
         {
             gameManager.MBreak += 1;
             gameManager.Clear();
             hit.collider.gameObject.SetActive(false);
-            gameManager.MirrorUi = false; gameManager.Pstop = false;
+            gameManager.MirrorUi = false;
+            gameManager.Pstop = false;
         }
     }
 }

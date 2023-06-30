@@ -19,6 +19,8 @@ public class EnemyMob : MonoBehaviour
     [SerializeField] private GameObject SummoningPoints;//呼び出しポイント
     [SerializeField] private GameObject BoxColloder;//Cryに入った時にオントリガーを呼び出さないために
     bool OnCount=true;//敵の座標かえるのは一回だけ
+    private Animator animator;
+
     public enum EnemyMobClass
     {
         Patrol,//巡回
@@ -37,6 +39,7 @@ public class EnemyMob : MonoBehaviour
         GotoNextPoint();
         EnemyMobState = EnemyMobClass.Patrol;
         enemyBoss = GameObject.FindWithTag("EnemyBoss").GetComponent<EnemyBoss>();
+        animator = GetComponent<Animator>();//animator格納
     }
 
    
@@ -54,15 +57,17 @@ public class EnemyMob : MonoBehaviour
                 GotoNextPoint();
             break;
             case EnemyMobClass.Cry:
-                MobCry();
-                Invoke("Mob", 5.0f);
+                Invoke("MobCry", 1.0f);
+                Invoke("Mob", 7.0f);
             break;
         }
+        //Debug.Log(EnemyMobState);
     }
 
     // 次の巡回地点を設定する処理
     void GotoNextPoint()
     {
+        //Debug.Log("呼ばれてます");
         // 巡回地点が設定されていなければ
         if (points.Length == 0)
             // 処理を返します
@@ -76,18 +81,26 @@ public class EnemyMob : MonoBehaviour
     {
         if (OnCount)
         {
+            animator.SetBool("Cry",true);
+            agent.destination = this.gameObject.transform.position;
+            agent.enabled = false;
             agentBoss.enabled = false;
             EnemyBossP.transform.position= new Vector3(SummoningPoints.gameObject.transform.position.x, SummoningPoints.gameObject.transform.position.y, SummoningPoints.gameObject.transform.position.z); 
             enemyBoss.EnemyState = EnemyBoss.Enemy.PlayerLook;
             agentBoss.enabled = true;
+            //transform.LookAt(transform.position);
             OnCount =false;
         }
-        Debug.Log("なくよー");
+        //Debug.Log("なくよー");
     }
     void Mob()
     {
+        agent.enabled = true;
         EnemyMobState = EnemyMobClass.Patrol;
-        OnCount=true;
+        animator.SetBool("Cry", false);
+        BoxColloder.SetActive(true);
+        
+        
     }
     void OnTriggerEnter(Collider other)
     {
@@ -96,6 +109,7 @@ public class EnemyMob : MonoBehaviour
         {
             BoxColloder.SetActive(false);
             EnemyMobState=EnemyMobClass.Cry;
+            OnCount = true;
         }
     }
 }
