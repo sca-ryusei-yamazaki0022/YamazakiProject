@@ -112,7 +112,7 @@ public class EnemyBoss : MonoBehaviour
             //Debug.Log("å©Ç¬Ç©Ç¡ÇƒÇ»Ç¢");
         }
         //Debug.Log(agent.pathPending);
-        Debug.Log(EnemyState);
+        //Debug.Log(flag);
         //PLRay();
 
     }
@@ -231,12 +231,12 @@ public class EnemyBoss : MonoBehaviour
         EnemyState = Enemy.Capture;
         agent.destination = this.gameObject.transform.position;
         agent.enabled = false;
-        Debug.Log(EnemyState);
+        //Debug.Log(EnemyState);
     }
     
     void ChaseTime()//ì¶ëñéûä‘
     {
-        if(!flag)
+        if(flag&& EnemyState == Enemy.PlayerLook)
         { 
             Chasetime += Time.deltaTime;
             //Debug.Log("âÒì]ÇµÇƒ");
@@ -245,6 +245,7 @@ public class EnemyBoss : MonoBehaviour
         {
             Chasetime=0;
         }
+        //Debug.Log(Chasetime);
         if (Chasetime >= 5)
         {
             Debug.Log("ÇTïbåoâﬂ");

@@ -10,7 +10,6 @@ public class RayTest : MonoBehaviour
     private GameObject child;
     private GameManager gameManager;
     private bool weapon;
-    private int Ecount;
     private GameObject previousHitObject; // 前回の当たり判定で使用したオブジェクトを保持する変数
 
     private void Start()
@@ -53,13 +52,14 @@ public class RayTest : MonoBehaviour
                 }
             }
 
-                switch (tagname)
+            switch (tagname)
             {
                 case "Light":
                     HandleLightObject();
                     break;
 
                 case "Chest":
+                    Debug.Log("tyesutoda");
                     HandleChestObject();
                     break;
 
@@ -98,18 +98,19 @@ public class RayTest : MonoBehaviour
 
     private void HandleChestObject()
     {
-        if (Input.GetKeyDown(KeyCode.E) && Ecount < 1)
+        if (Input.GetKey(KeyCode.E))
         {
+            Debug.Log("yobareteru");
             child = hit.collider.gameObject.transform.GetChild(0).gameObject;
             child.SetActive(true);
             hit.collider.gameObject.layer = 0;
-            Ecount++;
+            //Ecount++;
         }
     }
 
     private void HandleWeaponObject()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKey(KeyCode.E))
         {
             weapon = true;
             hit.collider.gameObject.SetActive(false);
