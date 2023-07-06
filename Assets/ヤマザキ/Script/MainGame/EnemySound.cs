@@ -13,8 +13,8 @@ public class EnemySound : MonoBehaviour
     [SerializeField]
     private Transform PlayerObj;
     //　距離を表示するテキストUI
-    [SerializeField]
-    private Text distanceUI;
+    //[SerializeField]
+    //private Text distanceUI;
    
     [SerializeField] AudioMixer heartAudioMixer_;
     [SerializeField] GameObject PlayerAudio;
@@ -37,6 +37,7 @@ public class EnemySound : MonoBehaviour
     void FixedUpdate()
     {
         dis = Vector3.Distance(PlayerObj.transform.position, targetObj.transform.position);
+        /*
         if (distanceUI != null)
         {
             distanceUI.text = dis.ToString("0.00m");
@@ -44,7 +45,7 @@ public class EnemySound : MonoBehaviour
         else
         {
             Debug.Log(dis.ToString("0.00m"));
-        }
+        }*/
         MaxVolume();
     }
     void MaxVolume()

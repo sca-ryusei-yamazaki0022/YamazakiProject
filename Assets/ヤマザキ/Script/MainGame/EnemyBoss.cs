@@ -96,6 +96,7 @@ public class EnemyBoss : MonoBehaviour
                 ChaseTime();
                 break;
             case Enemy.Frightening://怯み
+                EnemyFrightening();
                 //Debug.Log("プレイヤーアイテム使用");
                 break;
             case Enemy.Capture://捕獲
@@ -111,10 +112,6 @@ public class EnemyBoss : MonoBehaviour
         {
             //Debug.Log("見つかってない");
         }
-        //Debug.Log(agent.pathPending);
-        //Debug.Log(flag);
-        //PLRay();
-
     }
     // Update is called once per frame
     void Update()
@@ -265,6 +262,7 @@ public class EnemyBoss : MonoBehaviour
 
     void Predation()//捕食時
     {
+        //Debug.Log("a");
         //ここでアニメーション再生系を設定
         if (flag) {
             animator.SetBool("RunAttack", true);
@@ -272,7 +270,15 @@ public class EnemyBoss : MonoBehaviour
         else{
         animator.SetBool("WalkAttack", true);
         }
-        gameManager.PredationScene();
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            EnemyState=Enemy.Frightening;//怯みに変更
+        }
+        else
+        {
+            gameManager.PredationScene();
+        }
+            
     }
     void Camera()
     {
@@ -310,6 +316,13 @@ public class EnemyBoss : MonoBehaviour
         */
         wasVisible = isVisible; // 現在の可視状態を保存
     }
+
+    void EnemyFrightening()
+    {
+        Debug.Log("ひるませるよ");
+        animator.SetBool("MissAttack", true);
+    }
+
     private IEnumerator FlagChangeDelay()
     {
         isChangingFlag = true; // フラグ変更中フラグを立てる
