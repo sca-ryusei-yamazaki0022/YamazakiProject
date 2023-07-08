@@ -16,6 +16,7 @@ public class EndRollController : MonoBehaviour
     [SerializeField] RectTransform text; //テキスト移動用
     [SerializeField] float rollSpeed;
     [SerializeField] float limit;
+    [SerializeField] float Correction;
 
     //「クリックでタイトルに戻る」
     [SerializeField] Text explain;
@@ -43,6 +44,10 @@ public class EndRollController : MonoBehaviour
         explainAlpha = 0;
         clearTime = 0;
 
+        FadeImage.color = new Color(0, 0, 0, fadeAlpha);
+        endroll.color = new Color(0, 0, 0, textAlpha);
+        explain.color = new Color(255, 255, 255, explainAlpha);
+
         endroll.text = 
         "外はまだ大雨でしたが、もう関係ありませんでした。" +
         "\n\n私は必死に走って、気が付いたらもう自宅の前にいました。" +
@@ -65,7 +70,7 @@ public class EndRollController : MonoBehaviour
 
         if (isSkip)
         {
-            text.localPosition = new Vector3(0f, 1500f, 0f);
+            text.localPosition = new Vector3(0f, Correction, 0f);
             state = STATE.EXPLAIN;
             isSkip = false;
         }
@@ -75,7 +80,7 @@ public class EndRollController : MonoBehaviour
             if (fadeAlpha <= 1)
             {
                 fadeAlpha += 0.3f * Time.deltaTime;
-                FadeImage.GetComponent<Image>().color = new Color(0, 0, 0, fadeAlpha);
+                FadeImage.color = new Color(0, 0, 0, fadeAlpha);
             }
             if (fadeAlpha >= 1)
             {
@@ -111,7 +116,7 @@ public class EndRollController : MonoBehaviour
         if (fadeAlpha >= 0)
         {
             fadeAlpha -= 0.25f * Time.deltaTime;
-            FadeImage.GetComponent<Image>().color = new Color(0, 0, 0, fadeAlpha);
+            FadeImage.color = new Color(0, 0, 0, fadeAlpha);
         }
         if (fadeAlpha <= 0)
         {
@@ -125,7 +130,7 @@ public class EndRollController : MonoBehaviour
         if (textAlpha <= 1)
         {
             textAlpha += 1f * Time.deltaTime;
-            endroll.GetComponent<Text>().color = new Color(0, 0, 0, textAlpha);
+            endroll.color = new Color(0, 0, 0, textAlpha);
         }
         if (textAlpha >= 1)
         {
@@ -160,7 +165,7 @@ public class EndRollController : MonoBehaviour
         if (explainAlpha <= 1)
         {
             explainAlpha += 1f * Time.deltaTime;
-            explain.GetComponent<Text>().color = new Color(255, 255, 255, explainAlpha);
+            explain.color = new Color(255, 255, 255, explainAlpha);
         }
         
         if (Input.GetMouseButton(0) && inoperable)

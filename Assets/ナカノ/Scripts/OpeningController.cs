@@ -30,7 +30,11 @@ public class OpeningController : MonoBehaviour
         fadeAlpha = 1;
         textAlpha = 0;
         explainAlpha = 0;
-}
+
+        FadeImage.color = new Color(0, 0, 0, fadeAlpha);
+        prologue.color = new Color(255, 255, 255, textAlpha);
+        explain.color = new Color(255, 255, 255, explainAlpha);
+    }
 
     void Update()
     {
@@ -46,7 +50,7 @@ public class OpeningController : MonoBehaviour
             if (fadeAlpha <= 1)
             {
                 fadeAlpha += 0.3f * Time.deltaTime;
-                FadeImage.GetComponent<Image>().color = new Color(0, 0, 0, fadeAlpha);
+                FadeImage.color = new Color(0, 0, 0, fadeAlpha);
             }
             if (fadeAlpha >= 1)
             {
@@ -79,7 +83,7 @@ public class OpeningController : MonoBehaviour
         if (fadeAlpha >= 0)
         {
             fadeAlpha -= 0.25f * Time.deltaTime;
-            FadeImage.GetComponent<Image>().color = new Color(0, 0, 0, fadeAlpha);
+            FadeImage.color = new Color(0, 0, 0, fadeAlpha);
         }
         if(fadeAlpha <= 0)
         {
@@ -93,7 +97,7 @@ public class OpeningController : MonoBehaviour
         if(textAlpha <= 1)
         {
             textAlpha += 1f * Time.deltaTime;
-            prologue.GetComponent<Text>().color = new Color(255, 255, 255, textAlpha);
+            prologue.color = new Color(255, 255, 255, textAlpha);
         }
         if(textAlpha >= 1)
         {
@@ -113,7 +117,7 @@ public class OpeningController : MonoBehaviour
         if (explainAlpha <= 1)
         {
             explainAlpha += 1f * Time.deltaTime;
-            explain.GetComponent<Text>().color = new Color(255, 255, 255, explainAlpha);
+            explain.color = new Color(255, 255, 255, explainAlpha);
         }
         if(Input.GetMouseButton(0))
         {
