@@ -22,6 +22,11 @@ public class GameOverController : MonoBehaviour
     Vector3 move;
     [SerializeField] float eyeOpenSpeed;
 
+    //鏡
+    [SerializeField] GameObject Mirror;
+    [SerializeField, Header("鏡差分")] Sprite[] m_Sprite;
+    Image m_Image;
+
     //ボタン
     [SerializeField] GameObject EndButton;
     [SerializeField] GameObject RetryButton;
@@ -41,6 +46,9 @@ public class GameOverController : MonoBehaviour
 
         EyePos.localScale = new Vector3(2f, 0f, 2f);
         UI.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+
+        m_Image = Mirror.GetComponent<Image>();
+        m_Image.sprite = m_Sprite[0];
 
         move = new Vector3(moveSpeed * Time.deltaTime, 0, 0);
     }
@@ -171,7 +179,8 @@ public class GameOverController : MonoBehaviour
     //リトライ時の演出
     IEnumerator Retry()
     {
-        yield return new WaitForSeconds(0.5f);
+        m_Image.sprite = m_Sprite[1];
+        yield return new WaitForSeconds(1.5f);
         zoomSpeed *= (1 + acceleration * Time.deltaTime);
         if (EyePos.localScale.x <= 3.5)
         {

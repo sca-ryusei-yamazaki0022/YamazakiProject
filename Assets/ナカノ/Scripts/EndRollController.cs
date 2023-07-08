@@ -26,6 +26,7 @@ public class EndRollController : MonoBehaviour
 
     bool isOut;
     bool isSkip;
+    bool inoperable;
 
     enum STATE { IN = 0, TEXT, STAFROLL, EXPLAIN, OUT };
     STATE state = 0;
@@ -35,6 +36,8 @@ public class EndRollController : MonoBehaviour
         state = 0;
         isOut = false;
         isSkip = false;
+        inoperable = false;
+
         fadeAlpha = 1;
         textAlpha = 0;
         explainAlpha = 0;
@@ -44,7 +47,7 @@ public class EndRollController : MonoBehaviour
         "外はまだ大雨でしたが、もう関係ありませんでした。" +
         "\n\n私は必死に走って、気が付いたらもう自宅の前にいました。" +
         "\n\nあれ以来あそこの帰り道は使っていません。" +
-        "\n\nあの廃墟と化け物たちは一体何だったのでしょう。\n\n\n\n\n\n\n\n\n\n\n\n" +
+        "\n\nあの廃墟と化け物たちは一体何だったのでしょう\n\n\n\n\n\n\n\n\n\n\n\n" +
         "プランナー\n\n佐藤　陸\n\n\n\n" +
         "プログラマー\n\n山崎　流聖\n\n中野　綾女\n\n猪野　天斗\n\n\n\n" +
         "2Dデザイナー\n\n長倉　愛華\n\n安孫子　要人\n\n\n\n" +
@@ -54,8 +57,8 @@ public class EndRollController : MonoBehaviour
 
     void Update()
     {
-        //一回クリックでエンドロールスキップ
-        if (Input.GetMouseButtonDown(0) && state != STATE.IN)
+        //フェードイン終わった後に一回クリックでエンドロールスキップ
+        if (Input.GetMouseButtonDown(0) && state != STATE.IN && !isSkip)
         {
             isSkip = true;
         }
@@ -64,12 +67,7 @@ public class EndRollController : MonoBehaviour
         {
             text.localPosition = new Vector3(0f, 1500f, 0f);
             state = STATE.EXPLAIN;
-        }
-
-        //二回目クリックでタイトルへ遷移
-        if (Input.GetMouseButtonDown(0) && isSkip)
-        {
-            StartCoroutine("wait");
+            isSkip = false;
         }
 
         if (isOut)
@@ -127,7 +125,7 @@ public class EndRollController : MonoBehaviour
         if (textAlpha <= 1)
         {
             textAlpha += 1f * Time.deltaTime;
-            endroll.GetComponent<Text>().color = new Color(255, 255, 255, textAlpha);
+            endroll.GetComponent<Text>().color = new Color(0, 0, 0, textAlpha);
         }
         if (textAlpha >= 1)
         {
@@ -157,12 +155,15 @@ public class EndRollController : MonoBehaviour
     //「クリックでタイトルに戻る」
     void EXPLAIN()
     {
+        StartCoroutine("wait");
+
         if (explainAlpha <= 1)
         {
             explainAlpha += 1f * Time.deltaTime;
             explain.GetComponent<Text>().color = new Color(255, 255, 255, explainAlpha);
         }
-        if (Input.GetMouseButton(0))
+        
+        if (Input.GetMouseButton(0) && inoperable)
         {
             state = STATE.OUT;
         }
@@ -171,6 +172,6 @@ public class EndRollController : MonoBehaviour
     IEnumerator wait()
     {
         yield return new WaitForSeconds(1);
-        isOut = true;
+        inoperable = true;
     }
 }

@@ -884,12 +884,16 @@ MonoBehaviour:
   Eye: {fileID: 1063153035}
   EyePos: {fileID: 1063153036}
   Limit: 450
-  moveSpeed: 650
+  moveSpeed: 600
   eyeOpenSpeed: 14
+  Mirror: {fileID: 2013308229}
+  m_Sprite:
+  - {fileID: 21300000, guid: 3bdb5a32242fc064c8080ca81b5b6355, type: 3}
+  - {fileID: 21300000, guid: 4715512463e9572438b66dbd7abb5ada, type: 3}
   EndButton: {fileID: 686976541}
   RetryButton: {fileID: 1356796102}
-  zoomSpeed: 3
-  acceleration: 8
+  zoomSpeed: 2
+  acceleration: 6
 --- !u!1 &1356796102
 GameObject:
   m_ObjectHideFlags: 0
@@ -1176,7 +1180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1218,7 +1222,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1735873481
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1543,7 +1547,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 12a586a4344ff0641bbc15d240af9916, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3bdb5a32242fc064c8080ca81b5b6355, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
