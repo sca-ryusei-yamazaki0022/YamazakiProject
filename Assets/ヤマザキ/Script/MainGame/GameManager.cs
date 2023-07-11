@@ -140,4 +140,5 @@ public class GameManager : MonoBehaviour
         get { return hitTag; }
         set { hitTag = value; }
     }
+   
 }

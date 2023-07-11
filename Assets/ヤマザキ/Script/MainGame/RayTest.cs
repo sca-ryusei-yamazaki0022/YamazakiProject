@@ -11,6 +11,8 @@ public class RayTest : MonoBehaviour
     private GameManager gameManager;
     private bool weapon;
     private GameObject previousHitObject; // 前回の当たり判定で使用したオブジェクトを保持する変数
+    private bool Mirror;
+    private bool Map;
 
     private void Start()
     {
@@ -72,7 +74,23 @@ public class RayTest : MonoBehaviour
                 case "Mirror3":
                     HandleMirrorObject();
                     break;
+                case "Mirror":
+                    if (Input.GetKey(KeyCode.E))
+                    {
+                        hit.collider.gameObject.SetActive(false);
+                        hit.collider.gameObject.layer = 0;
+                        mirror=true;
+                    }
+                    break;
 
+                case "Map":
+                    if (Input.GetKey(KeyCode.E))
+                    {
+                        hit.collider.gameObject.SetActive(false);
+                        hit.collider.gameObject.layer = 0;
+                        map=true;
+                    }
+                    break;
                 default:
                     break;
             }
@@ -181,5 +199,16 @@ public class RayTest : MonoBehaviour
             gameManager.MirrorUi = false;
             gameManager.Pstop = false;
         }
+    }
+
+    public bool mirror
+    {
+        get { return Mirror; }
+        set { Mirror = value; }
+    }
+    public bool map
+    {
+        get { return Map; }
+        set { Map = value; }
     }
 }

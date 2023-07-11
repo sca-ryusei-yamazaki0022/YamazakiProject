@@ -23,18 +23,21 @@ namespace FPS
 		[SerializeField] GameObject Mirror;
 		//[SerializeField] Light light;
 		[SerializeField] GameObject Map;
+		[SerializeField] GameObject rayTestOBJ;
 		int mouseDownCount = 0;
 		// Åöí«â¡
 		private GameObject FPSCamera;
 		private Vector3 moveDir = Vector3.zero;
 		float MaxStamina=5;
 		float NowStamina=0;
-		GameManager gameManager;
+		GameManager gameManager; 
+		RayTest rayTest;
 		void Start()
 		{
 			// Åöí«â¡
 			FPSCamera = GameObject.Find("Main Camera");
 			gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+			rayTest = rayTestOBJ.GetComponent<RayTest>();
 			charaController = GetComponent<CharacterController>();
 			Mirror.SetActive(false);
 			Map.SetActive(false);
@@ -44,21 +47,21 @@ namespace FPS
 
 		void Update()
         {
-			if(!gameManager.Pstop)
-			{ 
+			if (!gameManager.Pstop)
+			{
 				//Debug.Log(gameManager.Pstop);
 				WalkMove();
 			}
-			
 			if (Input.GetMouseButtonDown(1))
 			{
 				ViewMM();//Debug.Log(NowStamina);
 			}
+
 		}
 
 		void FixedUpdate()
 		{
-			//WalkMove();
+			
 		}
 
 		void WalkMove()
@@ -114,13 +117,32 @@ namespace FPS
 
 		void ViewMM()
 		{
-			mouseDownCount++;
 
-			switch (mouseDownCount)
+			
+			if (Input.GetMouseButtonDown(1)&&mouseDownCount==0)
 			{
-				case 1: Mirror.SetActive(true);  Map.SetActive(true); break;
-				case 2: Mirror.SetActive(false);  Map.SetActive(false); mouseDownCount = 0; break;
-				default: Mirror.SetActive(false);  mouseDownCount = 0; Map.SetActive(false); break;
+				mouseDownCount++;
+				if (rayTest.mirror && rayTest.map)
+				{
+					Mirror.SetActive(true); Map.SetActive(true);
+				}
+				else if (rayTest.mirror)
+				{
+					Mirror.SetActive(true);Map.SetActive(false);
+				}
+				else if (rayTest.map)
+				{
+					Mirror.SetActive(false);Map.SetActive(true); mouseDownCount = 0;
+				}
+				else
+                {
+					mouseDownCount = 0;
+				}
+				
+			}
+			else if (Input.GetMouseButtonDown(1) && mouseDownCount == 1)
+			{
+				Mirror.SetActive(false); Map.SetActive(false); mouseDownCount = 0;
 			}
 		}
 		

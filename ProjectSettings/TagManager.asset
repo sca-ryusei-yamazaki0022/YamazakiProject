@@ -20,6 +20,7 @@ TagManager:
   - Down
   - Left
   - Right
+  - Map
   layers:
   - Default
   - TransparentFX

@@ -321,6 +321,14 @@ public class EnemyBoss : MonoBehaviour
     {
         Debug.Log("‚Ð‚é‚Ü‚¹‚é‚æ");
         animator.SetBool("MissAttack", true);
+        StartCoroutine(MissAttackDelay());
+    }
+    private IEnumerator MissAttackDelay()
+    {
+        yield return new WaitForSeconds(3.0f); //’x‰„
+        agent.enabled = true;//Nav‚ðŠî‚É–ß‚·
+        EnemyState = Enemy.PlayerLook;
+        animator.SetBool("MissAttackRun", true); animator.SetBool("RunAttack", false); animator.SetBool("MissAttack", false);
     }
 
     private IEnumerator FlagChangeDelay()
