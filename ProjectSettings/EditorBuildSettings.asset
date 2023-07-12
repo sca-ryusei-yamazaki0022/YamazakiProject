@@ -11,18 +11,18 @@ EditorBuildSettings:
   - enabled: 1
     path: "Assets/\u30CA\u30AB\u30CE/Scenes/OpeningScene.unity"
     guid: af885c437e4cafb4f8fc3ad79acccff5
-  - enabled: 1
-    path: "Assets/\u30E4\u30DE\u30B6\u30AD/Scenes/TitleScence.unity"
-    guid: bb4d9140e3f464e44ab4e54d6b324c8a
-  - enabled: 1
-    path: "Assets/\u30E4\u30DE\u30B6\u30AD/Scenes/Option.unity"
-    guid: 9edc67abec527184d8884933f69c9c53
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: "Assets/\u30E4\u30DE\u30B6\u30AD/Scenes/MainGame.unity"
     guid: 0876566c2d6d94b45b9ba9e1ecd13447
-  - enabled: 1
-    path: "Assets/\u30CA\u30AB\u30CE/Scenes/ClearScene.unity"
-    guid: d3f7bb256ca16974993aebf42fdfcdac
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: "Assets/\u30CA\u30AB\u30CE/Scenes/EpilogueScene.unity"
     guid: 0d86992339d5d34468af85a3a7a29fa0

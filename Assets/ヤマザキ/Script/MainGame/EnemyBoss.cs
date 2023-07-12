@@ -14,7 +14,7 @@ public class EnemyBoss : MonoBehaviour
     private bool isChangingFlag = false; // フラグの変更中かどうか
     //private bool TimeBool;//５秒立った時見分けるため
     bool GetAngry;//怒っているフラグ
-
+    bool Onecount=true;
     // 巡回地点オブジェクトを格納する配列
     [SerializeField] private Transform[] points;
     [SerializeField] private Transform[] BranchpointsOne;
@@ -31,7 +31,7 @@ public class EnemyBoss : MonoBehaviour
     public Enemy EnemyState;//敵の状態をENUMから引き出す関数
     GameManager gameManager;
     private Animator animator;
-
+    bool UseE;
 
     public enum Enemy
     {
@@ -270,15 +270,23 @@ public class EnemyBoss : MonoBehaviour
         else{
         animator.SetBool("WalkAttack", true);
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKey(KeyCode.E))
         {
             EnemyState=Enemy.Frightening;//怯みに変更
+            CancelInvoke("SceneGameover");
+            UseE=false;
         }
-        else
+        else if (Onecount&&UseE)
         {
-            gameManager.PredationScene();
+            Invoke("SceneGameover", 3.0f);
+            Onecount=false; UseE = false;
         }
             
+    }
+    void SceneGameover()
+    {
+
+        gameManager.PredationScene();
     }
     void Camera()
     {
@@ -328,6 +336,7 @@ public class EnemyBoss : MonoBehaviour
         yield return new WaitForSeconds(3.0f); //遅延
         agent.enabled = true;//Navを基に戻す
         EnemyState = Enemy.PlayerLook;
+        UseE=true;
         animator.SetBool("MissAttackRun", true); animator.SetBool("RunAttack", false); animator.SetBool("MissAttack", false);
     }
 

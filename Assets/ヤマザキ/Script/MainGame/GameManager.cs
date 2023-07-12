@@ -93,10 +93,11 @@ public class GameManager : MonoBehaviour
         }
 
     }
+    
 
     public void PredationScene()
     {
-        // Enter Predation scene logic
+        SceneManager.LoadScene("GameoverScene");
     }
 
     public int MBreak
