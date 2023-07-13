@@ -19,7 +19,6 @@ public class TitleAnimController : MonoBehaviour
 
     void Update()
     {
-        
     }
 
     public void OnMouse()
