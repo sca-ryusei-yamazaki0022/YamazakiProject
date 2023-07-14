@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+using UnityEngine.UI;//UIを使用するときに必要
 
 public class EnemyBoss : MonoBehaviour
 {
@@ -31,8 +31,9 @@ public class EnemyBoss : MonoBehaviour
     public Enemy EnemyState;//敵の状態をENUMから引き出す関数
     GameManager gameManager;
     private Animator animator;
-    bool UseE;
+    bool UseE=true;
 
+    [SerializeField] private Text a;//テキストをアタッチする
     public enum Enemy
     {
         Patrol,//巡回
@@ -62,6 +63,14 @@ public class EnemyBoss : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(flag)
+        { 
+        a.text = "見つかってる";//テキストの中身を変更
+        }
+        else
+        {
+            a.text="見つかってない";
+        }
         Camera();
         //Debug.Log(EnemyState);
         switch (EnemyState)
@@ -270,15 +279,18 @@ public class EnemyBoss : MonoBehaviour
         else{
         animator.SetBool("WalkAttack", true);
         }
+
         if (Input.GetKey(KeyCode.E))
         {
             EnemyState=Enemy.Frightening;//怯みに変更
             CancelInvoke("SceneGameover");
-            UseE=false;
+            //Debug.Log("ここで呼ばれたよ");
+            UseE =false;
         }
         else if (Onecount&&UseE)
         {
             Invoke("SceneGameover", 3.0f);
+            Debug.Log("ここで呼ばれたよ");
             Onecount=false; UseE = false;
         }
             

@@ -9,7 +9,7 @@ public class Clear : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
         
     }
 
@@ -18,10 +18,10 @@ public class Clear : MonoBehaviour
     {
         
     }
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
         // もし衝突した相手オブジェクトの名前が"Cube"ならば
-        if (collision.gameObject.name == "Player")
+        if (other.gameObject.name == "Player")
         {           
             SceneManager.LoadScene("EpilogueScene");
         }

@@ -98,6 +98,7 @@ public class GameManager : MonoBehaviour
     public void PredationScene()
     {
         SceneManager.LoadScene("GameoverScene");
+        Debug.Log("ゲームオーバー");
     }
 
     public int MBreak

@@ -63,20 +63,20 @@ public class SetUpItem : MonoBehaviour
        switch(tag)
         {
             case "Up":
-                test = Quaternion.Euler(0, 270f, 0);
+                test = Quaternion.Euler(0, 0f, 0);
                 Debug.Log("上だよー");
                 break;
             case "Down":
-                test = Quaternion.Euler(0, 90f, 0);
+                test = Quaternion.Euler(0, 180f, 0);
                 Debug.Log("sitaだよー");
                 break;
             case "Left":
-                test = Quaternion.Euler(0, 0f, 0);
+                test = Quaternion.Euler(0, 270f, 0);
                 //SquareCorners.transform.Rotate(new Vector3(0, 180, 0));
                 Debug.Log("hidariだよー");
                 break;
             case "Right":
-                test = Quaternion.Euler(0, 180f, 0);
+                test = Quaternion.Euler(0, 90f, 0);
                 //SquareCorners.transform.Rotate(new Vector3(0, 0, 0));
                 Debug.Log("migiだよー");
                 break;
