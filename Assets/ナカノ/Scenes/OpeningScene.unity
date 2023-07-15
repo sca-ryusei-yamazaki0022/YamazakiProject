@@ -475,6 +475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FadeImage: {fileID: 188344369}
+  fadeSpeed: 0.5
   FadeColor: 255
   prologue: {fileID: 2077550173}
   explain: {fileID: 319634671}

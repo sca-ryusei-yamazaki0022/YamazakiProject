@@ -1952,6 +1952,7 @@ MonoBehaviour:
   runSpeed: 1
   Mirror: {fileID: 0}
   Map: {fileID: 0}
+  rayTestOBJ: {fileID: 0}
 --- !u!143 &1916937716
 CharacterController:
   m_ObjectHideFlags: 0

@@ -9,6 +9,8 @@ public class GameOverController : MonoBehaviour
     //フェードイン
     [SerializeField] Image FadeImage;
     float fadeAlpha = 1;
+    [SerializeField] float fadeSpeed;
+    [SerializeField] float fadeColor;
 
     //UI全体
     [SerializeField] Transform UI;
@@ -34,6 +36,7 @@ public class GameOverController : MonoBehaviour
     //UI全体の拡大
     [SerializeField] float zoomSpeed;
     [SerializeField] float acceleration;
+    float tmp = 1;
 
     enum STATE { IN = 0, OPEN,  WAIT, R_ON, R_OUT, R_PUSH, E_ON, E_OUT, E_PUSH};
     STATE state = 0;
@@ -43,8 +46,9 @@ public class GameOverController : MonoBehaviour
         state = 0;
         FadeImage.enabled = true;
         fadeAlpha = 1;
+        FadeImage.color = new Color(fadeColor, fadeColor, fadeColor, fadeAlpha);
 
-        EyePos.localScale = new Vector3(2f, 0f, 2f);
+        EyePos.localScale = new Vector3(4f, 0f, 4f);
         UI.localScale = new Vector3(0.25f, 0.25f, 0.25f);
 
         m_Image = Mirror.GetComponent<Image>();
@@ -91,8 +95,8 @@ public class GameOverController : MonoBehaviour
     {
         if (fadeAlpha >= 0)
         {
-            fadeAlpha -= 0.25f * Time.deltaTime;
-            FadeImage.GetComponent<Image>().color = new Color(0, 0, 0, fadeAlpha);
+            fadeAlpha -= fadeSpeed * Time.deltaTime;
+            FadeImage.color = new Color(fadeColor, fadeColor, fadeColor, fadeAlpha);
         }
         if (fadeAlpha <= 0)
         {
@@ -108,8 +112,8 @@ public class GameOverController : MonoBehaviour
 
         if (fadeAlpha <= 1)
         {
-            fadeAlpha += 0.25f * Time.deltaTime;
-            FadeImage.GetComponent<Image>().color = new Color(0, 0, 0, fadeAlpha);
+            fadeAlpha += fadeSpeed * Time.deltaTime;
+            FadeImage.color = new Color(fadeColor, fadeColor, fadeColor, fadeAlpha);
         }
         if (fadeAlpha >= 1)
         {
@@ -120,7 +124,7 @@ public class GameOverController : MonoBehaviour
     //目が開く
     void Open()
     {
-        if (EyePos.localScale.y <= 2f)
+        if (EyePos.localScale.y <= 4f)
         {
             EyePos.localScale += new Vector3(0, eyeOpenSpeed * Time.deltaTime, 0);
         }
@@ -180,8 +184,10 @@ public class GameOverController : MonoBehaviour
     IEnumerator Retry()
     {
         m_Image.sprite = m_Sprite[1];
-        yield return new WaitForSeconds(1.5f);
-        zoomSpeed *= (1 + acceleration * Time.deltaTime);
+        yield return new WaitForSeconds(1.0f);
+        
+        tmp += acceleration;
+        zoomSpeed *= (1 + tmp * Time.deltaTime);
         if (EyePos.localScale.x <= 3.5)
         {
             EyePos.localScale += new Vector3(10f * Time.deltaTime, 10f * Time.deltaTime, 0f);
@@ -190,7 +196,6 @@ public class GameOverController : MonoBehaviour
         {
             UI.localScale += new Vector3(zoomSpeed * Time.deltaTime, zoomSpeed * Time.deltaTime, 0f);
             UI.localPosition += new Vector3(0, zoomSpeed * 580 * Time.deltaTime, 0);
-
         }
         else if(UI.localScale.y >= UIscale.y)
         {

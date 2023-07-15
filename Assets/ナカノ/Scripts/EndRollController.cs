@@ -9,6 +9,8 @@ public class EndRollController : MonoBehaviour
     //フェードイン
     [SerializeField] Image FadeImage;
     float fadeAlpha = 1;
+    [SerializeField] float fadeSpeed;
+    [SerializeField] int FadeColor;
 
     //エンドロール
     [SerializeField] Text endroll;
@@ -44,7 +46,7 @@ public class EndRollController : MonoBehaviour
         explainAlpha = 0;
         clearTime = 0;
 
-        FadeImage.color = new Color(0, 0, 0, fadeAlpha);
+        FadeImage.color = new Color(FadeColor, FadeColor, FadeColor, fadeAlpha);
         endroll.color = new Color(0, 0, 0, textAlpha);
         explain.color = new Color(255, 255, 255, explainAlpha);
 
@@ -79,8 +81,8 @@ public class EndRollController : MonoBehaviour
         {
             if (fadeAlpha <= 1)
             {
-                fadeAlpha += 0.3f * Time.deltaTime;
-                FadeImage.color = new Color(0, 0, 0, fadeAlpha);
+                fadeAlpha += fadeSpeed * Time.deltaTime;
+                FadeImage.color = new Color(FadeColor, FadeColor, FadeColor, fadeAlpha);
             }
             if (fadeAlpha >= 1)
             {
@@ -115,8 +117,8 @@ public class EndRollController : MonoBehaviour
     {
         if (fadeAlpha >= 0)
         {
-            fadeAlpha -= 0.25f * Time.deltaTime;
-            FadeImage.color = new Color(0, 0, 0, fadeAlpha);
+            fadeAlpha -= fadeSpeed * Time.deltaTime;
+            FadeImage.color = new Color(FadeColor, FadeColor, FadeColor, fadeAlpha);
         }
         if (fadeAlpha <= 0)
         {

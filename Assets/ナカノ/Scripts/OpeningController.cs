@@ -9,6 +9,7 @@ public class OpeningController : MonoBehaviour
     //フェードイン
     [SerializeField] Image FadeImage;
     float fadeAlpha = 1;
+    [SerializeField] float fadeSpeed;
     [SerializeField] int FadeColor;
 
     //プロローグ
@@ -50,7 +51,7 @@ public class OpeningController : MonoBehaviour
             //フェードアウト
             if (fadeAlpha <= 1)
             {
-                fadeAlpha += 0.3f * Time.deltaTime;
+                fadeAlpha += fadeSpeed * Time.deltaTime;
                 FadeImage.color = new Color(FadeColor, FadeColor, FadeColor, fadeAlpha);
             }
             if (fadeAlpha >= 1)
@@ -83,7 +84,7 @@ public class OpeningController : MonoBehaviour
     {
         if (fadeAlpha >= 0)
         {
-            fadeAlpha -= 0.25f * Time.deltaTime;
+            fadeAlpha -= fadeSpeed * Time.deltaTime;
             FadeImage.color = new Color(FadeColor, FadeColor, FadeColor, fadeAlpha);
         }
         if(fadeAlpha <= 0)

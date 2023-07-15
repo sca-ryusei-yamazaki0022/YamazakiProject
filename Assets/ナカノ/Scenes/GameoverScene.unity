@@ -879,8 +879,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FadeImage: {fileID: 1735873482}
+  fadeSpeed: 0.5
+  fadeColor: 0
   UI: {fileID: 2020253027}
-  UIscale: {x: 12, y: 12, z: 12}
+  UIscale: {x: 15, y: 15, z: 15}
   Eye: {fileID: 1063153035}
   EyePos: {fileID: 1063153036}
   Limit: 450
@@ -889,11 +891,11 @@ MonoBehaviour:
   Mirror: {fileID: 2013308229}
   m_Sprite:
   - {fileID: 21300000, guid: 3bdb5a32242fc064c8080ca81b5b6355, type: 3}
-  - {fileID: 21300000, guid: 4715512463e9572438b66dbd7abb5ada, type: 3}
+  - {fileID: 21300000, guid: cd80ce35b9d2f7147a6af1746b946d61, type: 3}
   EndButton: {fileID: 686976541}
   RetryButton: {fileID: 1356796102}
-  zoomSpeed: 2
-  acceleration: 6
+  zoomSpeed: 1
+  acceleration: 0.1
 --- !u!1 &1356796102
 GameObject:
   m_ObjectHideFlags: 0
