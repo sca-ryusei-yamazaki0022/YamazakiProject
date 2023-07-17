@@ -6439,6 +6439,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6841986238232168898, guid: 6d155741182a32741bd788a61cdfb58b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6841986238232168898, guid: 6d155741182a32741bd788a61cdfb58b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6841986238232168898, guid: 6d155741182a32741bd788a61cdfb58b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6841986238232168898, guid: 6d155741182a32741bd788a61cdfb58b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -20.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 6841986238232168898, guid: 6d155741182a32741bd788a61cdfb58b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -7.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 6841986238232168898, guid: 6d155741182a32741bd788a61cdfb58b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.11
+      objectReference: {fileID: 0}
     - target: {fileID: 6886692569127821270, guid: 6d155741182a32741bd788a61cdfb58b, type: 3}
       propertyPath: m_Name
       value: GameRoom
