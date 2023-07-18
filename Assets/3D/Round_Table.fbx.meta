@@ -3,7 +3,22 @@ guid: bf7e0b1aec9ebe24a8b314333bcac4e9
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: dark_wood_ao_2k
+    second: {fileID: 2800000, guid: e5ad88f7b79ddf44bbc24fb592cd6496, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: dark_wood_diff_2k
+    second: {fileID: 2800000, guid: cba4e748c1f88d648a30726d569997cc, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: dark_wood_rough_2k
+    second: {fileID: 2800000, guid: 5d57414dc37a0bc4e98321acbf3c9d5f, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
