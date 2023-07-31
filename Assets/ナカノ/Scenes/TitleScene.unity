@@ -904,7 +904,7 @@ GameObject:
   - component: {fileID: 638802410}
   - component: {fileID: 638802411}
   m_Layer: 0
-  m_Name: select
+  m_Name: "Sound \u30BF\u30A4\u30C8\u30EB\u62BC\u4E0B"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1043,7 +1043,7 @@ GameObject:
   - component: {fileID: 664590817}
   - component: {fileID: 664590816}
   m_Layer: 0
-  m_Name: ButtonPush
+  m_Name: "Sound \u30DC\u30BF\u30F3\u62BC\u4E0B"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1246,7 +1246,7 @@ GameObject:
   - component: {fileID: 901232303}
   - component: {fileID: 901232302}
   m_Layer: 0
-  m_Name: mouseOnButton
+  m_Name: "Sound \u30DC\u30BF\u30F3\u306B\u30AB\u30FC\u30BD\u30EB"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1649,7 +1649,7 @@ GameObject:
   - component: {fileID: 1590481203}
   - component: {fileID: 1590481202}
   m_Layer: 0
-  m_Name: mouseOnTitle
+  m_Name: "Sound \u76EE\u304C\u958B\u304F"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

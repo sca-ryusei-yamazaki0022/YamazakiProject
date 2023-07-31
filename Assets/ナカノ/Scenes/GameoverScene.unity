@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 450305431}
   - component: {fileID: 450305430}
   m_Layer: 0
-  m_Name: Zoom
+  m_Name: "Sound \u93E1\u62E1\u5927"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -918,7 +918,7 @@ GameObject:
   - component: {fileID: 1182691210}
   - component: {fileID: 1182691209}
   m_Layer: 0
-  m_Name: MouseOnButton
+  m_Name: "Sound \u30DC\u30BF\u30F3\u306B\u30AB\u30FC\u30BD\u30EB"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1187,7 +1187,7 @@ GameObject:
   - component: {fileID: 1286539687}
   - component: {fileID: 1286539686}
   m_Layer: 0
-  m_Name: Crap
+  m_Name: "Sound \u93E1\u304C\u5272\u308C\u308B"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1713,7 +1713,7 @@ GameObject:
   - component: {fileID: 1382471744}
   - component: {fileID: 1382471743}
   m_Layer: 0
-  m_Name: ButtonPush
+  m_Name: "Sound \u30DC\u30BF\u30F3\u62BC\u4E0B"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1840,7 +1840,7 @@ GameObject:
   - component: {fileID: 1493333274}
   - component: {fileID: 1493333273}
   m_Layer: 0
-  m_Name: EyeOpen
+  m_Name: "Sound \u76EE\u304C\u958B\u304F"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
