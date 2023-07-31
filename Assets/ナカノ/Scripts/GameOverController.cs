@@ -23,6 +23,7 @@ public class GameOverController : MonoBehaviour
     [SerializeField] float moveSpeed;
     Vector3 move;
     [SerializeField] float eyeOpenSpeed;
+    [SerializeField] AudioSource eyeSource;
 
     //鏡
     [SerializeField] GameObject Mirror;
@@ -37,6 +38,8 @@ public class GameOverController : MonoBehaviour
     [SerializeField] float zoomSpeed;
     [SerializeField] float acceleration;
     float tmp = 1;
+    [SerializeField] GameObject zoomSound;
+    AudioSource zoomSource;
 
     enum STATE { IN = 0, OPEN,  WAIT, R_ON, R_OUT, R_PUSH, E_ON, E_OUT, E_PUSH};
     STATE state = 0;
@@ -55,6 +58,8 @@ public class GameOverController : MonoBehaviour
         m_Image.sprite = m_Sprite[0];
 
         move = new Vector3(moveSpeed * Time.deltaTime, 0, 0);
+
+        zoomSource = zoomSound.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -124,6 +129,7 @@ public class GameOverController : MonoBehaviour
     //目が開く
     void Open()
     {
+        eyeSource.Play();
         if (EyePos.localScale.y <= 4f)
         {
             EyePos.localScale += new Vector3(0, eyeOpenSpeed * Time.deltaTime, 0);
@@ -180,12 +186,23 @@ public class GameOverController : MonoBehaviour
         StartCoroutine("EyeClose");
     }
 
+    public void ZoomSound()
+    {
+        StartCoroutine(Zoom());
+    }
+
+    IEnumerator Zoom()
+    {
+        yield return new WaitForSeconds(1f);
+        zoomSource.Play();
+    }
+
     //リトライ時の演出
     IEnumerator Retry()
     {
         m_Image.sprite = m_Sprite[1];
         yield return new WaitForSeconds(1.0f);
-        
+
         tmp += acceleration;
         zoomSpeed *= (1 + tmp * Time.deltaTime);
         if (EyePos.localScale.x <= 3.5)
@@ -206,7 +223,7 @@ public class GameOverController : MonoBehaviour
     //メインゲームへ遷移
     IEnumerator SceneChange()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(4);
         SceneManager.LoadScene("MainGame");
     }
 

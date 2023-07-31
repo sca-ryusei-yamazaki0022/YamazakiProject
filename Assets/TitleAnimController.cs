@@ -53,7 +53,6 @@ public class TitleAnimController : MonoBehaviour
 
     public void Push()
     {
-        //anim.SetBool("pushed", true);
         isPush = true;
     }
 
