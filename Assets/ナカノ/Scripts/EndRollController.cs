@@ -34,6 +34,12 @@ public class EndRollController : MonoBehaviour
     enum STATE { IN = 0, TEXT, STAFROLL, EXPLAIN, OUT };
     STATE state = 0;
 
+    //BGM
+    AudioSource audioSource;
+    [SerializeField] float SoundFadeInSpeed;
+    [SerializeField] float SoundFadeOutSpeed;
+    bool isSoundFadeIn;
+
     void Start()
     {
         state = 0;
@@ -60,6 +66,10 @@ public class EndRollController : MonoBehaviour
         "2Dデザイナー\n\n長倉　愛華\n\n安孫子　要人\n\n\n\n" +
         "3Dデザイナー\n\n笠井　郁斗\n\n八巻　佑駿\n\n\n\n\n\n\n\n\n\n\n\n" +
         "クリアタイム\n\n" + clearTime;
+
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 1;
+        isSoundFadeIn = true;
     }
 
     void Update()
@@ -79,6 +89,7 @@ public class EndRollController : MonoBehaviour
 
         if (isOut)
         {
+            //フェードアウト
             if (fadeAlpha <= 1)
             {
                 fadeAlpha += fadeSpeed * Time.deltaTime;
@@ -87,6 +98,13 @@ public class EndRollController : MonoBehaviour
             if (fadeAlpha >= 1)
             {
                 SceneManager.LoadScene("TitleScene");
+            }
+
+            //BGMフェードアウト
+            if (audioSource.volume >= 0)
+            {
+                isSoundFadeIn = false;
+                audioSource.volume -= SoundFadeOutSpeed * Time.deltaTime;
             }
         }
         else

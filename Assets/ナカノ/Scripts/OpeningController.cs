@@ -10,7 +10,8 @@ public class OpeningController : MonoBehaviour
     [SerializeField] Image FadeImage;
     float fadeAlpha = 1;
     [SerializeField] float fadeSpeed;
-    [SerializeField] int FadeColor;
+    [SerializeField] int fadeInColor;
+    [SerializeField] int fadeOutColor;
 
     //プロローグ
     [SerializeField] Text prologue;
@@ -25,6 +26,12 @@ public class OpeningController : MonoBehaviour
 
     bool isOut;
 
+    //BGM
+    AudioSource audioSource;
+    [SerializeField] float SoundFadeInSpeed;
+    [SerializeField] float SoundFadeOutSpeed;
+    bool isSoundFadeIn;
+
     void Start()
     {
         state = 0;
@@ -33,9 +40,13 @@ public class OpeningController : MonoBehaviour
         textAlpha = 0;
         explainAlpha = 0;
 
-        FadeImage.color = new Color(FadeColor, FadeColor, FadeColor, fadeAlpha);
+        FadeImage.color = new Color(fadeInColor, fadeInColor, fadeInColor, fadeAlpha);
         prologue.color = new Color(255, 255, 255, textAlpha);
         explain.color = new Color(255, 255, 255, explainAlpha);
+
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0;
+        isSoundFadeIn = true;
     }
 
     void Update()
@@ -52,11 +63,18 @@ public class OpeningController : MonoBehaviour
             if (fadeAlpha <= 1)
             {
                 fadeAlpha += fadeSpeed * Time.deltaTime;
-                FadeImage.color = new Color(FadeColor, FadeColor, FadeColor, fadeAlpha);
+                FadeImage.color = new Color(fadeOutColor, fadeOutColor, fadeOutColor, fadeAlpha);
             }
             if (fadeAlpha >= 1)
             {
                 SceneManager.LoadScene("MainGame");
+            }
+
+            //BGMフェードアウト
+            if (audioSource.volume >= 0)
+            {
+                isSoundFadeIn = false;
+                audioSource.volume -= SoundFadeOutSpeed * Time.deltaTime;
             }
         }
         else
@@ -85,7 +103,7 @@ public class OpeningController : MonoBehaviour
         if (fadeAlpha >= 0)
         {
             fadeAlpha -= fadeSpeed * Time.deltaTime;
-            FadeImage.color = new Color(FadeColor, FadeColor, FadeColor, fadeAlpha);
+            FadeImage.color = new Color(fadeInColor, fadeInColor, fadeInColor, fadeAlpha);
         }
         if(fadeAlpha <= 0)
         {
@@ -96,7 +114,13 @@ public class OpeningController : MonoBehaviour
     //プロローグ表示
     void TEXT()
     {
-        if(textAlpha <= 1)
+        //BGMフェードイン
+        if (audioSource.volume <= 1 && isSoundFadeIn)
+        {
+            audioSource.volume += SoundFadeInSpeed * Time.deltaTime;
+        }
+
+        if (textAlpha <= 1)
         {
             textAlpha += 1f * Time.deltaTime;
             prologue.color = new Color(255, 255, 255, textAlpha);

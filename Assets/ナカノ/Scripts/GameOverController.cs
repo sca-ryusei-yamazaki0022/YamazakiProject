@@ -23,7 +23,8 @@ public class GameOverController : MonoBehaviour
     [SerializeField] float moveSpeed;
     Vector3 move;
     [SerializeField] float eyeOpenSpeed;
-    [SerializeField] AudioSource eyeSource;
+    [SerializeField] AudioClip eyeSound;
+    AudioSource eyeSoundSource;
 
     //‹¾
     [SerializeField] GameObject Mirror;
@@ -40,6 +41,7 @@ public class GameOverController : MonoBehaviour
     float tmp = 1;
     [SerializeField] GameObject zoomSound;
     AudioSource zoomSource;
+    bool isOpenSound;
 
     enum STATE { IN = 0, OPEN,  WAIT, R_ON, R_OUT, R_PUSH, E_ON, E_OUT, E_PUSH};
     STATE state = 0;
@@ -60,6 +62,8 @@ public class GameOverController : MonoBehaviour
         move = new Vector3(moveSpeed * Time.deltaTime, 0, 0);
 
         zoomSource = zoomSound.GetComponent<AudioSource>();
+        eyeSoundSource = this.GetComponent<AudioSource>();
+        isOpenSound = true;
     }
 
     void Update()
@@ -129,7 +133,11 @@ public class GameOverController : MonoBehaviour
     //–Ú‚ªŠJ‚­
     void Open()
     {
-        eyeSource.Play();
+        if(isOpenSound)
+        {
+            eyeSoundSource.PlayOneShot(eyeSound);
+            isOpenSound = false;
+        }
         if (EyePos.localScale.y <= 4f)
         {
             EyePos.localScale += new Vector3(0, eyeOpenSpeed * Time.deltaTime, 0);

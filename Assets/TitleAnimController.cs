@@ -14,6 +14,11 @@ public class TitleAnimController : MonoBehaviour
     [SerializeField] float zoomSpeed;
     [SerializeField] float acceleration;
     [SerializeField] GameObject title;
+    [SerializeField] float waitTime;
+    AudioSource audioSource;
+    [SerializeField] AudioClip zoomSound;
+    [SerializeField] float zoomSoundVolume;
+    bool isPlay;
 
     void Start()
     {
@@ -22,21 +27,30 @@ public class TitleAnimController : MonoBehaviour
         anim.SetBool("selected", false);
         anim.SetBool("pushed", false);
         isPush = false;
+        audioSource = this.GetComponent<AudioSource>();
+        isPlay = true;
     }
 
     void Update()
     {
-        if(isPush)
+        if (isPush)
         {
+            if (isPlay)
+            {
+                audioSource.volume = zoomSoundVolume;
+                audioSource.PlayOneShot(zoomSound);
+                isPlay = false;
+            }
             tmp += acceleration;
             zoomSpeed *= (1 + tmp * Time.deltaTime);
-            if (title.transform.localScale.x <= 350)
+            if (title.transform.localScale.x < 380)
             {
                 title.transform.localScale += new Vector3(zoomSpeed * Time.deltaTime, zoomSpeed * Time.deltaTime, 0f);
             }
-            else if (title.transform.localScale.x > 350)
+            else if (title.transform.localScale.x >= 380)
             {
-                SceneChange();
+                title.transform.localScale = new Vector3(380, 380, 1);
+                StartCoroutine(SceneChange());
             }
         }
     }
@@ -56,9 +70,10 @@ public class TitleAnimController : MonoBehaviour
         isPush = true;
     }
 
-    public void SceneChange()
+    IEnumerator SceneChange()
     {
         GameManager.count += 1;
+        yield return new WaitForSeconds(waitTime);
         SceneManager.LoadScene("OpeningScene");
     }
 }
