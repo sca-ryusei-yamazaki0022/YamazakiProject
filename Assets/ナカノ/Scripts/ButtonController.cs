@@ -16,6 +16,12 @@ public class ButtonController : MonoBehaviour
         SceneManager.LoadScene("SettingScene");
     }
 
+    //タイトルへ
+    public void Title()
+    {
+        SceneManager.LoadScene("TitleScene");
+    }
+
     //アプリ終了
     public void OnExit()
     {
