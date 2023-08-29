@@ -20,6 +20,10 @@ public class TitleAnimController : MonoBehaviour
     [SerializeField] float zoomSoundVolume;
     bool isPlay;
 
+    [SerializeField] GameObject setting;
+    [SerializeField] GameObject exit;
+    [SerializeField] GameObject text;
+
     void Start()
     {
         anim = this.gameObject.GetComponent<Animator>();
@@ -29,12 +33,18 @@ public class TitleAnimController : MonoBehaviour
         isPush = false;
         audioSource = this.GetComponent<AudioSource>();
         isPlay = true;
+        setting.SetActive(true);
+        exit.SetActive(true);
+        text.SetActive(true);
     }
 
     void Update()
     {
         if (isPush)
         {
+            setting.SetActive(false);
+            exit.SetActive(false);
+            text.SetActive(false);
             if (isPlay)
             {
                 audioSource.volume = zoomSoundVolume;

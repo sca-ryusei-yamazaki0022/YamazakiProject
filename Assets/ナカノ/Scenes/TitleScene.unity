@@ -1978,6 +1978,9 @@ MonoBehaviour:
   waitTime: 2.5
   zoomSound: {fileID: 8300000, guid: 0e0189a4360986e4eb349102bf7774dc, type: 3}
   zoomSoundVolume: 0.5
+  setting: {fileID: 404089889}
+  exit: {fileID: 29753207}
+  text: {fileID: 1904104224}
 --- !u!61 &2024984437
 BoxCollider2D:
   m_ObjectHideFlags: 0
