@@ -7,6 +7,7 @@ using UnityEngine.Audio;
 public class EnemySound : MonoBehaviour
 {
 
+    //private EnemyMob enemyMob;
     //　自身との距離を計算するターゲットオブジェクト
     [SerializeField]
     private Transform targetObj;
@@ -15,14 +16,19 @@ public class EnemySound : MonoBehaviour
     //　距離を表示するテキストUI
     //[SerializeField]
     //private Text distanceUI;
-   
+
     [SerializeField] AudioMixer heartAudioMixer_;
     [SerializeField] GameObject PlayerAudio;
+    [SerializeField] GameObject MobEnemyAudio;
+
     float dis;
     AudioSource audioSource;
+    //AudioSource audioSource1;
     private void Start()
     {
+        //enemyMob = GameObject.FindWithTag("enemy(mob)").GetComponent<EnemyMob>();
         audioSource = PlayerAudio.GetComponent<AudioSource>();
+        //audioSource1=MobEnemyAudio.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -32,7 +38,7 @@ public class EnemySound : MonoBehaviour
         //　距離を計算
         //dis = Vector3.Distance(this.transform.position, targetObj.transform.position);
 
-       
+
     }
     void FixedUpdate()
     {
@@ -47,34 +53,44 @@ public class EnemySound : MonoBehaviour
             Debug.Log(dis.ToString("0.00m"));
         }*/
         MaxVolume();
+
     }
     void MaxVolume()
     {
-        if (dis <= 5) { 
-            audioSource.volume = 1.0f;audioSource.pitch = 2.0f;
+        if (dis <= 5)
+        {
+            audioSource.volume = 1.0f; audioSource.pitch = 2.0f;
             heartAudioMixer_.SetFloat("DistanceSE", 0.5f);
         }
-        else { 
-            IntermediateVolume(); }
+        else
+        {
+            IntermediateVolume();
+        }
     }
     void IntermediateVolume()
     {
-        if (dis <= 10) { 
+        if (dis <= 10)
+        {
             audioSource.volume = 0.6f; audioSource.pitch = 1.5f;
             heartAudioMixer_.SetFloat("DistanceSE", 0.75f);
         }
-        else { 
-            MinimumVolume(); }
+        else
+        {
+            MinimumVolume();
+        }
     }
     void MinimumVolume()
     {
-        if (dis <= 15) { 
+        if (dis <= 15)
+        {
             audioSource.volume = 0.3f; audioSource.pitch = 1.0f;
             heartAudioMixer_.SetFloat("DistanceSE", 1.0f);
         }
-        else {
+        else
+        {
             audioSource.volume = 0.0f; audioSource.pitch = 0.0f;
             heartAudioMixer_.SetFloat("DistanceSE", 0.0f);
         }
     }
+
 }

@@ -1322,7 +1322,7 @@ GameObject:
   - component: {fileID: 2300209926989627562}
   m_Layer: 0
   m_Name: Collider
-  m_TagString: Mirror1
+  m_TagString: Mirror3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

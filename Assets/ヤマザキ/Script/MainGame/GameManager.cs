@@ -16,7 +16,8 @@ public class GameManager : MonoBehaviour
     private bool mirrorUIActive = false;
     private bool pauseGame = false;
     private int maxMirrorCount = 3;
-    private int maxFlashCount = 2;
+    private int nowMatchCount = 5;
+    private int nowFlashCount = 0;
     private int mirrorBreakCount = 0;
     private float mirrorBreakTime1;
     private float mirrorBreakTime2;
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         //PlayerPrefs.SetInt("count", count);
     }
 
@@ -54,6 +56,9 @@ public class GameManager : MonoBehaviour
     {
         UpdateMirrorBreakUI();
         UpdateMirrorBreakTime();
+        //Debug.Log(mirrorBreakTime1);
+        //Debug.Log(mirrorBreakTime2);
+        //Debug.Log(mirrorBreakTime3);
     }
 
     void StartScene()
@@ -93,7 +98,7 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    
+
 
     public void PredationScene()
     {
@@ -142,5 +147,16 @@ public class GameManager : MonoBehaviour
         get { return hitTag; }
         set { hitTag = value; }
     }
-   
+
+    public int NowMatchCount
+    {
+        get { return nowMatchCount; }
+        set { nowMatchCount = value; }
+    }
+
+    public int NowFlashCount
+    {
+        get { return nowFlashCount; }
+        set { nowFlashCount = value; }
+    }
 }

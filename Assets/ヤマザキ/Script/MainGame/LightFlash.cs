@@ -15,17 +15,19 @@ public class LightFlash : MonoBehaviour
 
     }
     // Update is called once per frame
-    void FixedUpdate()
+   
+     void FixedUpdate()
     {
         //tag=this.gameObject.tag;
-        if (this.gameObject.tag == "LightOn"&&Oncount==0)
-            { 
-            this.lt.range = 10f;
+        if (this.gameObject.tag == "LightOn" && Oncount == 0)
+        {
+            this.lt.range = 15f;
+            this.gameObject.layer = 8;
             Oncount++;
         }
-        
+
     }
 
     //プロパティー
-    
+
 }

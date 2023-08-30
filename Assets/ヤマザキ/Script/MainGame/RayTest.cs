@@ -13,17 +13,22 @@ public class RayTest : MonoBehaviour
     private GameObject previousHitObject; // 前回の当たり判定で使用したオブジェクトを保持する変数
     private bool Mirror;
     private bool Map;
+    private GameObject ChestBox;
+    [SerializeField] private AudioSource audioSource;
 
     private void Start()
     {
         gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+
         rayDistance = 5.0f;
         previousHitObject = null;
+
     }
 
     private void FixedUpdate()
     {
         CastRay();
+        //Debug.Log(gameManager.NowFlashCount);
     }
 
     private void CastRay()
@@ -57,11 +62,12 @@ public class RayTest : MonoBehaviour
             switch (tagname)
             {
                 case "Light":
+
                     HandleLightObject();
                     break;
 
                 case "Chest":
-                    Debug.Log("tyesutoda");
+
                     HandleChestObject();
                     break;
 
@@ -69,6 +75,12 @@ public class RayTest : MonoBehaviour
                     HandleWeaponObject();
                     break;
 
+                case "Match":
+                    HandleMatchObject();
+                    break;
+                case "Crystal":
+                    HandleFlashItemObject();
+                    break;
                 case "Mirror1":
                 case "Mirror2":
                 case "Mirror3":
@@ -79,7 +91,7 @@ public class RayTest : MonoBehaviour
                     {
                         hit.collider.gameObject.SetActive(false);
                         hit.collider.gameObject.layer = 0;
-                        mirror=true;
+                        mirror = true;
                     }
                     break;
 
@@ -88,7 +100,7 @@ public class RayTest : MonoBehaviour
                     {
                         hit.collider.gameObject.SetActive(false);
                         hit.collider.gameObject.layer = 0;
-                        map=true;
+                        map = true;
                     }
                     break;
                 default:
@@ -107,10 +119,16 @@ public class RayTest : MonoBehaviour
 
     private void HandleLightObject()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && gameManager.NowMatchCount != 0)
         {
             hit.collider.gameObject.tag = "LightOn";
+            gameManager.NowMatchCount -= 1;
             hit.collider.gameObject.layer = 0;
+            Debug.Log(gameManager.NowMatchCount);
+        }
+        else if (Input.GetMouseButtonDown(0) && gameManager.NowMatchCount == 0)
+        {
+            //Debug.Log("マッチがないようだ");
         }
     }
 
@@ -118,11 +136,12 @@ public class RayTest : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.E))
         {
-            Debug.Log("yobareteru");
+            //Debug.Log("yobareteru");
             child = hit.collider.gameObject.transform.GetChild(0).gameObject;
+            hit.collider.gameObject.layer = 8;
+
             child.SetActive(true);
-            hit.collider.gameObject.layer = 0;
-            //Ecount++;
+
         }
     }
 
@@ -132,6 +151,31 @@ public class RayTest : MonoBehaviour
         {
             weapon = true;
             hit.collider.gameObject.SetActive(false);
+        }
+    }
+
+    private void HandleMatchObject()
+    {
+        //Debug.Log("tyesutoda");
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (gameManager.NowMatchCount > 5)
+            {
+                gameManager.NowMatchCount += 2;
+            }
+            //else { //Debug.Log("5個持っているよ");}
+            hit.collider.gameObject.SetActive(false);
+            //Debug.Log(gameManager.NowMatchCount);
+        }
+    }
+
+    private void HandleFlashItemObject()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            gameManager.NowFlashCount += 1;
+            hit.collider.gameObject.SetActive(false);
+
         }
     }
 
@@ -156,7 +200,7 @@ public class RayTest : MonoBehaviour
                     break;
             }
 
-            
+
         }
         else
         {
@@ -171,12 +215,13 @@ public class RayTest : MonoBehaviour
         {
             gameManager.MBreak += 1;
             gameManager.Clear();
-            hit.collider.gameObject.SetActive(false);
+            GameObject obj = hit.collider.gameObject.transform.root.gameObject;
+            obj.SetActive(false);
             gameManager.MirrorUi = false;
             gameManager.Pstop = false;
         }
-       
-       
+
+
     }
     private void TimeCount1()
     {
@@ -184,7 +229,9 @@ public class RayTest : MonoBehaviour
         {
             gameManager.MBreak += 1;
             gameManager.Clear();
-            hit.collider.gameObject.SetActive(false);
+            GameObject obj = hit.collider.gameObject.transform.root.gameObject;
+            obj.SetActive(false);
+
             gameManager.MirrorUi = false;
             gameManager.Pstop = false;
         }
@@ -195,11 +242,14 @@ public class RayTest : MonoBehaviour
         {
             gameManager.MBreak += 1;
             gameManager.Clear();
-            hit.collider.gameObject.SetActive(false);
+            GameObject obj = hit.collider.gameObject.transform.root.gameObject;
+            obj.SetActive(false);
             gameManager.MirrorUi = false;
             gameManager.Pstop = false;
         }
     }
+
+
 
     public bool mirror
     {

@@ -6,14 +6,14 @@ using System;
 
 public class SetUpMirrorItem : MonoBehaviour
 {
-    [SerializeField] GameObject IMirror1;
-    [SerializeField] GameObject IMirror2;
-    [SerializeField] GameObject IMirror3;
+    [SerializeField] GameObject IMirror1; GameObject IMirror4;
+    [SerializeField] GameObject IMirror2; GameObject IMirror5;
+    [SerializeField] GameObject IMirror3; GameObject IMirror6;
     private String tag;
     Quaternion test;
     int mirror1 = 1;
     int mirror2 = 1;
-    int count1=3;
+    int count1 = 3;
     int count;
     // Start is called before the first frame update
     void Start()
@@ -30,7 +30,9 @@ public class SetUpMirrorItem : MonoBehaviour
         // array1をシャッフルする
         int[] Mirror2 = Mirror1.OrderBy(i => Guid.NewGuid()).ToArray();
 
-        
+        IMirror4 = IMirror1.transform.GetChild(3).gameObject;
+        IMirror5 = IMirror2.transform.GetChild(3).gameObject;
+        IMirror6 = IMirror3.transform.GetChild(3).gameObject;
 
         for (int n = 0; n < count1; n++)
         {
@@ -42,9 +44,9 @@ public class SetUpMirrorItem : MonoBehaviour
             {
                 Rotation(); tagSet();
                 Instantiate(IMirror1, transform.GetChild(Mirror2[n]).position, test);
-                
+
             }
-            else if(mirror2 > n)
+            else if (mirror2 > n)
             {
                 Rotation(); tagSet();
                 Instantiate(IMirror2, transform.GetChild(Mirror2[n]).position, test);
@@ -66,12 +68,15 @@ public class SetUpMirrorItem : MonoBehaviour
         {
             case 1:
                 IMirror1.tag = "Mirror1";
+                IMirror4.tag = "Mirror1";
                 break;
             case 2:
                 IMirror2.tag = "Mirror2";
+                IMirror5.tag = "Mirror2";
                 break;
             case 3:
                 IMirror3.tag = "Mirror3";
+                IMirror6.tag = "Mirror3";
                 break;
 
         }
@@ -82,21 +87,21 @@ public class SetUpMirrorItem : MonoBehaviour
         {
             case "Up":
                 test = Quaternion.Euler(90, 0f, 0);
-                Debug.Log("上だよー");
+                //Debug.Log("上だよー");
                 break;
             case "Down":
                 test = Quaternion.Euler(90, 180f, 0);
-                Debug.Log("sitaだよー");
+                //Debug.Log("sitaだよー");
                 break;
             case "Left":
                 test = Quaternion.Euler(90, 270f, 0);
                 //SquareCorners.transform.Rotate(new Vector3(0, 180, 0));
-                Debug.Log("hidariだよー");
+                //Debug.Log("hidariだよー");
                 break;
             case "Right":
                 test = Quaternion.Euler(90, 90f, 0);
                 //SquareCorners.transform.Rotate(new Vector3(0, 0, 0));
-                Debug.Log("migiだよー");
+                //Debug.Log("migiだよー");
                 break;
 
         }

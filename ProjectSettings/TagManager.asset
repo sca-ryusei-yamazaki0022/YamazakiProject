@@ -21,6 +21,8 @@ TagManager:
   - Left
   - Right
   - Map
+  - Match
+  - Crystal
   layers:
   - Default
   - TransparentFX
