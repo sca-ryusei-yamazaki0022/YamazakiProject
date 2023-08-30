@@ -137,6 +137,7 @@ public class EnemyBoss : MonoBehaviour
                 break;
 
             case Enemy.ItemFrightening://ƒAƒCƒeƒ€‚Å‚Ì‹¯‚Ý
+                Debug.Log("“ü‚Á‚Ä‚é");
                 StartCoroutine(EnemyItemiFrightening());
                 break;
             case Enemy.Capture://•ßŠl
@@ -358,7 +359,7 @@ public class EnemyBoss : MonoBehaviour
     {
         agent.destination = this.gameObject.transform.position;
         animator.SetBool("Item", true);
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(6.0f);
         animator.SetBool("Item", false);
 
         EnemyState = Enemy.Patrol;

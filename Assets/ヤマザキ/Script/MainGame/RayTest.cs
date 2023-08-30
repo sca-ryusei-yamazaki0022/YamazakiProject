@@ -15,6 +15,7 @@ public class RayTest : MonoBehaviour
     private bool Map;
     private GameObject ChestBox;
     [SerializeField] private AudioSource audioSource;
+    private Animator anim;
 
     private void Start()
     {
@@ -61,6 +62,10 @@ public class RayTest : MonoBehaviour
 
             switch (tagname)
             {
+                case "Door":
+                    Door();
+                    break;
+
                 case "Light":
 
                     HandleLightObject();
@@ -78,6 +83,7 @@ public class RayTest : MonoBehaviour
                 case "Match":
                     HandleMatchObject();
                     break;
+                
                 case "Crystal":
                     HandleFlashItemObject();
                     break;
@@ -117,6 +123,15 @@ public class RayTest : MonoBehaviour
         }
     }
 
+    private void Door()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            anim = hit.collider.transform.parent.parent.gameObject.GetComponent<Animator>();
+            anim.SetBool("Door", true);
+            //Debug.Log(anim);
+        }
+    }
     private void HandleLightObject()
     {
         if (Input.GetMouseButtonDown(0) && gameManager.NowMatchCount != 0)
