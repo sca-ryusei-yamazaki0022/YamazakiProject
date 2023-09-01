@@ -46,6 +46,7 @@ public class EnemyBoss : MonoBehaviour
     [SerializeField] private AudioSource audioSourceSmall;
     [SerializeField] private AudioSource audioSourceBig;
     [SerializeField] private GameObject GameOverPlayer;
+    [SerializeField] private GameObject Mirror;
     public enum Enemy
     {
         Patrol,//巡回
@@ -75,12 +76,22 @@ public class EnemyBoss : MonoBehaviour
         EnemyState = Enemy.Patrol;
         animator = GetComponent<Animator>();//animator格納
         PAnimator = player.GetComponent<Animator>();
-        PAnimator.SetBool("GameOver", true);
+        
     }
 
     void FixedUpdate()
     {
+        if (wasVisible)
+        {
+            Mirror.SetActive(false);
+        }
+        else
+        {
+            Mirror.SetActive(true);
+        }
 
+        //Debug.Log(gameManager.MBreak);
+        this.agent.speed = 2f;
         Camera();
         //Debug.Log(EnemyState);
         switch (EnemyState)
@@ -150,6 +161,7 @@ public class EnemyBoss : MonoBehaviour
                 break;
             case Enemy.Capture://捕獲
                 Predation();
+
                 
                 //Debug.Log("プレイヤーを捕まえた");
                 break;
@@ -285,6 +297,8 @@ public class EnemyBoss : MonoBehaviour
 
     void Predation()//捕食時
     {
+        Debug.Log("TOOOOOOO");
+        
         //Debug.Log("a");
         //ここでアニメーション再生系を設定
         if (wasVisible)
@@ -309,6 +323,7 @@ public class EnemyBoss : MonoBehaviour
         }
         else if (Onecount && UseE)
         {
+            PAnimator.SetBool("GameOver", true);
             player.transform.position=new Vector3(GameOverPlayer.gameObject.transform.position.x, player.gameObject.transform.position.y,GameOverPlayer.gameObject.transform.position.z);
             Invoke("SceneGameover", 3.6f);
             Debug.Log(Onecount);
