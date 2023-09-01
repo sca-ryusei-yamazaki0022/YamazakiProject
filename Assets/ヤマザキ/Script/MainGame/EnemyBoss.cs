@@ -31,6 +31,9 @@ public class EnemyBoss : MonoBehaviour
     public Enemy EnemyState;//敵の状態をENUMから引き出す関数
     GameManager gameManager;
     private Animator animator;
+    private Animator PAnimator;
+    private Animator Door;
+    private GameObject DoorOBJ;
     bool UseE = true;
     // bool playerHide;//プレイヤーが敵におわれている際に隠れているかのフラグ
     //[SerializeField] private Text a;//テキストをアタッチする
@@ -42,6 +45,7 @@ public class EnemyBoss : MonoBehaviour
     bool run = true;
     [SerializeField] private AudioSource audioSourceSmall;
     [SerializeField] private AudioSource audioSourceBig;
+    [SerializeField] private GameObject GameOverPlayer;
     public enum Enemy
     {
         Patrol,//巡回
@@ -49,11 +53,13 @@ public class EnemyBoss : MonoBehaviour
         Frightening,//怯み
         ItemFrightening,//アイテムでの怯み
         Capture,//捕獲
+        DoorAttack,//Doorがあった時用
         end
     }
 
     void Start()
     {
+
         //rect = GetComponent<RectTransform>();
         //textObject = transform.Find("Text")?.gameObject;
         // 変数"agent"に NavMesh Agent コンポーネントを格納
@@ -68,6 +74,8 @@ public class EnemyBoss : MonoBehaviour
         //Branchpoint();
         EnemyState = Enemy.Patrol;
         animator = GetComponent<Animator>();//animator格納
+        PAnimator = player.GetComponent<Animator>();
+        PAnimator.SetBool("GameOver", true);
     }
 
     void FixedUpdate()
@@ -142,6 +150,7 @@ public class EnemyBoss : MonoBehaviour
                 break;
             case Enemy.Capture://捕獲
                 Predation();
+                
                 //Debug.Log("プレイヤーを捕まえた");
                 break;
         }
@@ -286,6 +295,7 @@ public class EnemyBoss : MonoBehaviour
         {
             animator.SetBool("WalkAttack", true);
         }
+        
         Onecount = true; UseE = true;
         //UseE=true;
         if (Input.GetKey(KeyCode.E) && gameManager.NowFlashCount != 0)
@@ -293,12 +303,14 @@ public class EnemyBoss : MonoBehaviour
             EnemyState = Enemy.Frightening;//怯みに変更
             gameManager.NowFlashCount -= 1;
             CancelInvoke("SceneGameover");
+            PAnimator.SetBool("GameOver", false);
             //Debug.Log("ここで呼ばれたよ");
             UseE = false;
         }
         else if (Onecount && UseE)
         {
-            Invoke("SceneGameover", 3.0f);
+            player.transform.position=new Vector3(GameOverPlayer.gameObject.transform.position.x, player.gameObject.transform.position.y,GameOverPlayer.gameObject.transform.position.z);
+            Invoke("SceneGameover", 3.6f);
             Debug.Log(Onecount);
 
             Onecount = false; UseE = false;
@@ -455,4 +467,11 @@ public class EnemyBoss : MonoBehaviour
         }
 
     }
+    /*
+    void OnCollisionEnter(Collision collision)
+    {
+        DoorOBJ=collision.gameObject;
+        DoorOBJ.GetComponent<Animator>();
+        
+    }*/
 }
