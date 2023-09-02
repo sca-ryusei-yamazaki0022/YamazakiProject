@@ -18,7 +18,10 @@ public class EndRollController : MonoBehaviour
     [SerializeField] RectTransform text; //テキスト移動用
     [SerializeField] float rollSpeed;
     [SerializeField] float limit;
-    [SerializeField] float Correction;
+
+    //NewRecord
+    [SerializeField] Text newRecord;
+    float newRecordAlpha = 0;
 
     //「クリックでタイトルに戻る」
     [SerializeField] Text explain;
@@ -55,17 +58,7 @@ public class EndRollController : MonoBehaviour
         FadeImage.color = new Color(FadeColor, FadeColor, FadeColor, fadeAlpha);
         endroll.color = new Color(0, 0, 0, textAlpha);
         explain.color = new Color(255, 255, 255, explainAlpha);
-
-        endroll.text = 
-        "外はまだ大雨でしたが、もう関係ありませんでした。" +
-        "\n\n私は必死に走って、気が付いたらもう自宅の前にいました。" +
-        "\n\nあれ以来あそこの帰り道は使っていません。" +
-        "\n\nあの廃墟と化け物たちは一体何だったのでしょう\n\n\n\n\n\n\n\n\n\n\n\n" +
-        "プランナー\n\n佐藤　陸\n\n\n\n" +
-        "プログラマー\n\n山崎　流聖\n\n中野　綾女\n\n猪野　天斗\n\n\n\n" +
-        "2Dデザイナー\n\n長倉　愛華\n\n安孫子　要人\n\n\n\n" +
-        "3Dデザイナー\n\n笠井　郁斗\n\n八巻　佑駿\n\n\n\n\n\n\n\n\n\n\n\n" +
-        "クリアタイム\n\n" + clearTime;
+        newRecord.color = new Color(1, 1, 1, newRecordAlpha);
 
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = 1;
@@ -82,9 +75,18 @@ public class EndRollController : MonoBehaviour
 
         if (isSkip)
         {
-            text.localPosition = new Vector3(0f, Correction, 0f);
+            text.localPosition = new Vector3(30f, limit, 0f);
             state = STATE.EXPLAIN;
             isSkip = false;
+        }
+
+        if(text.localPosition.y >= limit)
+        {
+            if(newRecordAlpha <= 1)
+            {
+                newRecordAlpha += fadeSpeed * 2 * Time.deltaTime;
+                newRecord.color = new Color(1, 1, 1, newRecordAlpha);
+            }
         }
 
         if (isOut)
@@ -167,11 +169,11 @@ public class EndRollController : MonoBehaviour
     //スタッフロール
     void STAFROLL()
     {
-        if (text.position.y <= limit)
+        if (text.localPosition.y <= limit)
         {
-            text.position += new Vector3(0f, rollSpeed * Time.deltaTime, 0f);
+            text.localPosition += new Vector3(0f, rollSpeed * Time.deltaTime, 0f);
         }
-        if(text.position.y >= limit)
+        if(text.localPosition.y >= limit)
         {
             state = STATE.EXPLAIN;
         }
