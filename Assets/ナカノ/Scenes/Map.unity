@@ -1234,6 +1234,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915b5951b902399498be5d1ba79c457f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  Text: {fileID: 0}
+  MirrorBreak: {fileID: 0}
+  Item: {fileID: 0}
+  Light: {fileID: 0}
+  A: {fileID: 0}
+  B: {fileID: 0}
+  C: {fileID: 0}
+  DD: {fileID: 0}
+  E: {fileID: 0}
 --- !u!135 &1235040274
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2944,6 +2954,10 @@ PrefabInstance:
     - target: {fileID: 2688906447926035604, guid: 3b5b5b8b098ac1941bc8a6215b3b92ba, type: 3}
       propertyPath: m_Name
       value: Hall
+      objectReference: {fileID: 0}
+    - target: {fileID: 5728691111860887489, guid: 3b5b5b8b098ac1941bc8a6215b3b92ba, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.92
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b5b5b8b098ac1941bc8a6215b3b92ba, type: 3}
