@@ -116,7 +116,7 @@ public class EnemyBoss : MonoBehaviour
                     if (!Branch)
                     {
                         GotoNextPoint();
-                        Debug.Log("正規ルート");
+                        //Debug.Log("正規ルート");
                     }
                     else
                     {

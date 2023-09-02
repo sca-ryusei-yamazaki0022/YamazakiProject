@@ -19,7 +19,17 @@ public class RayTest : MonoBehaviour
     private  Animator anim;
     private Animator Panime;
     [SerializeField] private AudioClip MirrorBreak;//鏡が割れる
+    [SerializeField] private AudioClip Item;//アイテム拾う
+    //[SerializeField] private AudioClip ItemUse;//使う
+    [SerializeField] private AudioClip Light;//マッチ
+
+
     bool D;
+    [SerializeField] private GameObject A;
+    [SerializeField] private GameObject B;
+    [SerializeField] private GameObject C;
+    [SerializeField] private GameObject DD;
+    [SerializeField] private GameObject E;
     private void Start()
     {
         gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
@@ -27,7 +37,9 @@ public class RayTest : MonoBehaviour
         rayDistance = 5.0f;
         previousHitObject = null;
         Panime=GameObject.Find("P専用Canvas").GetComponent<Animator>();
-       
+        A.SetActive(true);
+        Panime.SetBool("Move",true);
+        StartCoroutine(AA());
     }
 
     private void FixedUpdate()
@@ -71,7 +83,7 @@ public class RayTest : MonoBehaviour
                     break;
 
                 case "Light":
-
+                    
                     HandleLightObject();
                     break;
 
@@ -81,14 +93,17 @@ public class RayTest : MonoBehaviour
                     break;
 
                 case "Weapon":
+                    
                     HandleWeaponObject();
                     break;
 
                 case "Match":
+                    
                     HandleMatchObject();
                     break;
                 
                 case "Crystal":
+                    
                     HandleFlashItemObject();
                     break;
                 case "Mirror1":
@@ -99,6 +114,7 @@ public class RayTest : MonoBehaviour
                 case "Mirror":
                     if (Input.GetKey(KeyCode.E))
                     {
+                        audioSource.PlayOneShot(Item);
                         hit.collider.gameObject.SetActive(false);
                         hit.collider.gameObject.layer = 0;
                         mirror = true;
@@ -108,6 +124,7 @@ public class RayTest : MonoBehaviour
                 case "Map":
                     if (Input.GetKey(KeyCode.E))
                     {
+                        audioSource.PlayOneShot(Item);
                         hit.collider.gameObject.SetActive(false);
                         hit.collider.gameObject.layer = 0;
                         map = true;
@@ -159,6 +176,7 @@ public class RayTest : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && gameManager.NowMatchCount != 0)
         {
             hit.collider.gameObject.tag = "LightOn";
+            audioSource.PlayOneShot(Light);
             gameManager.NowMatchCount -= 1;
             hit.collider.gameObject.layer = 0;
             Debug.Log(gameManager.NowMatchCount);
@@ -173,11 +191,13 @@ public class RayTest : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.E))
         {
+
             //Debug.Log("yobareteru");
             child = hit.collider.gameObject.transform.GetChild(0).gameObject;
             hit.collider.gameObject.layer = 8;
 
             child.SetActive(true);
+            hit.collider.gameObject.tag="Untagged";
 
         }
     }
@@ -186,6 +206,7 @@ public class RayTest : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.E))
         {
+            audioSource.PlayOneShot(Item);
             weapon = true;
             hit.collider.gameObject.SetActive(false);
         }
@@ -196,6 +217,7 @@ public class RayTest : MonoBehaviour
         //Debug.Log("tyesutoda");
         if (Input.GetKeyDown(KeyCode.E))
         {
+            audioSource.PlayOneShot(Item);
             if (gameManager.NowMatchCount > 5)
             {
                 gameManager.NowMatchCount += 2;
@@ -210,6 +232,7 @@ public class RayTest : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            audioSource.PlayOneShot(Item);
             gameManager.NowFlashCount += 1;
             hit.collider.gameObject.SetActive(false);
 
@@ -250,7 +273,7 @@ public class RayTest : MonoBehaviour
     {
         if (gameManager.MirrorT1 >= 10)
         {
-            Debug.Log("壊れたー");
+            //Debug.Log("壊れたー");
             audioSource.PlayOneShot(MirrorBreak);
             gameManager.MBreak += 1;
             gameManager.Clear();
@@ -267,7 +290,7 @@ public class RayTest : MonoBehaviour
     {
         if (gameManager.MirrorT2 >= 10)
         {
-            Debug.Log("壊れたー");
+            //Debug.Log("壊れたー");
             audioSource.PlayOneShot(MirrorBreak);
             gameManager.MBreak += 1;
             gameManager.Clear();
@@ -282,7 +305,7 @@ public class RayTest : MonoBehaviour
     {
         if (gameManager.MirrorT3 >= 10)
         {
-            Debug.Log("壊れたー");
+            //Debug.Log("壊れたー");
             audioSource.PlayOneShot(MirrorBreak);
             gameManager.MBreak += 1;
             gameManager.Clear();
@@ -300,7 +323,14 @@ public class RayTest : MonoBehaviour
         Panime.SetBool("Text", true);
 
     }
-
+    private IEnumerator AA()
+    {
+        
+        yield return new WaitForSeconds(4);
+        Panime.SetBool("Move", false);
+    }
+    
+    
     public bool mirror
     {
         get { return Mirror; }
