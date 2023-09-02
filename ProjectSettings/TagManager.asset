@@ -24,6 +24,7 @@ TagManager:
   - Match
   - Crystal
   - Door
+  - Text
   layers:
   - Default
   - TransparentFX
