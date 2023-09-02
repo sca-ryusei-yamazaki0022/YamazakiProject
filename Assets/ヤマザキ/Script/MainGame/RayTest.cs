@@ -15,15 +15,19 @@ public class RayTest : MonoBehaviour
     private bool Map;
     private GameObject ChestBox;
     [SerializeField] private AudioSource audioSource;
-    private Animator anim;
-
+    [SerializeField] private GameObject Text;
+    private  Animator anim;
+    private Animator Panime;
+    [SerializeField] private AudioClip MirrorBreak;//鏡が割れる
+    bool D;
     private void Start()
     {
         gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
 
         rayDistance = 5.0f;
         previousHitObject = null;
-
+        Panime=GameObject.Find("P専用Canvas").GetComponent<Animator>();
+       
     }
 
     private void FixedUpdate()
@@ -109,6 +113,15 @@ public class RayTest : MonoBehaviour
                         map = true;
                     }
                     break;
+                case "Text":
+                    if (Input.GetKey(KeyCode.E))
+                    {
+                        hit.collider.gameObject.SetActive(false);
+                        //hit.collider.gameObject.SetActive(false);
+                        HandleTextObject();
+                    }
+                    break;
+
                 default:
                     break;
             }
@@ -127,8 +140,17 @@ public class RayTest : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            var Animetor1= hit.collider.transform.parent.parent.gameObject.GetComponent<Animator>();
             anim = hit.collider.transform.parent.parent.gameObject.GetComponent<Animator>();
-            anim.SetBool("Door", true);
+            D = Animetor1.GetBool("Door");
+            if(D)
+            {
+                anim.SetBool("Door",false);
+            }
+            else
+            {
+                anim.SetBool("Door",true);
+            }
             //Debug.Log(anim);
         }
     }
@@ -228,10 +250,13 @@ public class RayTest : MonoBehaviour
     {
         if (gameManager.MirrorT1 >= 10)
         {
+            Debug.Log("壊れたー");
+            audioSource.PlayOneShot(MirrorBreak);
             gameManager.MBreak += 1;
             gameManager.Clear();
             GameObject obj = hit.collider.gameObject.transform.root.gameObject;
             obj.SetActive(false);
+            
             gameManager.MirrorUi = false;
             gameManager.Pstop = false;
         }
@@ -242,11 +267,13 @@ public class RayTest : MonoBehaviour
     {
         if (gameManager.MirrorT2 >= 10)
         {
+            Debug.Log("壊れたー");
+            audioSource.PlayOneShot(MirrorBreak);
             gameManager.MBreak += 1;
             gameManager.Clear();
             GameObject obj = hit.collider.gameObject.transform.root.gameObject;
             obj.SetActive(false);
-
+           
             gameManager.MirrorUi = false;
             gameManager.Pstop = false;
         }
@@ -255,16 +282,24 @@ public class RayTest : MonoBehaviour
     {
         if (gameManager.MirrorT3 >= 10)
         {
+            Debug.Log("壊れたー");
+            audioSource.PlayOneShot(MirrorBreak);
             gameManager.MBreak += 1;
             gameManager.Clear();
             GameObject obj = hit.collider.gameObject.transform.root.gameObject;
             obj.SetActive(false);
+            
             gameManager.MirrorUi = false;
             gameManager.Pstop = false;
         }
     }
 
+    private void HandleTextObject()
+    {
+        Text.SetActive(true);
+        Panime.SetBool("Text", true);
 
+    }
 
     public bool mirror
     {

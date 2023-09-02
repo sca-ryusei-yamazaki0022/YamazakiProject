@@ -47,6 +47,7 @@ public class EnemyBoss : MonoBehaviour
     [SerializeField] private AudioSource audioSourceBig;
     [SerializeField] private GameObject GameOverPlayer;
     [SerializeField] private GameObject Mirror;
+    
     public enum Enemy
     {
         Patrol,//巡回
@@ -297,7 +298,7 @@ public class EnemyBoss : MonoBehaviour
 
     void Predation()//捕食時
     {
-        Debug.Log("TOOOOOOO");
+        //Debug.Log("TOOOOOOO");
         
         //Debug.Log("a");
         //ここでアニメーション再生系を設定
@@ -372,7 +373,7 @@ public class EnemyBoss : MonoBehaviour
         }
         */
         wasVisible = isVisible; // 現在の可視状態を保存
-        Debug.Log(isVisible);
+        //Debug.Log(isVisible);
     }//カメラに写っているかの確認
 
     void EnemyFrightening()//捕食時にアイテムを使われた
@@ -388,7 +389,7 @@ public class EnemyBoss : MonoBehaviour
         animator.SetBool("Item", true);
         yield return new WaitForSeconds(6.0f);
         animator.SetBool("Item", false);
-
+        
         EnemyState = Enemy.Patrol;
     }
 
@@ -413,7 +414,7 @@ public class EnemyBoss : MonoBehaviour
         //Debug.Log(flag);
     }
     */
-
+   
     private bool IsVisibleFromCamera(GameObject obj)//カメラ外
     {
         Renderer renderer = obj.GetComponent<Renderer>();
