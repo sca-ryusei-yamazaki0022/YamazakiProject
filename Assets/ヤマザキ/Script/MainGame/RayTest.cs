@@ -157,6 +157,7 @@ public class RayTest : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            Debug.Log("ドアのスクリプト");
             var Animetor1= hit.collider.transform.parent.parent.gameObject.GetComponent<Animator>();
             anim = hit.collider.transform.parent.parent.gameObject.GetComponent<Animator>();
             D = Animetor1.GetBool("Door");

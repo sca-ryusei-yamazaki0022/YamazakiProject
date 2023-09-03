@@ -92,7 +92,7 @@ public class EnemyBoss : MonoBehaviour
         }
 
         //Debug.Log(gameManager.MBreak);
-        this.agent.speed = 2f;
+        //this.agent.speed = 2f;
         Camera();
         //Debug.Log(EnemyState);
         switch (EnemyState)
@@ -340,6 +340,7 @@ public class EnemyBoss : MonoBehaviour
     }
     void Camera()
     {
+        Debug.Log("ƒ{ƒXˆÚ“®");
         if (targetCamera == null || targetObject == null)
         {
             return;
