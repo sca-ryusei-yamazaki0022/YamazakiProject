@@ -9,7 +9,7 @@ public class EnemyBoss : MonoBehaviour
     public Camera targetCamera; // フラグを返したい特定のカメラ
     public GameObject targetObject; // フラグを返したい特定のオブジェクト
     public LayerMask obstacleLayer; // 壁や障害物のレイヤーマスク
-    public LayerMask obstacleLayer1;
+
     public bool flag = false; // フラグ
     private bool wasVisible = false; // 前回の可視状態
     private bool isChangingFlag = false; // フラグの変更中かどうか
@@ -448,11 +448,11 @@ public class EnemyBoss : MonoBehaviour
         Vector3 cameraPosition = targetCamera.transform.position;
         Vector3 direction = targetPosition - cameraPosition;
         RaycastHit hit;
-        if (Physics.Raycast(cameraPosition, direction, out hit, direction.magnitude, obstacleLayer)|| Physics.Raycast(cameraPosition, direction, out hit, direction.magnitude, obstacleLayer1))
+        if (Physics.Raycast(cameraPosition, direction, out hit, direction.magnitude, obstacleLayer))
         {
-            //Debug.Log("壁あるよ");
-            return true; //カメラとターゲットの間に壁がある
+                return true; //カメラとターゲットの間に壁がある
         }
+        
         //Debug.Log("壁ないよ");
         return false; // カメラとターゲットの間に壁がない
     }
@@ -485,6 +485,17 @@ public class EnemyBoss : MonoBehaviour
         }
 
     }
+    /*
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Door"))
+        {
+            // 衝突した相手オブジェクトを削除する
+            //Destroy(collision.gameObject);
+            Debug.Log("省");
+        }
+    }
+    */
     /*
     void OnCollisionEnter(Collision collision)
     {

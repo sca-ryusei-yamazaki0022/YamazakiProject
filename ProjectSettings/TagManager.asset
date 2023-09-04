@@ -25,6 +25,7 @@ TagManager:
   - Crystal
   - Door
   - Text
+  - OneSideDoor
   layers:
   - Default
   - TransparentFX

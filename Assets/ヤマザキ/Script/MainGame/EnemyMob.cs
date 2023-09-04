@@ -108,6 +108,7 @@ public class EnemyMob : MonoBehaviour
 
 
     }
+    /*
     void OnTriggerEnter(Collider other)
     {
 
@@ -118,5 +119,5 @@ public class EnemyMob : MonoBehaviour
             OnCount = true;
         }
     }
-
+    */
 }

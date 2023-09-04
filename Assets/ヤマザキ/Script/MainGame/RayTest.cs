@@ -89,7 +89,9 @@ public class RayTest : MonoBehaviour
                 case "Door":
                     Door();
                     break;
-
+                case "OneSideDoor":
+                    OneSide();
+                    break;
                 case "Light":
                     if (LightOneCount)
                     {
@@ -180,7 +182,7 @@ public class RayTest : MonoBehaviour
                         HandleTextObject();
                     }
                     break;
-
+                
                 default:
                     break;
             }
@@ -199,7 +201,7 @@ public class RayTest : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("ドアのスクリプト");
+            //Debug.Log("ドアのスクリプト");
             var Animetor1= hit.collider.transform.parent.parent.gameObject.GetComponent<Animator>();
             anim = hit.collider.transform.parent.parent.gameObject.GetComponent<Animator>();
             D = Animetor1.GetBool("Door");
@@ -210,6 +212,25 @@ public class RayTest : MonoBehaviour
             else
             {
                 anim.SetBool("Door",true);
+            }
+            //Debug.Log(anim);
+        }
+    }
+    private void OneSide()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            //Debug.Log("ドアのスクリプト");
+            var Animetor1 = hit.collider.transform.parent.gameObject.GetComponent<Animator>();
+            anim = hit.collider.transform.parent.gameObject.GetComponent<Animator>();
+            D = Animetor1.GetBool("Door");
+            if (D)
+            {
+                anim.SetBool("Door", false);
+            }
+            else
+            {
+                anim.SetBool("Door", true);
             }
             //Debug.Log(anim);
         }
