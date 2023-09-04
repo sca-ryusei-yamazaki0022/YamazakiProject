@@ -22,8 +22,8 @@ public class RayTest : MonoBehaviour
     [SerializeField] private AudioClip Item;//アイテム拾う
     //[SerializeField] private AudioClip ItemUse;//使う
     [SerializeField] private AudioClip Light;//マッチ
-
-
+    bool OneCount=true;
+    bool LightOneCount=true;
     bool D;
     [SerializeField] private GameObject A;
     [SerializeField] private GameObject B;
@@ -63,6 +63,8 @@ public class RayTest : MonoBehaviour
 
             if (currentHitObject != previousHitObject)
             {
+                OneCount = true; Panime.SetBool("Item", false);
+                LightOneCount=true;Panime.SetBool("Match",false);
                 if (previousHitObject != null && previousHitObject.layer != 8) // Layerが8でない場合にのみLayerを変更する
                 {
                     previousHitObject.layer = 0;
@@ -73,6 +75,12 @@ public class RayTest : MonoBehaviour
                 if (previousHitObject.layer != 8) // Layerが8でない場合にのみLayerを変更する
                 {
                     previousHitObject.layer = 3;
+                    
+                }
+                else
+                {
+                    // Rayが何にも当たらない場合、previousHitObjectをnullに設定します。
+                    previousHitObject = null;
                 }
             }
 
@@ -83,27 +91,51 @@ public class RayTest : MonoBehaviour
                     break;
 
                 case "Light":
-                    
+                    if (LightOneCount)
+                    {
+                        Panime.SetBool("Match", true);
+                        LightOneCount = false;
+                    }
                     HandleLightObject();
                     break;
 
                 case "Chest":
+                    if (OneCount)
+                    {
+                        Panime.SetBool("Item", true);
+                        OneCount = false;
+                    }
 
                     HandleChestObject();
                     break;
 
                 case "Weapon":
-                    
+                    if (OneCount)
+                    {
+                        Panime.SetBool("Item", true);
+                        OneCount = false;
+                    }
+
                     HandleWeaponObject();
                     break;
 
                 case "Match":
-                    
+                    if (OneCount)
+                    {
+                        Panime.SetBool("Item", true);
+                        OneCount = false;
+                    }
+
                     HandleMatchObject();
                     break;
                 
                 case "Crystal":
-                    
+                    if (OneCount)
+                    {
+                        Panime.SetBool("Item", true);
+                        OneCount = false;
+                    }
+
                     HandleFlashItemObject();
                     break;
                 case "Mirror1":
@@ -112,6 +144,11 @@ public class RayTest : MonoBehaviour
                     HandleMirrorObject();
                     break;
                 case "Mirror":
+                    if (OneCount)
+                    {
+                        Panime.SetBool("Item", true);
+                        OneCount = false;
+                    }
                     if (Input.GetKey(KeyCode.E))
                     {
                         audioSource.PlayOneShot(Item);
@@ -122,6 +159,11 @@ public class RayTest : MonoBehaviour
                     break;
 
                 case "Map":
+                    if(OneCount)
+                    {
+                        Panime.SetBool("Item", true);
+                        OneCount=false;
+                    }
                     if (Input.GetKey(KeyCode.E))
                     {
                         audioSource.PlayOneShot(Item);
@@ -174,7 +216,7 @@ public class RayTest : MonoBehaviour
     }
     private void HandleLightObject()
     {
-        if (Input.GetMouseButtonDown(0) && gameManager.NowMatchCount != 0)
+        if (Input.GetKey(KeyCode.E) && gameManager.NowMatchCount != 0)
         {
             hit.collider.gameObject.tag = "LightOn";
             audioSource.PlayOneShot(Light);
@@ -205,6 +247,7 @@ public class RayTest : MonoBehaviour
 
     private void HandleWeaponObject()
     {
+       
         if (Input.GetKey(KeyCode.E))
         {
             audioSource.PlayOneShot(Item);
@@ -231,6 +274,7 @@ public class RayTest : MonoBehaviour
 
     private void HandleFlashItemObject()
     {
+        
         if (Input.GetKeyDown(KeyCode.E))
         {
             audioSource.PlayOneShot(Item);
@@ -327,7 +371,7 @@ public class RayTest : MonoBehaviour
     private IEnumerator AA()
     {
         
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(1.5f);
         Panime.SetBool("Move", false);
     }
     
