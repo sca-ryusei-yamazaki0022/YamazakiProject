@@ -24,7 +24,7 @@ public class ItemUse : MonoBehaviour
         //Debug.Log(gameManagerScript.NowFlashCount);
         if (other.gameObject.tag == "EnemyBoss"&& enemyBossScript.EnemyState == EnemyBoss.Enemy.PlayerLook && Input.GetKeyDown(KeyCode.E) && gameManagerScript.NowFlashCount != 0)
         {
-            enemyBossScript.EnemyState = EnemyBoss.Enemy.ItemFrightening;
+            enemyBossScript.EnemyState = EnemyBoss.Enemy.ItemFrightening; gameManagerScript.NowFlashCount -= 1;
             //Debug.Log(enemyBossScript.EnemyState);
         }
     }

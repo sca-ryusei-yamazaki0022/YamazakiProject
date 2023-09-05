@@ -19,7 +19,7 @@ public class GameOver : MonoBehaviour
         
     }
    
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
         if(other.gameObject.CompareTag("Player"))
         {

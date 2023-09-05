@@ -18,7 +18,7 @@ public class Clear : MonoBehaviour
     {
         
     }
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
         // もし衝突した相手オブジェクトの名前が"Cube"ならば
         if (other.gameObject.name == "Player")

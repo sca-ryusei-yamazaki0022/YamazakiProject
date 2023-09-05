@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Cursor.visible = false;
         //PlayerPrefs.SetInt("count", count);
     }
 
@@ -92,9 +92,17 @@ public class GameManager : MonoBehaviour
 
     public void Clear()
     {
-        if (mirrorBreakCount == 3)
+        switch(mirrorBreakCount)
         {
-            closingDoor.SetActive(false);
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+                closingDoor.SetActive(false);
+                break;
         }
 
     }

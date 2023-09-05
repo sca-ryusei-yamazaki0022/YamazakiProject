@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 namespace FPS
 {
 	
@@ -18,7 +18,7 @@ namespace FPS
 		//private CameraShake cameraShake;
 		//private float shakeDuration = 0.2f;
 		//private float shakeIntensity = 0.1f;
-
+		
 		private CharacterController charaController;
 		[SerializeField] GameObject Mirror;
 		//[SerializeField] Light light;
@@ -32,6 +32,10 @@ namespace FPS
 		float NowStamina=0;
 		GameManager gameManager; 
 		RayTest rayTest;
+
+		float maxStaminaValue=5.0f;
+		[SerializeField] private Slider Stamina;
+		[SerializeField] private Slider Stamina1;
 		void Start()
 		{
 			// Åöí«â¡
@@ -43,6 +47,8 @@ namespace FPS
 			Map.SetActive(false);
 			//light.range = 0.0f;
 			//cameraShake = Camera.main.GetComponent<CameraShake>();
+			Stamina.maxValue = 1;
+			Stamina1.maxValue=1;
 		}
 
 		void Update()
@@ -105,6 +111,8 @@ namespace FPS
 			if (MaxStamina>NowStamina)
 			{ 
 				charaController.Move(moveDir * Time.fixedDeltaTime * runSpeed);
+				Stamina.value=(MaxStamina-NowStamina)/5;
+				Stamina1.value= (MaxStamina - NowStamina) / 5;
 				//GameManager.PlayerState.pl= PlayerState.Walking;
 				//Debug.Log("hasu");
 			}

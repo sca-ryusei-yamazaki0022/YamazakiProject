@@ -23,6 +23,8 @@ public class EnemyBoss : MonoBehaviour
     [SerializeField] private Transform[] BranchpointsThree;
     [SerializeField] private Transform[] BranchpointsFour;
     [SerializeField] private GameObject player;
+    [SerializeField] private GameObject Magic;
+    //[SerializeField] private Transform playerT;
     // 巡回地点のオブジェクト数（初期値=0）
     private int destPoint = 0;
     private int bPoint = 0;
@@ -36,9 +38,11 @@ public class EnemyBoss : MonoBehaviour
     private Animator Door;
     private GameObject DoorOBJ;
     bool UseE = true;
+    bool DoorFlag;
+    private Animator DoorAnim;
     // bool playerHide;//プレイヤーが敵におわれている際に隠れているかのフラグ
     //[SerializeField] private Text a;//テキストをアタッチする
-
+    private GameObject BreakDoor;
     [SerializeField] private AudioClip Shout;//叫ぶ
     [SerializeField] private AudioClip Flinch;//怯む
     [SerializeField] private AudioClip Walk;//歩く
@@ -48,7 +52,10 @@ public class EnemyBoss : MonoBehaviour
     [SerializeField] private AudioSource audioSourceBig;
     [SerializeField] private GameObject GameOverPlayer;
     [SerializeField] private GameObject Mirror;
-    
+    bool Capture;
+    float NavSpeed=1;
+    bool EnemyOne;
+
     public enum Enemy
     {
         Patrol,//巡回
@@ -86,12 +93,33 @@ public class EnemyBoss : MonoBehaviour
         if (wasVisible)
         {
             Mirror.SetActive(false);
+            
         }
         else
         {
             Mirror.SetActive(true);
         }
-
+        if(wasVisible&&EnemyState==Enemy.Patrol||EnemyState==Enemy.PlayerLook)
+        {
+            EnemyState = Enemy.PlayerLook; agent.destination = player.transform.position;
+        }
+        switch(gameManager.MBreak)
+        {
+            case 1:
+                NavSpeed=1.3f;
+                break;
+            case 2:
+                NavSpeed=1.6f;
+                break;
+            case 3:
+                
+                EnemyState=Enemy.end;
+                audioSourceBig.PlayOneShot(Shout, 0.7f);
+                animator.SetBool("Run", true);
+                this.transform.position=new Vector3(Magic.gameObject.transform.position.x, Magic.gameObject.transform.position.y, Magic.gameObject.transform.position.z);
+                gameManager.MBreak+=1;
+                break;
+        }
         //Debug.Log(gameManager.MBreak);
         //this.agent.speed = 2f;
         Camera();
@@ -99,25 +127,15 @@ public class EnemyBoss : MonoBehaviour
         switch (EnemyState)
         {
             case Enemy.Patrol://巡回
-                /*
-                if (walk) { 
-                    audioSourceSmall.PlayOneShot(Walk,0.3f);
-                    audioSourceSmall.pitch = 1.0f;
-                    audioSourceSmall.loop =true;
-                    walk=false;run=true;
-                }*/
-                //Debug.Log("巡回");
                 animator.SetBool("Run", false);
-                if (!agent.pathPending && agent.remainingDistance < 0.1f)
+                this.agent.speed = 3.5f*NavSpeed;
+                if (!agent.pathPending && agent.remainingDistance < 0.3f)
                 {
-                    //Debug.Log("巡回に入りました");
-                    //GotoNextPoint();
-                    //Debug.Log(Branch);
+                    
                     // 次の巡回地点を設定する処理を実行
                     if (!Branch)
                     {
                         GotoNextPoint();
-                        //Debug.Log("正規ルート");
                     }
                     else
                     {
@@ -132,6 +150,7 @@ public class EnemyBoss : MonoBehaviour
                 break;
 
             case Enemy.PlayerLook://怒る
+                this.agent.speed = 4.0f*NavSpeed;
                 animator.SetBool("Run", true);
                 /*
                 if(run)
@@ -146,7 +165,7 @@ public class EnemyBoss : MonoBehaviour
                 //playerHide
                 //Debug.Log("プレイヤー発見");
                 audioSourceBig.PlayOneShot(Shout, 0.3f);
-                agent.destination = player.transform.position;
+                
                 ChaseTime();
                 break;
 
@@ -166,6 +185,15 @@ public class EnemyBoss : MonoBehaviour
 
                 
                 //Debug.Log("プレイヤーを捕まえた");
+                break;
+
+            case Enemy.DoorAttack:
+
+                StartCoroutine(Doorattack());
+                break;
+            case Enemy.end:
+                this.agent.speed = 5.5f;
+                agent.destination = player.transform.position;
                 break;
         }
         if (flag)
@@ -250,7 +278,33 @@ public class EnemyBoss : MonoBehaviour
     }//巡回地点の切り替え
     void OnTriggerEnter(Collider other)
     {
-
+        if (other.gameObject.CompareTag("Door")&& !Capture)
+        {
+            var Animetor = other.transform.parent.parent.gameObject.GetComponent<Animator>();
+            DoorAnim = other.transform.parent.parent.gameObject.GetComponent<Animator>();
+            DoorFlag = Animetor.GetBool("Door");
+            if(!DoorFlag)
+            {
+                Debug.Log("開いてない");
+                EnemyState = Enemy.DoorAttack;
+                animator.SetBool("DoorAttack", true);
+                BreakDoor= other.transform.parent.parent.gameObject;
+            }
+        }
+        if(other.gameObject.CompareTag("OneSideDoor")&&!Capture)
+        { 
+            var Animetor1 = other.transform.parent.gameObject.GetComponent<Animator>();
+            DoorAnim = other.transform.parent.gameObject.GetComponent<Animator>();
+            DoorFlag = Animetor1.GetBool("Door");
+            if (DoorFlag)
+            {
+                Debug.Log("開いてない");
+                EnemyState = Enemy.DoorAttack;
+                animator.SetBool("DoorAttack", true);
+                BreakDoor = other.transform.parent.gameObject;
+            }
+           
+        }
         if (other.gameObject.CompareTag("BPoint"))
         {
             Branchpoint();
@@ -289,10 +343,15 @@ public class EnemyBoss : MonoBehaviour
     public void GameOver(Collider other)
     {
         // Debug.Log("引っかかったq");
-        EnemyState = Enemy.Capture;
-        agent.destination = this.gameObject.transform.position;
-        agent.enabled = false;
-        //Debug.Log(EnemyState);
+        if(!EnemyOne&&EnemyState!=Enemy.ItemFrightening)
+        { 
+            EnemyState = Enemy.Capture;
+            
+            Capture=true;
+            agent.destination = this.gameObject.transform.position;
+            agent.enabled = false;
+            EnemyOne = true;
+        }
     }//ゲームオーバー時のてきBoss の動き
 
 
@@ -300,31 +359,32 @@ public class EnemyBoss : MonoBehaviour
     void Predation()//捕食時
     {
         //Debug.Log("TOOOOOOO");
-        
+
         //Debug.Log("a");
         //ここでアニメーション再生系を設定
-        if (wasVisible)
-        {
-            animator.SetBool("RunAttack", true);
-        }
-        else
-        {
-            animator.SetBool("WalkAttack", true);
-        }
+        animator.SetBool("MissAttackRun", false);
+        animator.SetBool("WalkAttack", false);
+        animator.SetBool("RunAttack", true);
+        animator.SetBool("WalkAttack", true);
+
+
         
         Onecount = true; UseE = true;
         //UseE=true;
         if (Input.GetKey(KeyCode.E) && gameManager.NowFlashCount != 0)
         {
+            PAnimator.SetBool("GameOver", false);
             EnemyState = Enemy.Frightening;//怯みに変更
             gameManager.NowFlashCount -= 1;
             CancelInvoke("SceneGameover");
-            PAnimator.SetBool("GameOver", false);
+            
             //Debug.Log("ここで呼ばれたよ");
             UseE = false;
+            Capture = true;
         }
         else if (Onecount && UseE)
         {
+           
             PAnimator.SetBool("GameOver", true);
             player.transform.position=new Vector3(GameOverPlayer.gameObject.transform.position.x, player.gameObject.transform.position.y,GameOverPlayer.gameObject.transform.position.z);
             Invoke("SceneGameover", 3.6f);
@@ -332,6 +392,17 @@ public class EnemyBoss : MonoBehaviour
 
             Onecount = false; UseE = false;
         }
+
+    }
+
+    private IEnumerator Doorattack()
+    {
+        agent.destination = this.gameObject.transform.position;
+        yield return new WaitForSeconds(1);
+        animator.SetBool("DoorAttack", false);
+        yield return new WaitForSeconds(2);
+        BreakDoor.SetActive(false);
+        EnemyState = Enemy.Patrol;
 
     }
     void SceneGameover()//ゲームオーバー画面にかえるだけ
@@ -362,24 +433,17 @@ public class EnemyBoss : MonoBehaviour
         if (isVisible && !wasVisible) //&& !isChangingFlag)
         {
             flag = true; // オブジェクトがカメラに見えてカメラの後ろにいないかつ壁がない場合はフラグを立てる
-            EnemyState = Enemy.PlayerLook;//Enum変更
+            //EnemyState = Enemy.PlayerLook;//Enum変更
             //StartCoroutine(FlagChangeDelay()); // フラグ変更の遅延処理を開始
         }
-        /*
-        else if(EnemyState == Enemy.PlayerLook && TimeBool)
-        {
-            //Debug.Log("パトロールに戻したよ");
-            EnemyState = Enemy.Patrol;
-            animator.SetBool("Run", false);
-            TimeBool =false;
-        }
-        */
+       
         wasVisible = isVisible; // 現在の可視状態を保存
         //Debug.Log(isVisible);
     }//カメラに写っているかの確認
 
     void EnemyFrightening()//捕食時にアイテムを使われた
     {
+
         Debug.Log("ひるませるよ");
         animator.SetBool("MissAttack", true);
         StartCoroutine(MissAttackDelay());
@@ -397,25 +461,15 @@ public class EnemyBoss : MonoBehaviour
 
     private IEnumerator MissAttackDelay()
     {
-        yield return new WaitForSeconds(3.0f); //遅延
+        yield return new WaitForSeconds(2.0f); //遅延
         agent.enabled = true;//Navを基に戻す
         EnemyState = Enemy.PlayerLook;
-        UseE = true;
+        Capture = false;
+        UseE = true; EnemyOne = false;
         animator.SetBool("MissAttackRun", true); animator.SetBool("RunAttack", false); animator.SetBool("MissAttack", false);
     }
 
-    /*
-    private IEnumerator FlagChangeDelay()
-    {
-        isChangingFlag = true; // フラグ変更中フラグを立てる
-
-        yield return new WaitForSeconds(0.1f); // フラグ変更の遅延時間（例として0.1秒）
-
-        isChangingFlag = false; // フラグ変更中フラグを解除
-
-        //Debug.Log(flag);
-    }
-    */
+   
    
     private bool IsVisibleFromCamera(GameObject obj)//カメラ外
     {
@@ -462,7 +516,7 @@ public class EnemyBoss : MonoBehaviour
         if (EnemyState == Enemy.PlayerLook && !wasVisible)
         {
             Chasetime += Time.deltaTime;
-            //Debug.Log("回転して");
+            
         }
         else
         {
@@ -485,17 +539,9 @@ public class EnemyBoss : MonoBehaviour
         }
 
     }
-    /*
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Door"))
-        {
-            // 衝突した相手オブジェクトを削除する
-            //Destroy(collision.gameObject);
-            Debug.Log("省");
-        }
-    }
-    */
+
+
+    
     /*
     void OnCollisionEnter(Collision collision)
     {
