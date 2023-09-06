@@ -85,9 +85,10 @@ namespace FPS
 			Vector3 desiredMove = FPSCamera.transform.forward * movement.z + FPSCamera.transform.right * movement.x;
 			moveDir.x = desiredMove.x * 5f;
 			moveDir.z = desiredMove.z * 5f;
-			
+			Stamina.value = (MaxStamina - NowStamina) / 5;
+			Stamina1.value = (MaxStamina - NowStamina) / 5;
 			//Debug.Log(moveDir.y);
-			
+
 			// ÅöèCê≥
 			//if(gameManager.Pstop)
 			//{ 
@@ -99,8 +100,9 @@ namespace FPS
 			else
 			{
 				charaController.Move(moveDir * Time.fixedDeltaTime * walkSpeed);
-				NowStamina-= Time.deltaTime;
-                if (NowStamina <= 0) { NowStamina=0;}
+				NowStamina-= Time.deltaTime; 
+				
+				if (NowStamina <= 0) { NowStamina=0;}
 				//cameraShake.Shake(shakeDuration, shakeIntensity);
 			}
 		//}

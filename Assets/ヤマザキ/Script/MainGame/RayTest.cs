@@ -16,8 +16,13 @@ public class RayTest : MonoBehaviour
     private GameObject ChestBox;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private GameObject Text;
+    [SerializeField] private GameObject Text2;
+    [SerializeField] private GameObject Text3;
+    [SerializeField] private GameObject Text4;
+    [SerializeField] private GameObject S;
     private  Animator anim;
     private Animator Panime;
+    private Animator Panime2;
     [SerializeField] private AudioClip MirrorBreak;//鏡が割れる
     [SerializeField] private AudioClip Item;//アイテム拾う
     //[SerializeField] private AudioClip ItemUse;//使う
@@ -30,15 +35,19 @@ public class RayTest : MonoBehaviour
     [SerializeField] private GameObject C;
     [SerializeField] private GameObject DD;
     [SerializeField] private GameObject E;
+    bool DoorOutLine;
+    GameObject DoorOut;
     private void Start()
     {
         gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
 
-        rayDistance = 5.0f;
+        rayDistance = 0.1f;
         previousHitObject = null;
         Panime=GameObject.Find("P専用Canvas").GetComponent<Animator>();
+        Panime2 = GameObject.Find("TextPlayer").GetComponent<Animator>();
+        Debug.Log(Panime2);
         A.SetActive(true);
-        Panime.SetBool("Move",true);
+        //Panime.SetBool("Move",true);
         StartCoroutine(AA());
     }
 
@@ -51,9 +60,9 @@ public class RayTest : MonoBehaviour
     private void CastRay()
     {
         Ray ray = new Ray(transform.position, transform.forward);
-        Debug.DrawRay(ray.origin, ray.direction * rayDistance, Color.red);
+        //Debug.DrawRay(ray.origin, ray.direction * rayDistance, Color.red);
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out hit, 7))
         {
 
 
@@ -65,17 +74,31 @@ public class RayTest : MonoBehaviour
             {
                 OneCount = true; Panime.SetBool("Item", false);
                 LightOneCount=true;Panime.SetBool("Match",false);
-                if (previousHitObject != null && previousHitObject.layer != 8) // Layerが8でない場合にのみLayerを変更する
+                
+                if(DoorOutLine)
                 {
-                    previousHitObject.layer = 0;
+                    DoorOut.layer=9;
+                    DoorOutLine = false;
                 }
 
+                if (previousHitObject != null && previousHitObject.layer != 8) // Layerが8でない場合にのみLayerを変更する
+                {
+                    //Debug.Log(previousHitObject.layer);
+                    previousHitObject.layer = 0;
+                }
                 previousHitObject = currentHitObject;
+                if (previousHitObject != null && previousHitObject.layer == 9 && !DoorOutLine)
+                {
+                    DoorOutLine = true;
+                    Debug.Log("Door");
+                    DoorOut=previousHitObject;
+                }
+                
 
                 if (previousHitObject.layer != 8) // Layerが8でない場合にのみLayerを変更する
                 {
                     previousHitObject.layer = 3;
-                    
+                    Debug.Log("OK");
                 }
                 else
                 {
@@ -157,6 +180,7 @@ public class RayTest : MonoBehaviour
                         hit.collider.gameObject.SetActive(false);
                         hit.collider.gameObject.layer = 0;
                         mirror = true;
+                        Panime.SetBool("Mirror", true);
                     }
                     break;
 
@@ -175,9 +199,12 @@ public class RayTest : MonoBehaviour
                     }
                     break;
                 case "Text":
+                case "メモ2":
+                case "メモ3":
+                case "メモ4":
                     if (Input.GetKey(KeyCode.E))
                     {
-                        hit.collider.gameObject.SetActive(false);
+                        
                         //hit.collider.gameObject.SetActive(false);
                         HandleTextObject();
                     }
@@ -199,7 +226,7 @@ public class RayTest : MonoBehaviour
 
     private void Door()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             //Debug.Log("ドアのスクリプト");
             var Animetor1= hit.collider.transform.parent.parent.gameObject.GetComponent<Animator>();
@@ -218,7 +245,7 @@ public class RayTest : MonoBehaviour
     }
     private void OneSide()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             //Debug.Log("ドアのスクリプト");
             var Animetor1 = hit.collider.transform.parent.gameObject.GetComponent<Animator>();
@@ -385,8 +412,34 @@ public class RayTest : MonoBehaviour
 
     private void HandleTextObject()
     {
-        Text.SetActive(true);
-        Panime.SetBool("Text", true);
+        switch(hit.collider.gameObject.tag)
+        {
+            case "Text":
+                Text.SetActive(true);
+                Panime2.SetBool("Text", true);
+                hit.collider.gameObject.SetActive(false);
+                gameManager.Pstop = true; S.SetActive(false);
+                break;
+            case "メモ2":
+                Text2.SetActive(true);
+                Panime2.SetBool("Text2", true);
+                hit.collider.gameObject.SetActive(false);
+                gameManager.Pstop = true; S.SetActive(false);
+                break;
+            case "メモ3":
+                Text3.SetActive(true);
+                Panime2.SetBool("Text3", true);
+                hit.collider.gameObject.SetActive(false);
+                gameManager.Pstop = true; S.SetActive(false);
+                break;
+            case "メモ4":
+                Text4.SetActive(true);
+                Panime2.SetBool("Text4", true);
+                hit.collider.gameObject.SetActive(false);
+                gameManager.Pstop = true; S.SetActive(false);
+                break;
+        }
+        
 
     }
     private IEnumerator AA()

@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     private float timer1 = 0;
     private float timer2 = 0;
 
+    public static float PlayTime;//ƒvƒŒƒCŽžŠÔ
+
     private void Awake()
     {
 
@@ -43,12 +45,17 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Cursor.visible = false;
+       
         //PlayerPrefs.SetInt("count", count);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!Pstop)
+        {
+            PlayTime += Time.deltaTime;
+        }
         // Update game logic
     }
 
@@ -56,7 +63,7 @@ public class GameManager : MonoBehaviour
     {
         UpdateMirrorBreakUI();
         UpdateMirrorBreakTime();
-        //Debug.Log(mirrorBreakTime1);
+        Debug.Log(PlayTime);
         //Debug.Log(mirrorBreakTime2);
         //Debug.Log(mirrorBreakTime3);
     }

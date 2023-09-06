@@ -8,7 +8,9 @@ public class EnemyBoss : MonoBehaviour
 {
     public Camera targetCamera; // フラグを返したい特定のカメラ
     public GameObject targetObject; // フラグを返したい特定のオブジェクト
-    public LayerMask obstacleLayer; // 壁や障害物のレイヤーマスク
+    [SerializeField] private LayerMask obstacleLayer; // 壁や障害物のレイヤーマスク
+    [SerializeField] private LayerMask obstacleLayer1;
+    [SerializeField] private LayerMask obstacleLayer2;
 
     public bool flag = false; // フラグ
     private bool wasVisible = false; // 前回の可視状態
@@ -93,7 +95,6 @@ public class EnemyBoss : MonoBehaviour
         if (wasVisible)
         {
             Mirror.SetActive(false);
-            
         }
         else
         {
@@ -502,7 +503,7 @@ public class EnemyBoss : MonoBehaviour
         Vector3 cameraPosition = targetCamera.transform.position;
         Vector3 direction = targetPosition - cameraPosition;
         RaycastHit hit;
-        if (Physics.Raycast(cameraPosition, direction, out hit, direction.magnitude, obstacleLayer))
+        if (Physics.Raycast(cameraPosition, direction, out hit, direction.magnitude, obstacleLayer) || Physics.Raycast(cameraPosition, direction, out hit, direction.magnitude, obstacleLayer1) || Physics.Raycast(cameraPosition, direction, out hit, direction.magnitude, obstacleLayer2))
         {
                 return true; //カメラとターゲットの間に壁がある
         }
