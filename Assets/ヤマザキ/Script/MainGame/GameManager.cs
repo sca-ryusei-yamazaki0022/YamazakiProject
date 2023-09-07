@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
 
         slider.value = 0;
         slider.maxValue = 10;
+
+        PlayTime = 0;
     }
 
     // Start is called before the first frame update

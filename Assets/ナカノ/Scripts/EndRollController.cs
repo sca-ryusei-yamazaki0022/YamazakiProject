@@ -27,8 +27,12 @@ public class EndRollController : MonoBehaviour
     [SerializeField] Text explain;
     float explainAlpha = 0;
 
-    //クリアタイム　メインゲームから取得予定
-    float clearTime = 0;
+    //クリアタイム　メインゲームから取得
+    float clearTime;
+    float fastestTime; //最速タイム
+    [SerializeField] Text ClearTime;
+    [SerializeField] Text HighScore;
+    bool isNewRecord;
 
     bool isOut;
     bool isSkip;
@@ -63,6 +67,35 @@ public class EndRollController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = 1;
         isSoundFadeIn = true;
+
+        isNewRecord = false;
+        clearTime = GameManager.PlayTime;
+        fastestTime = PlayerPrefs.GetFloat("FastestTime", 1000000);
+        if(clearTime <= fastestTime)
+        {
+            isNewRecord = true;
+            fastestTime = clearTime;
+            //PlayerPrefs.DeleteKey("FastestTime");
+            PlayerPrefs.SetFloat("FastestTime", fastestTime);
+        }
+        
+        ClearTime.text = TimeDisp(Mathf.Floor(clearTime / 60)) + ":" + TimeDisp(Mathf.Floor(clearTime % 60));
+        HighScore.text = TimeDisp(Mathf.Floor(fastestTime / 60)) + ":" + TimeDisp(Mathf.Floor(fastestTime % 60));
+    }
+
+    //時間の表示調整
+    string TimeDisp(float t)
+    {
+        string time = "";
+        if(t < 10)
+        {
+            time = "0" + t;
+        }
+        if(t >= 10)
+        {
+            time = t + "";
+        }
+        return time;
     }
 
     void Update()
@@ -82,7 +115,7 @@ public class EndRollController : MonoBehaviour
 
         if(text.localPosition.y >= limit)
         {
-            if(newRecordAlpha <= 1)
+            if(newRecordAlpha <= 1 && isNewRecord)
             {
                 newRecordAlpha += fadeSpeed * 2 * Time.deltaTime;
                 newRecord.color = new Color(1, 1, 1, newRecordAlpha);
