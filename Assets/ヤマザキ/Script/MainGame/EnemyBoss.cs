@@ -38,6 +38,7 @@ public class EnemyBoss : MonoBehaviour
     private Animator animator;
     private Animator PAnimator;
     private Animator Door;
+    private Animator ItemUseA;
     private GameObject DoorOBJ;
     bool UseE = true;
     bool DoorFlag;
@@ -54,6 +55,7 @@ public class EnemyBoss : MonoBehaviour
     [SerializeField] private AudioSource audioSourceBig;
     [SerializeField] private GameObject GameOverPlayer;
     [SerializeField] private GameObject Mirror;
+    [SerializeField] private GameObject ItemUseText;
     bool Capture;
     float NavSpeed=1;
     bool EnemyOne;
@@ -87,7 +89,7 @@ public class EnemyBoss : MonoBehaviour
         EnemyState = Enemy.Patrol;
         animator = GetComponent<Animator>();//animatoräiî[
         PAnimator = player.GetComponent<Animator>();
-        
+        ItemUseA = ItemUseText.GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -178,7 +180,7 @@ public class EnemyBoss : MonoBehaviour
                 break;
 
             case Enemy.ItemFrightening://ÉAÉCÉeÉÄÇ≈ÇÃãØÇ›
-                Debug.Log("ì¸Ç¡ÇƒÇÈ");
+                //Debug.Log("ì¸Ç¡ÇƒÇÈ");
                 StartCoroutine(EnemyItemiFrightening());
                 break;
             case Enemy.Capture://ïﬂäl
@@ -372,7 +374,7 @@ public class EnemyBoss : MonoBehaviour
         
         Onecount = true; UseE = true;
         //UseE=true;
-        if (Input.GetKey(KeyCode.E) && gameManager.NowFlashCount != 0)
+        if (Input.GetMouseButtonDown(0) && gameManager.NowFlashCount != 0)
         {
             PAnimator.SetBool("GameOver", false);
             EnemyState = Enemy.Frightening;//ãØÇ›Ç…ïœçX
@@ -389,8 +391,8 @@ public class EnemyBoss : MonoBehaviour
             PAnimator.SetBool("GameOver", true);
             player.transform.position=new Vector3(GameOverPlayer.gameObject.transform.position.x, player.gameObject.transform.position.y,GameOverPlayer.gameObject.transform.position.z);
             Invoke("SceneGameover", 3.6f);
-            Debug.Log(Onecount);
-
+            //Debug.Log(Onecount);
+            ItemUseA.SetTrigger("ItemUse");
             Onecount = false; UseE = false;
         }
 

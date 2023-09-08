@@ -31,10 +31,10 @@ public class RayTest : MonoBehaviour
     bool LightOneCount=true;
     bool D;
     [SerializeField] private GameObject A;
-    [SerializeField] private GameObject B;
-    [SerializeField] private GameObject C;
-    [SerializeField] private GameObject DD;
-    [SerializeField] private GameObject E;
+    //[SerializeField] private GameObject B;
+    //[SerializeField] private GameObject C;
+    //[SerializeField] private GameObject DD;
+    //[SerializeField] private GameObject E;
     bool DoorOutLine;
     GameObject DoorOut;
     private void Start()

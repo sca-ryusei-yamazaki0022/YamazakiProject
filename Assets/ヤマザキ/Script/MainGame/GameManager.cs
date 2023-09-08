@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     {
         UpdateMirrorBreakUI();
         UpdateMirrorBreakTime();
-        Debug.Log(PlayTime);
+        //Debug.Log(PlayTime);
         //Debug.Log(mirrorBreakTime2);
         //Debug.Log(mirrorBreakTime3);
     }
@@ -119,8 +119,9 @@ public class GameManager : MonoBehaviour
 
     public void PredationScene()
     {
+        Cursor.visible = true;
         SceneManager.LoadScene("GameoverScene");
-        Debug.Log("ゲームオーバー");
+        //Debug.Log("ゲームオーバー");
     }
 
     public int MBreak

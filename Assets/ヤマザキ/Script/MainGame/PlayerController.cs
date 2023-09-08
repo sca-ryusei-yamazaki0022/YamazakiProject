@@ -33,9 +33,11 @@ namespace FPS
 		GameManager gameManager; 
 		RayTest rayTest;
 
-		float maxStaminaValue=5.0f;
+		//float maxStaminaValue=0f;
 		[SerializeField] private Slider Stamina;
 		[SerializeField] private Slider Stamina1;
+		[SerializeField] GameObject StaminaO;
+		[SerializeField] GameObject StaminaO1;
 		void Start()
 		{
 			// Åöí«â¡
@@ -49,6 +51,7 @@ namespace FPS
 			//cameraShake = Camera.main.GetComponent<CameraShake>();
 			Stamina.maxValue = 1;
 			Stamina1.maxValue=1;
+			
 		}
 
 		void Update()
@@ -85,8 +88,14 @@ namespace FPS
 			Vector3 desiredMove = FPSCamera.transform.forward * movement.z + FPSCamera.transform.right * movement.x;
 			moveDir.x = desiredMove.x * 5f;
 			moveDir.z = desiredMove.z * 5f;
+			if(NowStamina<=0.1f)
+            {
+				StaminaO.SetActive(false);
+				StaminaO1.SetActive(false);
+			}
 			Stamina.value = (MaxStamina - NowStamina) / 5;
 			Stamina1.value = (MaxStamina - NowStamina) / 5;
+			//Debug.Log(NowStamina);
 			//Debug.Log(moveDir.y);
 
 			// ÅöèCê≥
@@ -113,6 +122,8 @@ namespace FPS
 			if (MaxStamina>NowStamina)
 			{ 
 				charaController.Move(moveDir * Time.fixedDeltaTime * runSpeed);
+				StaminaO.SetActive(true);
+				StaminaO1.SetActive(true);
 				Stamina.value=(MaxStamina-NowStamina)/5;
 				Stamina1.value= (MaxStamina - NowStamina) / 5;
 				//GameManager.PlayerState.pl= PlayerState.Walking;
