@@ -37,7 +37,7 @@ public class ItemImage : MonoBehaviour
                 Cr2.gameObject.SetActive(true);
                 break;
         }
-        
+        Debug.Log(gameManagerScript.NowMatchCount);
         switch(gameManagerScript.NowMatchCount)
         {
             case 0:

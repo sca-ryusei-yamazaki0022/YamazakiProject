@@ -16,13 +16,18 @@ public class RayTest : MonoBehaviour
     private GameObject ChestBox;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private GameObject Text;
+    
     [SerializeField] private GameObject Text2;
     [SerializeField] private GameObject Text3;
     [SerializeField] private GameObject Text4;
+    [SerializeField] private GameObject EUseText;
     [SerializeField] private GameObject S;
+    [SerializeField] private GameObject TextC;
     private  Animator anim;
     private Animator Panime;
     private Animator Panime2;
+    private Animator Panime3;
+    private Animator Panime4;
     [SerializeField] private AudioClip MirrorBreak;//鏡が割れる
     [SerializeField] private AudioClip Item;//アイテム拾う
     //[SerializeField] private AudioClip ItemUse;//使う
@@ -40,11 +45,13 @@ public class RayTest : MonoBehaviour
     private void Start()
     {
         gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-
+        
         rayDistance = 0.1f;
         previousHitObject = null;
         Panime=GameObject.Find("P専用Canvas").GetComponent<Animator>();
         Panime2 = GameObject.Find("TextPlayer").GetComponent<Animator>();
+        Panime3 = GameObject.Find("応急処置").GetComponent<Animator>();
+        Panime4 = GameObject.Find("Canvas").GetComponent<Animator>();
         Debug.Log(Panime2);
         A.SetActive(true);
         //Panime.SetBool("Move",true);
@@ -289,7 +296,7 @@ public class RayTest : MonoBehaviour
 
             child.SetActive(true);
             hit.collider.gameObject.tag="Untagged";
-
+            
         }
     }
 
@@ -310,7 +317,7 @@ public class RayTest : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             audioSource.PlayOneShot(Item);
-            if (gameManager.NowMatchCount > 5)
+            if (gameManager.NowMatchCount < 5)
             {
                 gameManager.NowMatchCount += 2;
             }
@@ -375,6 +382,8 @@ public class RayTest : MonoBehaviour
             
             gameManager.MirrorUi = false;
             gameManager.Pstop = false;
+
+            Panime4.SetTrigger("Count");
         }
 
 
@@ -392,12 +401,15 @@ public class RayTest : MonoBehaviour
            
             gameManager.MirrorUi = false;
             gameManager.Pstop = false;
+
+            Panime4.SetTrigger("Count");
         }
     }
     private void TimeCount2()
     {
         if (gameManager.MirrorT3 >= 10)
         {
+
             //Debug.Log("壊れたー");
             audioSource.PlayOneShot(MirrorBreak);
             gameManager.MBreak += 1;
@@ -407,6 +419,8 @@ public class RayTest : MonoBehaviour
             
             gameManager.MirrorUi = false;
             gameManager.Pstop = false;
+
+            Panime4.SetTrigger("Count");
         }
     }
 
@@ -416,32 +430,51 @@ public class RayTest : MonoBehaviour
         {
             case "Text":
                 Text.SetActive(true);
+                //EUseText.SetActive(true);
                 Panime2.SetBool("Text", true);
+                Panime3.SetBool("EText",true); Panime3.SetBool("ETextDown", false);
+                Panime.SetBool("Move", false); Panime.SetBool("Item", false); Panime.SetBool("Mirror", false); Panime.SetBool("Match", false);
                 hit.collider.gameObject.SetActive(false);
+                //TextC.SetActive(false);
                 gameManager.Pstop = true; S.SetActive(false);
                 break;
             case "メモ2":
                 Text2.SetActive(true);
+                //EUseText.SetActive(true);
                 Panime2.SetBool("Text2", true);
+                Panime3.SetBool("EText", true); Panime3.SetBool("ETextDown", false);
+                Panime.SetBool("Move", false); Panime.SetBool("Item", false); Panime.SetBool("Mirror", false); Panime.SetBool("Match", false);
                 hit.collider.gameObject.SetActive(false);
+                //TextC.SetActive(false);
                 gameManager.Pstop = true; S.SetActive(false);
                 break;
             case "メモ3":
                 Text3.SetActive(true);
+                //EUseText.SetActive(true);
                 Panime2.SetBool("Text3", true);
+                Panime3.SetBool("EText", true); Panime3.SetBool("ETextDown", false);
+                Panime.SetBool("Move", false); Panime.SetBool("Item", false); Panime.SetBool("Mirror", false); Panime.SetBool("Match", false);
                 hit.collider.gameObject.SetActive(false);
+                //TextC.SetActive(false);
                 gameManager.Pstop = true; S.SetActive(false);
                 break;
             case "メモ4":
                 Text4.SetActive(true);
+                //EUseText.SetActive(true);
                 Panime2.SetBool("Text4", true);
+                Panime3.SetBool("EText", true); Panime3.SetBool("ETextDown", false);
+                Panime.SetBool("Move", false); Panime.SetBool("Item", false); Panime.SetBool("Mirror", false); Panime.SetBool("Match", false);
                 hit.collider.gameObject.SetActive(false);
+                //TextC.SetActive(false);
                 gameManager.Pstop = true; S.SetActive(false);
                 break;
         }
         
 
     }
+
+   
+
     private IEnumerator AA()
     {
         

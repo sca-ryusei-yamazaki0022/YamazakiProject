@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject mirrorUI;
     [SerializeField] private Slider slider;
     [SerializeField] private GameObject closingDoor;
+    [SerializeField] private Text text;
 
     private bool mirrorUIActive = false;
     private bool pauseGame = false;
@@ -26,8 +27,11 @@ public class GameManager : MonoBehaviour
     private float timer = 0;
     private float timer1 = 0;
     private float timer2 = 0;
-
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip First;//ç≈èâÇ…égÇ§
     public static float PlayTime;//ÉvÉåÉCéûä‘
+
+    
 
     private void Awake()
     {
@@ -47,7 +51,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Cursor.visible = false;
-       
+        audioSource.PlayOneShot(First);
+     
         //PlayerPrefs.SetInt("count", count);
     }
 
@@ -63,6 +68,10 @@ public class GameManager : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(nowMatchCount>5)
+        {
+            nowMatchCount=5;
+        }
         UpdateMirrorBreakUI();
         UpdateMirrorBreakTime();
         //Debug.Log(PlayTime);
@@ -104,12 +113,13 @@ public class GameManager : MonoBehaviour
         switch(mirrorBreakCount)
         {
             case 1:
-
+                text.text="Å~1";
                 break;
             case 2:
-
+                text.text = "Å~2";
                 break;
             case 3:
+                text.text = "Å~3";
                 closingDoor.SetActive(false);
                 break;
         }

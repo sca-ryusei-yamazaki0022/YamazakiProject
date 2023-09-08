@@ -22,7 +22,8 @@ public class Clear : MonoBehaviour
     {
         // もし衝突した相手オブジェクトの名前が"Cube"ならば
         if (other.gameObject.name == "Player")
-        {           
+        {
+            Cursor.visible = true;
             SceneManager.LoadScene("EpilogueScene");
         }
     }

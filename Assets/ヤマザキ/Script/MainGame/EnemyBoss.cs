@@ -59,7 +59,7 @@ public class EnemyBoss : MonoBehaviour
     bool Capture;
     float NavSpeed=1;
     bool EnemyOne;
-
+    float Speed=0.0f;
     public enum Enemy
     {
         Patrol,//„‰ñ
@@ -109,10 +109,10 @@ public class EnemyBoss : MonoBehaviour
         switch(gameManager.MBreak)
         {
             case 1:
-                NavSpeed=1.3f;
+                NavSpeed=1.5f;
                 break;
             case 2:
-                NavSpeed=1.6f;
+                NavSpeed=2f;
                 break;
             case 3:
                 
@@ -207,6 +207,19 @@ public class EnemyBoss : MonoBehaviour
         {
             //Debug.Log("Œ©‚Â‚©‚Á‚Ä‚È‚¢");
         }
+        
+        Speed=agent.speed;
+        // ˆÈ‰º‚ğ’Ç‰Á
+        if (Vector3.Distance(agent.steeringTarget, transform.position) < 1.0f)
+        {
+            agent.speed = 1.0f;
+        }
+        else
+        {
+            agent.speed = Speed;
+        }
+        //agent.velocity = (agent.steeringTarget - transform.position).normalized * agent.speed;
+        //transform.forward = agent.steeringTarget - transform.position;
     }
     // Update is called once per frame
     void Update()

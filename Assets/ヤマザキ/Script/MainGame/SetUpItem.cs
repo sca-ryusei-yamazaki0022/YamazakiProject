@@ -14,7 +14,7 @@ public class SetUpItem : MonoBehaviour
     private GameObject SquareCorners;
     //[SerializeField] [Range(0f, 1f)] float capacity;
     int WeponC=1;
-    int TrapC=3;
+    int TrapC=2;
     Quaternion test;
 
     // Start is called before the first frame update
