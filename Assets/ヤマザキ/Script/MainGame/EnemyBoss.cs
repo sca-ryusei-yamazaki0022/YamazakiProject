@@ -49,6 +49,8 @@ public class EnemyBoss : MonoBehaviour
     [SerializeField] private AudioClip Shout;//叫ぶ
     [SerializeField] private AudioClip Flinch;//怯む
     [SerializeField] private AudioClip Walk;//歩く
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip AA;//使う
     bool walk = true;
     bool run = true;
     [SerializeField] private AudioSource audioSourceSmall;
@@ -56,10 +58,12 @@ public class EnemyBoss : MonoBehaviour
     [SerializeField] private GameObject GameOverPlayer;
     [SerializeField] private GameObject Mirror;
     [SerializeField] private GameObject ItemUseText;
+    [SerializeField] private Animator animatorCanvas;
     bool Capture;
     float NavSpeed=1;
     bool EnemyOne;
     float Speed=0.0f;
+    float volume;
     public enum Enemy
     {
         Patrol,//巡回
@@ -90,6 +94,10 @@ public class EnemyBoss : MonoBehaviour
         animator = GetComponent<Animator>();//animator格納
         PAnimator = player.GetComponent<Animator>();
         ItemUseA = ItemUseText.GetComponent<Animator>();
+        //volume = PlayerPrefs.GetFloat("SoundVolume") / 100;
+        
+        //audioSourceBig.volume *= volume;
+        //audioSourceSmall.volume *= volume;
     }
 
     void FixedUpdate()
@@ -130,9 +138,9 @@ public class EnemyBoss : MonoBehaviour
         switch (EnemyState)
         {
             case Enemy.Patrol://巡回
-                animator.SetBool("Run", false);
+                animator.SetBool("Run", false); animator.SetBool("MissAttackRun", false);
                 this.agent.speed = 3.5f*NavSpeed;
-                if (!agent.pathPending && agent.remainingDistance < 0.3f)
+                if (!agent.pathPending && agent.remainingDistance < 0.5f)
                 {
                     
                     // 次の巡回地点を設定する処理を実行
@@ -224,7 +232,7 @@ public class EnemyBoss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        Debug.Log(agent.destination);
     }
 
     // 次の巡回地点を設定する処理
@@ -243,50 +251,60 @@ public class EnemyBoss : MonoBehaviour
     {
         switch (destPoint)
         {
-            case 3:
-                destPoint += 4;
-                Branch = false;
-                break;
-            case 8:
-                if (BranchpointsFour.Length == 0)
-                    // 処理を返します
-                    return;
-                // 現在選択されている配列の座標を巡回地点の座標に代入
-                agent.destination = BranchpointsFour[bPoint].position;
-                bPoint = (bPoint + 1); //% BranchpointsFour.Length;
-                //Debug.Log(bPoint);
-                break;
-            case 9:
-                if (BranchpointsOne.Length == 0)
-                    // 処理を返します
-                    return;
-                // 現在選択されている配列の座標を巡回地点の座標に代入
-                agent.destination = BranchpointsOne[bPoint].position;
-                bPoint = (bPoint + 1); //% BranchpointsOne.Length;
-                //Debug.Log(bPoint);
-                break;
-            case 10:
+            case 1:
                 if (BranchpointsTwo.Length == 0)
-                    // 処理を返します
                     return;
-                // 現在選択されている配列の座標を巡回地点の座標に代入
+                agent.enabled = true;
                 agent.destination = BranchpointsTwo[bPoint].position;
                 bPoint = (bPoint + 1); //% BranchpointsTwo.Length;
-                //Debug.Log(bPoint);
+
+                //Branch = false;
                 break;
-            case 12:
+            case 2:
                 if (BranchpointsThree.Length == 0)
                     // 処理を返します
                     return;
+                agent.enabled = true;
                 // 現在選択されている配列の座標を巡回地点の座標に代入
                 agent.destination = BranchpointsThree[bPoint].position;
                 bPoint = (bPoint + 1); //% BranchpointsThree.Length;
                 //Debug.Log(bPoint);
                 break;
+            case 3:
+                if (BranchpointsOne.Length == 0)
+                    // 処理を返します
+                    return;
+                agent.enabled = true;
+                // 現在選択されている配列の座標を巡回地点の座標に代入
+                agent.destination = BranchpointsOne[bPoint].position;
+                bPoint = (bPoint + 1); //% BranchpointsOne.Length; 
+                
+                //Debug.Log(bPoint);
+                break;
+            case 4:
+                if (BranchpointsFour.Length == 0)  
+                // 処理を返します
+                return;
+                agent.enabled = true;
+                // 現在選択されている配列の座標を巡回地点の座標に代入
+                agent.destination = BranchpointsFour[bPoint].position;
+                bPoint = (bPoint + 1);// % BranchpointsFour.Length;
+        
+        // 処理を返します
+        //return;
+        // 現在選択されている配列の座標を巡回地点の座標に代入
 
-
-
+        //Debug.Log(bPoint);
+                 break;
+                case 7:
+                
+                //Debug.Log(bPoint);
+                break;
         }
+
+
+
+        
     }//次に向かうべき場所の選定（巡回地点の切り替え時）
     void Branchpoint()
     {
@@ -301,7 +319,7 @@ public class EnemyBoss : MonoBehaviour
             DoorFlag = Animetor.GetBool("Door");
             if(!DoorFlag)
             {
-                Debug.Log("開いてない");
+                //Debug.Log("開いてない");
                 EnemyState = Enemy.DoorAttack;
                 animator.SetBool("DoorAttack", true);
                 BreakDoor= other.transform.parent.parent.gameObject;
@@ -314,7 +332,7 @@ public class EnemyBoss : MonoBehaviour
             DoorFlag = Animetor1.GetBool("Door");
             if (DoorFlag)
             {
-                Debug.Log("開いてない");
+                //Debug.Log("開いてない");
                 EnemyState = Enemy.DoorAttack;
                 animator.SetBool("DoorAttack", true);
                 BreakDoor = other.transform.parent.gameObject;
@@ -331,24 +349,28 @@ public class EnemyBoss : MonoBehaviour
             //Debug.Log(destPoint);
             switch (destPoint)
             {
-                case 8:
-                    //Debug.Log("8で０担ってます");
-                    bPoint = 0; destPoint = 14;
-                    Branch = false;
+                case 1:
+                    Debug.Log("1で０担ってます");
+                    bPoint = 0; destPoint=2;
+                     Branch = false;
                     break;
-                case 9:
+                case 2:
                     //Debug.Log("９で０担ってます");
-                    bPoint = 0; destPoint = 9;
+                    bPoint = 0; destPoint = 3;
                     Branch = false;
                     break;
-                case 10:
+                case 3:
                     //Debug.Log("10で０担ってます");
-                    bPoint = 0; destPoint = 13;
+                    bPoint = 0; destPoint = 4;
                     Branch = false;
                     break;
-                case 12:
+                case 4:
                     //Debug.Log("12で0担ってます");
-                    bPoint = 0; destPoint = 13;
+                    bPoint = 0; destPoint = 5;
+                    Branch = false;
+                    break;
+                case 7:
+                    bPoint = 0; destPoint = 8;
                     Branch = false;
                     break;
             }
@@ -390,14 +412,20 @@ public class EnemyBoss : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && gameManager.NowFlashCount != 0)
         {
             PAnimator.SetBool("GameOver", false);
+            animatorCanvas.SetTrigger("Flash");
+            audioSource.PlayOneShot(AA);
             EnemyState = Enemy.Frightening;//怯みに変更
             gameManager.NowFlashCount -= 1;
             CancelInvoke("SceneGameover");
+            //animator.SetBool("WalkAttack", false);
+            //animator.SetBool("MissAttackRun", false);
             
             //Debug.Log("ここで呼ばれたよ");
             UseE = false;
             Capture = true;
+            animator.SetBool("WalkAttack", false); animator.SetBool("MissAttackRun", false);
         }
+        
         else if (Onecount && UseE)
         {
            
@@ -418,7 +446,7 @@ public class EnemyBoss : MonoBehaviour
         animator.SetBool("DoorAttack", false);
         yield return new WaitForSeconds(2);
         BreakDoor.SetActive(false);
-        EnemyState = Enemy.Patrol;
+        EnemyState = Enemy.PlayerLook;
 
     }
     void SceneGameover()//ゲームオーバー画面にかえるだけ
@@ -469,9 +497,13 @@ public class EnemyBoss : MonoBehaviour
     {
         agent.destination = this.gameObject.transform.position;
         animator.SetBool("Item", true);
+
+        
+
+
         yield return new WaitForSeconds(6.0f);
         animator.SetBool("Item", false);
-        
+        agent.enabled = true;//Navを基に戻す
         EnemyState = Enemy.Patrol;
     }
 

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Setting : MonoBehaviour
 {
     [SerializeField] Slider soundSlider;
-    float _volume;
+    public static float _volume;
     [SerializeField] Text soundValue;
     [SerializeField] Slider textSizeSlider;
     float _textSize;

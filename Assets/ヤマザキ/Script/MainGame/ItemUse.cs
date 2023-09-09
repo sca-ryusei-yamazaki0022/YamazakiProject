@@ -29,11 +29,11 @@ public class ItemUse : MonoBehaviour
     {
 
         //Debug.Log(gameManagerScript.NowFlashCount);
-        if (other.gameObject.tag == "EnemyBoss"&& enemyBossScript.EnemyState == EnemyBoss.Enemy.PlayerLook && Input.GetMouseButton(0) && gameManagerScript.NowFlashCount != 0)
+        if (other.gameObject.tag == "EnemyBoss" && Input.GetMouseButton(0) && gameManagerScript.NowFlashCount != 0 && enemyBossScript.EnemyState == EnemyBoss.Enemy.PlayerLook || enemyBossScript.EnemyState == EnemyBoss.Enemy.Patrol&&other.gameObject.tag == "EnemyBoss" && Input.GetMouseButton(0) && gameManagerScript.NowFlashCount != 0)
         {
-            audioSource.PlayOneShot(AA);
+            audioSource.PlayOneShot(AA); anim.SetTrigger("Flash");
             enemyBossScript.EnemyState = EnemyBoss.Enemy.ItemFrightening; gameManagerScript.NowFlashCount -= 1;
-            anim.SetTrigger("Flash");
+            
             //Debug.Log(enemyBossScript.EnemyState);
         }
     }

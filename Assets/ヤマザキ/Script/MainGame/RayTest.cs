@@ -22,7 +22,7 @@ public class RayTest : MonoBehaviour
     [SerializeField] private GameObject Text4;
     [SerializeField] private GameObject EUseText;
     [SerializeField] private GameObject S;
-    [SerializeField] private GameObject TextC;
+    //[SerializeField] private GameObject TextC;
     private  Animator anim;
     private Animator Panime;
     private Animator Panime2;
@@ -314,7 +314,7 @@ public class RayTest : MonoBehaviour
     private void HandleMatchObject()
     {
         //Debug.Log("tyesutoda");
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKey(KeyCode.E))
         {
             audioSource.PlayOneShot(Item);
             if (gameManager.NowMatchCount < 5)
@@ -330,7 +330,7 @@ public class RayTest : MonoBehaviour
     private void HandleFlashItemObject()
     {
         
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKey(KeyCode.E))
         {
             audioSource.PlayOneShot(Item);
             gameManager.NowFlashCount += 1;
@@ -431,9 +431,10 @@ public class RayTest : MonoBehaviour
             case "Text":
                 Text.SetActive(true);
                 //EUseText.SetActive(true);
+                Panime.SetBool("Move", false); Panime.SetBool("Item", false); Panime.SetBool("Mirror", false); Panime.SetBool("Match", false);
                 Panime2.SetBool("Text", true);
                 Panime3.SetBool("EText",true); Panime3.SetBool("ETextDown", false);
-                Panime.SetBool("Move", false); Panime.SetBool("Item", false); Panime.SetBool("Mirror", false); Panime.SetBool("Match", false);
+                
                 hit.collider.gameObject.SetActive(false);
                 //TextC.SetActive(false);
                 gameManager.Pstop = true; S.SetActive(false);
@@ -450,7 +451,8 @@ public class RayTest : MonoBehaviour
                 break;
             case "ƒƒ‚3":
                 Text3.SetActive(true);
-                //EUseText.SetActive(true);
+                //Debug.Log("HAitteru");
+                EUseText.SetActive(true);
                 Panime2.SetBool("Text3", true);
                 Panime3.SetBool("EText", true); Panime3.SetBool("ETextDown", false);
                 Panime.SetBool("Move", false); Panime.SetBool("Item", false); Panime.SetBool("Mirror", false); Panime.SetBool("Match", false);

@@ -9,13 +9,14 @@ public class TextUpDown : MonoBehaviour
     private Animator Panime1;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private GameObject S;
-    [SerializeField] private GameObject Text;
-    [SerializeField] private Animator anim;
+    //[SerializeField] private GameObject A;
+
     // Start is called before the first frame update
     void Start()
     {
         Panime = GameObject.Find("TextPlayer").GetComponent<Animator>();
         Panime1 = GameObject.Find("âûã}èàíu").GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame
@@ -23,15 +24,19 @@ public class TextUpDown : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            Debug.Log("F");
             Panime.SetBool("Text", false);
             Panime.SetBool("Text2", false);
             Panime.SetBool("Text3", false);
             Panime.SetBool("Text4", false);
-            Panime1.SetBool("EText", false); Panime1.SetBool("ETextDown", true);
+            Panime1.SetBool("EText", false); 
+            Panime1.SetBool("ETextDown", true);
             S.SetActive(true);
             //Text.SetActive(false);
            
             gameManager.Pstop = false;
+            //A.gameObject.SetActive(true);
+            this.gameObject.SetActive(false);
         }
     }
 }
