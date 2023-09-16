@@ -9,13 +9,25 @@ public class ChangeTextSize : MonoBehaviour
 
     float size;
     RectTransform rectTransform;
+    float lastSize;
 
     void Start()
     {
         rectTransform = GetComponent<RectTransform>();
 
-        size = PlayerPrefs.GetFloat("TextSize") * 0.25f / 100 + 1;
+        size = PlayerPrefs.GetFloat("TextSize");
         
-        rectTransform.localScale = new Vector3(rectTransform.localScale.x * size, rectTransform.localScale.y * size, 1);
+        rectTransform.localScale = new Vector3(rectTransform.localScale.x * size * 0.7f / 100 + 0.5f, rectTransform.localScale.y * size * 0.7f / 100 + 0.5f, 1);
+        lastSize = size;
+    }
+
+    void Update()
+    {
+        size = PlayerPrefs.GetFloat("TextSize");
+        if (lastSize != size)
+        {
+            rectTransform.localScale = new Vector3(rectTransform.localScale.x * size * 0.7f / 100 + 0.5f, rectTransform.localScale.y * size * 0.7f / 100 + 0.5f, 1);
+            lastSize = size;
+        }
     }
 }

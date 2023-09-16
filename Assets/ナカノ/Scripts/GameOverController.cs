@@ -126,7 +126,8 @@ public class GameOverController : MonoBehaviour
         }
         if (fadeAlpha >= 1)
         {
-            Application.Quit();
+            //Application.Quit();
+            SceneManager.LoadScene("TitleScene");
         }
     }
 

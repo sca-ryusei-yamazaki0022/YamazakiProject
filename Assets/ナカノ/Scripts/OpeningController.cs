@@ -15,6 +15,7 @@ public class OpeningController : MonoBehaviour
 
     //プロローグ
     [SerializeField] Text prologue;
+    [SerializeField] string[] prologueTexts;
     float textAlpha = 0;
 
     //「クリックでスタート」
@@ -31,6 +32,12 @@ public class OpeningController : MonoBehaviour
     [SerializeField] float SoundFadeInSpeed;
     [SerializeField] float SoundFadeOutSpeed;
     bool isSoundFadeIn;
+
+    /*帰り道、突如大雨に見舞われた私は雨宿りのため
+近くにあった廃墟で雨宿りすることにしました
+不自然なくらいに古い廃墟
+はじめは玄関で雨がやむのを待っていたのですが
+つい気になって中を覗いてみることにしたのです*/
 
     void Start()
     {
@@ -52,7 +59,7 @@ public class OpeningController : MonoBehaviour
     void Update()
     {
         //クリックでメインゲームに遷移
-        if(Input.GetMouseButtonDown(0) && state != STATE.IN)
+        if(Input.GetMouseButtonDown(0) && state != STATE.IN && state != STATE.TEXT)
         {
             isOut = true;
         }
@@ -120,14 +127,46 @@ public class OpeningController : MonoBehaviour
             audioSource.volume += SoundFadeInSpeed * Time.deltaTime;
         }
 
-        if (textAlpha <= 1)
+        bool isFadeout;
+        for (int i = 0; i < prologueTexts.Length; i++)
         {
-            textAlpha += 1f * Time.deltaTime;
-            prologue.color = new Color(255, 255, 255, textAlpha);
+            isFadeout = false;
+            prologue.text = prologueTexts[i];
+            if(!isFadeout)
+            {
+                if (textAlpha <= 1)
+                {
+                    textAlpha += 0.5f * Time.deltaTime;
+                    prologue.color = new Color(255, 255, 255, textAlpha);
+                }
+
+                if (textAlpha >= 1)
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        isFadeout = true;
+                    }
+                }
+            }
+
+            if(isFadeout)
+            {
+                if (textAlpha >= 0)
+                {
+                    Debug.Log("fadeout");
+                    textAlpha -= 0.5f * Time.deltaTime;
+                    prologue.color = new Color(255, 255, 255, textAlpha);
+                }
+                if(textAlpha <= 0)
+                {
+                    isFadeout = false;
+                }
+            }
         }
+        
         if(textAlpha >= 1)
         {
-            StartCoroutine("waitTime");
+            //StartCoroutine("waitTime");
         }
     }
 

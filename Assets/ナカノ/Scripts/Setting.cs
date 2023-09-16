@@ -38,7 +38,7 @@ public class Setting : MonoBehaviour
 
         SE1.volume = _volume / 100;
         SE2.volume = _volume / 100;
-        SampleText.rectTransform.localScale = new Vector3(_textSize * 0.25f / 100 + 1, _textSize * 0.25f / 100 + 1, 1);
+        SampleText.rectTransform.localScale = new Vector3(_textSize * 0.7f / 100 + 0.5f, _textSize * 0.7f / 100 + 0.5f, 1);
     }
 
     /// <summary>
