@@ -1471,7 +1471,6 @@ MonoBehaviour:
   textSizeSlider: {fileID: 66183118}
   sizeValue: {fileID: 639066559}
   SE1: {fileID: 542109279}
-  SE2: {fileID: 90147503}
   SampleText: {fileID: 1973342116}
 --- !u!4 &486714977
 Transform:

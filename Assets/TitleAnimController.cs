@@ -17,6 +17,7 @@ public class TitleAnimController : MonoBehaviour
     [SerializeField] float waitTime;
     AudioSource audioSource;
     [SerializeField] AudioClip zoomSound;
+    [SerializeField] AudioClip openSound;
     [SerializeField] float zoomSoundVolume;
     bool isPlay;
 
@@ -68,11 +69,18 @@ public class TitleAnimController : MonoBehaviour
     public void OnMouse()
     {
         anim.SetBool("highlighted", true);
+        if(!isPush)
+        {
+            audioSource.PlayOneShot(openSound);
+        }
     }
 
     public void OutMouse()
     {
-        anim.SetBool("highlighted", false);
+        if(!isPush)
+        {
+            anim.SetBool("highlighted", false);
+        }
     }
 
     public void Push()

@@ -13,7 +13,6 @@ public class Setting : MonoBehaviour
     [SerializeField] Text sizeValue;
 
     [SerializeField] AudioSource SE1;
-    [SerializeField] AudioSource SE2;
     [SerializeField] Text SampleText;
 
     void Start()
@@ -37,7 +36,6 @@ public class Setting : MonoBehaviour
         sizeValue.text = _textSize + "";
 
         SE1.volume = _volume / 100;
-        SE2.volume = _volume / 100;
         SampleText.rectTransform.localScale = new Vector3(_textSize * 0.7f / 100 + 0.5f, _textSize * 0.7f / 100 + 0.5f, 1);
     }
 

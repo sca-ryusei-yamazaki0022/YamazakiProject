@@ -15,7 +15,15 @@ public class ToPVScene : MonoBehaviour
 
     void Update()
     {
-        nowTime += Time.deltaTime;
+        if(SceneManager.GetActiveScene().name == "TitleScene")
+        {
+            nowTime += Time.deltaTime;
+        }
+        else
+        {
+            nowTime = 0;
+        }
+
         if(nowTime >= changeTime)
         {
             SceneManager.LoadScene("PVScene");

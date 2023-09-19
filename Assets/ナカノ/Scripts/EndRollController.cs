@@ -54,6 +54,8 @@ public class EndRollController : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = true;
+
         state = 0;
         isOut = false;
         isSkip = false;

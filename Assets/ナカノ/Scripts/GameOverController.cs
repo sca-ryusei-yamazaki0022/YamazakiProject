@@ -48,6 +48,8 @@ public class GameOverController : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = true;
+
         state = 0;
         FadeImage.enabled = true;
         fadeAlpha = 1;

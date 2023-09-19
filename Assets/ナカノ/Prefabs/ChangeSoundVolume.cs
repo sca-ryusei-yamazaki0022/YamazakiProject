@@ -8,6 +8,7 @@ public class ChangeSoundVolume : MonoBehaviour
 
     float volume;
     AudioSource audioSource;
+    float defaultvolume;
     float lastVolume;
 
     void Start()
@@ -15,8 +16,9 @@ public class ChangeSoundVolume : MonoBehaviour
         volume = PlayerPrefs.GetFloat("SoundVolume");
 
         audioSource = this.GetComponent<AudioSource>();
-        audioSource.volume *= volume / 100;
-        lastVolume = volume;
+        defaultvolume = audioSource.volume;
+        lastVolume = audioSource.volume;
+        audioSource.volume = audioSource.volume * volume / 100;
     }
 
     void Update()
@@ -25,8 +27,9 @@ public class ChangeSoundVolume : MonoBehaviour
         if(volume != lastVolume)
         {
             audioSource = this.GetComponent<AudioSource>();
-            audioSource.volume *= volume / 100;
             lastVolume = volume;
+            audioSource.volume = defaultvolume * volume / 100;
+            Debug.Log(volume + "," + volume / 100 + "," + audioSource.volume);
         }
     }
 }

@@ -127,7 +127,7 @@ public class OpeningController : MonoBehaviour
     void TEXT()
     {
         //BGMフェードイン
-        if (audioSource.volume <= 1 && isSoundFadeIn)
+        if (audioSource.volume <= 1 * PlayerPrefs.GetFloat("SoundVolume") / 100 && isSoundFadeIn)
         {
             audioSource.volume += SoundFadeInSpeed * Time.deltaTime;
         }
