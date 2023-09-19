@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ToPVScene : MonoBehaviour
 {
-    [SerializeField] private float changeTime;
+    [SerializeField, Header("PVçƒê∂Ç‹Ç≈ (ïb)")] private float changeTime;
     private float nowTime;
 
     void Start()

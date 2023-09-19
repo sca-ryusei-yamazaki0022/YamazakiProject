@@ -16,7 +16,9 @@ public class OpeningController : MonoBehaviour
     //プロローグ
     [SerializeField] Text prologue;
     [SerializeField] string[] prologueTexts;
+    int num = 0;
     float textAlpha = 0;
+    bool isFadein, isFadeout;
 
     //「クリックでスタート」
     [SerializeField] Text explain;
@@ -46,6 +48,9 @@ public class OpeningController : MonoBehaviour
         fadeAlpha = 1;
         textAlpha = 0;
         explainAlpha = 0;
+        isFadein = true;
+        isFadeout = false;
+        num = 0;
 
         FadeImage.color = new Color(fadeInColor, fadeInColor, fadeInColor, fadeAlpha);
         prologue.color = new Color(255, 255, 255, textAlpha);
@@ -127,46 +132,41 @@ public class OpeningController : MonoBehaviour
             audioSource.volume += SoundFadeInSpeed * Time.deltaTime;
         }
 
-        bool isFadeout;
-        for (int i = 0; i < prologueTexts.Length; i++)
+        prologue.text = prologueTexts[num];
+
+        if (isFadein)
         {
-            isFadeout = false;
-            prologue.text = prologueTexts[i];
-            if(!isFadeout)
+            if (textAlpha <= 1)
             {
-                if (textAlpha <= 1)
-                {
-                    textAlpha += 0.5f * Time.deltaTime;
-                    prologue.color = new Color(255, 255, 255, textAlpha);
-                }
+                textAlpha += 0.5f * Time.deltaTime;
+                prologue.color = new Color(255, 255, 255, textAlpha);
 
-                if (textAlpha >= 1)
+                if (Input.GetMouseButtonDown(0) && num < prologueTexts.Length - 1)
                 {
-                    if (Input.GetMouseButton(0))
-                    {
-                        isFadeout = true;
-                    }
-                }
-            }
-
-            if(isFadeout)
-            {
-                if (textAlpha >= 0)
-                {
-                    Debug.Log("fadeout");
-                    textAlpha -= 0.5f * Time.deltaTime;
-                    prologue.color = new Color(255, 255, 255, textAlpha);
-                }
-                if(textAlpha <= 0)
-                {
-                    isFadeout = false;
+                    isFadein = false;
+                    isFadeout = true;
                 }
             }
         }
-        
-        if(textAlpha >= 1)
+
+        if (isFadeout)
         {
-            //StartCoroutine("waitTime");
+            if (textAlpha >= 0)
+            {
+                textAlpha -= 0.5f * Time.deltaTime;
+                prologue.color = new Color(255, 255, 255, textAlpha);
+            }
+            if (textAlpha <= 0)
+            {
+                isFadeout = false;
+                isFadein = true;
+                num++;
+            }
+        }
+
+        if (num == prologueTexts.Length - 1)
+        {
+            StartCoroutine("waitTime");
         }
     }
 

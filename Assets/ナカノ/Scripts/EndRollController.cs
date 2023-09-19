@@ -14,10 +14,15 @@ public class EndRollController : MonoBehaviour
 
     //エンドロール
     [SerializeField] Text endroll;
+    [SerializeField] Text epilogue;
+    [SerializeField] string[] epilogueTexts;
+    int textsNum = 0;
+    bool isFadein, isFadeout;
     float textAlpha = 0;
     [SerializeField] RectTransform text; //テキスト移動用
     [SerializeField] float rollSpeed;
     [SerializeField] float limit;
+
 
     //NewRecord
     [SerializeField] Text newRecord;
@@ -54,13 +59,17 @@ public class EndRollController : MonoBehaviour
         isSkip = false;
         inoperable = false;
 
+        textsNum = 0;
+        isFadein = true;
+        isFadeout = false;
+
         fadeAlpha = 1;
         textAlpha = 0;
         explainAlpha = 0;
         clearTime = 0;
 
         FadeImage.color = new Color(FadeColor, FadeColor, FadeColor, fadeAlpha);
-        endroll.color = new Color(0, 0, 0, textAlpha);
+        epilogue.color = new Color(0, 0, 0, textAlpha);
         explain.color = new Color(255, 255, 255, explainAlpha);
         newRecord.color = new Color(1, 1, 1, newRecordAlpha);
 
@@ -101,7 +110,7 @@ public class EndRollController : MonoBehaviour
     void Update()
     {
         //フェードイン終わった後に一回クリックでエンドロールスキップ
-        if (Input.GetMouseButtonDown(0) && state != STATE.IN && !isSkip)
+        if (Input.GetMouseButtonDown(0) && state != STATE.IN && state != STATE.TEXT && !isSkip)
         {
             isSkip = true;
         }
@@ -182,12 +191,39 @@ public class EndRollController : MonoBehaviour
     //エピローグ表示
     void TEXT()
     {
-        if (textAlpha <= 1)
+        epilogue.text = epilogueTexts[textsNum];
+
+        if (isFadein)
         {
-            textAlpha += 1f * Time.deltaTime;
-            endroll.color = new Color(0, 0, 0, textAlpha);
+            if (textAlpha <= 1)
+            {
+                textAlpha += 0.5f * Time.deltaTime;
+                epilogue.color = new Color(255, 255, 255, textAlpha);
+
+                if (Input.GetMouseButtonDown(0) && textsNum < epilogueTexts.Length)
+                {
+                    isFadein = false;
+                    isFadeout = true;
+                }
+            }
         }
-        if (textAlpha >= 1)
+
+        if (isFadeout)
+        {
+            if (textAlpha >= 0)
+            {
+                textAlpha -= 0.5f * Time.deltaTime;
+                epilogue.color = new Color(255, 255, 255, textAlpha);
+            }
+            if (textAlpha <= 0)
+            {
+                isFadeout = false;
+                isFadein = true;
+                textsNum++;
+            }
+        }
+
+        if (textsNum == epilogueTexts.Length - 1)
         {
             StartCoroutine("waitTime");
         }
