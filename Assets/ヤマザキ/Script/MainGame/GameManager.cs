@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Slider slider;
     [SerializeField] private GameObject closingDoor;
     [SerializeField] private Text text;
+    
 
     private bool mirrorUIActive = false;
     private bool pauseGame = false;
@@ -31,7 +32,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip First;//最初に使う
     public static float PlayTime;//プレイ時間
 
-    
+    [SerializeField] List<string> messageList = new List<string>();//会話文リスト
+    [SerializeField] Text OPEDtext;
+    [SerializeField] float novelSpeed;//一文字一文字の表示する速さ
+    int novelListIndex = 0; //現在表示中の会話文の配列
+
 
     private void Awake()
     {
@@ -52,7 +57,7 @@ public class GameManager : MonoBehaviour
     {
         Cursor.visible = false;
         audioSource.PlayOneShot(First);
-     
+        StartCoroutine(Novel());
         //PlayerPrefs.SetInt("count", count);
     }
 
@@ -66,9 +71,13 @@ public class GameManager : MonoBehaviour
         // Update game logic
     }
 
+
+   
     void FixedUpdate()
     {
-        if(nowMatchCount>5)
+        
+
+        if (nowMatchCount>5)
         {
             nowMatchCount=5;
         }
@@ -121,11 +130,29 @@ public class GameManager : MonoBehaviour
             case 3:
                 text.text = "×3";
                 closingDoor.SetActive(false);
+                StartCoroutine(Novel());
                 break;
         }
 
     }
 
+    private IEnumerator Novel()
+    {
+        int messageCount = 0; //現在表示中の文字数
+        OPEDtext.text = ""; //テキストのリセット
+        while (messageList[novelListIndex].Length > messageCount)//文字をすべて表示していない場合ループ
+        {
+            OPEDtext.text += messageList[novelListIndex][messageCount];//一文字追加
+            messageCount++;//現在の文字数
+            yield return new WaitForSeconds(novelSpeed);//任意の時間待つ
+        }
+
+        novelListIndex++; //次の会話文配列
+        if (novelListIndex < messageList.Count)//全ての会話を表示したか
+        {
+            
+        }
+    }
 
     public void PredationScene()
     {
