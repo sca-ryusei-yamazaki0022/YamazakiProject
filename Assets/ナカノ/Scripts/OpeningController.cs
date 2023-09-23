@@ -140,12 +140,11 @@ public class OpeningController : MonoBehaviour
             {
                 textAlpha += 0.5f * Time.deltaTime;
                 prologue.color = new Color(255, 255, 255, textAlpha);
-
-                if (Input.GetMouseButtonDown(0) && num < prologueTexts.Length - 1)
-                {
-                    isFadein = false;
-                    isFadeout = true;
-                }
+            }
+            if (Input.GetMouseButtonDown(0) && num < prologueTexts.Length - 1)
+            {
+                isFadein = false;
+                isFadeout = true;
             }
         }
 

@@ -17,9 +17,6 @@ public class GameOverController : MonoBehaviour
     [SerializeField] Vector3 UIscale;
 
     //目
-    [SerializeField] GameObject Eye;
-    [SerializeField] Transform EyePos;
-    [SerializeField] float Limit;
     [SerializeField] float moveSpeed;
     Vector3 move;
     [SerializeField] float eyeOpenSpeed;
@@ -28,8 +25,9 @@ public class GameOverController : MonoBehaviour
 
     //鏡
     [SerializeField] GameObject Mirror;
-    [SerializeField, Header("鏡差分")] Sprite[] m_Sprite;
-    Image m_Image;
+    [SerializeField] Transform MirrorPos;
+
+    Animator eyeMoveAnim;
 
     //ボタン
     [SerializeField] GameObject EndButton;
@@ -55,17 +53,17 @@ public class GameOverController : MonoBehaviour
         fadeAlpha = 1;
         FadeImage.color = new Color(fadeColor, fadeColor, fadeColor, fadeAlpha);
 
-        EyePos.localScale = new Vector3(4f, 0f, 4f);
         UI.localScale = new Vector3(0.25f, 0.25f, 0.25f);
-
-        m_Image = Mirror.GetComponent<Image>();
-        m_Image.sprite = m_Sprite[0];
 
         move = new Vector3(moveSpeed * Time.deltaTime, 0, 0);
 
         zoomSource = zoomSound.GetComponent<AudioSource>();
         eyeSoundSource = this.GetComponent<AudioSource>();
         isOpenSound = true;
+
+        eyeMoveAnim = Mirror.GetComponent<Animator>();
+
+        MirrorPos.localScale = new Vector3(2.8f, 0f, 2.8f);
     }
 
     void Update()
@@ -141,33 +139,31 @@ public class GameOverController : MonoBehaviour
             eyeSoundSource.PlayOneShot(eyeSound);
             isOpenSound = false;
         }
-        if (EyePos.localScale.y <= 4f)
+        if(MirrorPos.localScale.y < 2.8f)
         {
-            EyePos.localScale += new Vector3(0, eyeOpenSpeed * Time.deltaTime, 0);
+            MirrorPos.localScale += new Vector3(0, eyeOpenSpeed * Time.deltaTime, 0);
         }
-        else { state = STATE.WAIT; }
+        else { MirrorPos.localScale = new Vector3(0, 2.8f, 0); state = STATE.WAIT; }
     }
 
     //ボタンに触れた時/離れた時/押した時の処理
     void R_on()
     {
-        if (EyePos.localPosition.x <= Limit)
-        {
-            EyePos.localPosition += move;
-        }
+        eyeMoveAnim.SetBool("RightMove", true);
+        eyeMoveAnim.SetBool("RightBack", false);
     }
 
     void R_out()
     {
-        if (EyePos.localPosition.x > 0)
-        {
-            EyePos.localPosition -= move;
-        }
+        eyeMoveAnim.SetBool("RightMove", false);
+        eyeMoveAnim.SetBool("RightBack", true);
     }
 
     void R_push()
     {
-        EyePos.localPosition = new Vector3(0, -540, 0);
+        eyeMoveAnim.SetBool("RightMove", false);
+        eyeMoveAnim.SetBool("RightBack", false);
+        eyeMoveAnim.SetBool("Break", true);
         RetryButton.SetActive(false);
         EndButton.SetActive(false);
         StartCoroutine("Retry");
@@ -175,23 +171,21 @@ public class GameOverController : MonoBehaviour
 
     void E_on()
     {
-        if (EyePos.localPosition.x >= -Limit)
-        {
-            EyePos.localPosition -= move;
-        }
+        eyeMoveAnim.SetBool("LeftMove", true);
+        eyeMoveAnim.SetBool("LeftBack", false);
     }
 
     void E_out()
     {
-        if (EyePos.localPosition.x < 0)
-        {
-            EyePos.localPosition += move;
-        }
+        eyeMoveAnim.SetBool("LeftMove", false);
+        eyeMoveAnim.SetBool("LeftBack", true);
     }
 
     void E_push()
     {
-        EyePos.localPosition = new Vector3(0, -540, 0);
+        eyeMoveAnim.SetBool("LeftMove", false);
+        eyeMoveAnim.SetBool("LeftBack", false);
+        eyeMoveAnim.SetBool("Default", true);
         RetryButton.SetActive(false);
         EndButton.SetActive(false);
         StartCoroutine("EyeClose");
@@ -211,15 +205,10 @@ public class GameOverController : MonoBehaviour
     //リトライ時の演出
     IEnumerator Retry()
     {
-        m_Image.sprite = m_Sprite[1];
         yield return new WaitForSeconds(1.0f);
 
         tmp += acceleration;
         zoomSpeed *= (1 + tmp * Time.deltaTime);
-        if (EyePos.localScale.x <= 3.5)
-        {
-            EyePos.localScale += new Vector3(10f * Time.deltaTime, 10f * Time.deltaTime, 0f);
-        }
         if(UI.localScale.y < UIscale.y)
         {
             UI.localScale += new Vector3(zoomSpeed * Time.deltaTime, zoomSpeed * Time.deltaTime, 0f);
@@ -242,13 +231,13 @@ public class GameOverController : MonoBehaviour
     IEnumerator EyeClose()
     {
         yield return new WaitForSeconds(0.5f);
-        if (EyePos.localScale.y > 0)
+        if (MirrorPos.localScale.y > 0)
         {
-            EyePos.localScale += new Vector3(0, -eyeOpenSpeed * Time.deltaTime, 0);
+            MirrorPos.localScale += new Vector3(0, -eyeOpenSpeed * Time.deltaTime, 0);
         }
-        else if (EyePos.localScale.y <= 0)
+        else if (MirrorPos.localScale.y <= 0)
         {
-            EyePos.localScale = new Vector3(0, 0, 0);
+            MirrorPos.localScale = new Vector3(0, 0, 0);
             OUT();
         }
     }
