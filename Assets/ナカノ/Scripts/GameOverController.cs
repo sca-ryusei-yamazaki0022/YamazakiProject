@@ -143,7 +143,7 @@ public class GameOverController : MonoBehaviour
         {
             MirrorPos.localScale += new Vector3(0, eyeOpenSpeed * Time.deltaTime, 0);
         }
-        else { state = STATE.WAIT; }
+        else { MirrorPos.localScale = new Vector3(0, 2.8f, 0); state = STATE.WAIT; }
     }
 
     //ƒ{ƒ^ƒ“‚ÉG‚ê‚½/—£‚ê‚½/‰Ÿ‚µ‚½‚Ìˆ—
