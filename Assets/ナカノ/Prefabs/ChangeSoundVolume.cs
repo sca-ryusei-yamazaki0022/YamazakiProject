@@ -29,7 +29,6 @@ public class ChangeSoundVolume : MonoBehaviour
             audioSource = this.GetComponent<AudioSource>();
             lastVolume = volume;
             audioSource.volume = defaultvolume * volume / 100;
-            Debug.Log(volume + "," + volume / 100 + "," + audioSource.volume);
         }
     }
 }
