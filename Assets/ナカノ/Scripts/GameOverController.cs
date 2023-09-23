@@ -31,6 +31,8 @@ public class GameOverController : MonoBehaviour
     [SerializeField, Header("ãæç∑ï™")] Sprite[] m_Sprite;
     Image m_Image;
 
+    Animator eyeMoveAnim;
+
     //É{É^Éì
     [SerializeField] GameObject EndButton;
     [SerializeField] GameObject RetryButton;
@@ -66,6 +68,8 @@ public class GameOverController : MonoBehaviour
         zoomSource = zoomSound.GetComponent<AudioSource>();
         eyeSoundSource = this.GetComponent<AudioSource>();
         isOpenSound = true;
+
+        eyeMoveAnim = Mirror.GetComponent<Animator>();
     }
 
     void Update()
@@ -155,6 +159,7 @@ public class GameOverController : MonoBehaviour
         {
             EyePos.localPosition += move;
         }
+        eyeMoveAnim.SetBool("Right", true);
     }
 
     void R_out()
