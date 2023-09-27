@@ -153,7 +153,7 @@ namespace FPS
 				}
 				else if (rayTest.map)
 				{
-					Mirror.SetActive(false);Map.SetActive(true); mouseDownCount = 0;
+					Mirror.SetActive(false);Map.SetActive(true);
 				}
 				else
                 {

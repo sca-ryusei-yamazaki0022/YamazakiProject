@@ -49,8 +49,8 @@ public class EnemyBoss : MonoBehaviour
     [SerializeField] private AudioClip Shout;//ã©Ç‘
     [SerializeField] private AudioClip Flinch;//ãØÇﬁ
     [SerializeField] private AudioClip Walk;//ï‡Ç≠
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip AA;//égÇ§
+    //[SerializeField] private AudioSource audioSource;
+    //[SerializeField] private AudioClip AA;//égÇ§
     bool walk = true;
     bool run = true;
     [SerializeField] private AudioSource audioSourceSmall;
@@ -413,7 +413,7 @@ public class EnemyBoss : MonoBehaviour
         {
             PAnimator.SetBool("GameOver", false);
             animatorCanvas.SetTrigger("Flash");
-            audioSource.PlayOneShot(AA);
+            //audioSource.PlayOneShot(AA);
             EnemyState = Enemy.Frightening;//ãØÇ›Ç…ïœçX
             gameManager.NowFlashCount -= 1;
             CancelInvoke("SceneGameover");

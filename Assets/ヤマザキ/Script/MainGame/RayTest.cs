@@ -42,6 +42,7 @@ public class RayTest : MonoBehaviour
     //[SerializeField] private GameObject E;
     bool DoorOutLine;
     GameObject DoorOut;
+
     private void Start()
     {
         gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
@@ -277,7 +278,7 @@ public class RayTest : MonoBehaviour
             audioSource.PlayOneShot(Light);
             gameManager.NowMatchCount -= 1;
             hit.collider.gameObject.layer = 0;
-            Debug.Log(gameManager.NowMatchCount);
+            //Debug.Log(gameManager.NowMatchCount);
         }
         else if (Input.GetMouseButtonDown(0) && gameManager.NowMatchCount == 0)
         {
@@ -316,13 +317,19 @@ public class RayTest : MonoBehaviour
         //Debug.Log("tyesutoda");
         if (Input.GetKey(KeyCode.E))
         {
-            audioSource.PlayOneShot(Item);
+            
             if (gameManager.NowMatchCount < 5)
             {
+                audioSource.PlayOneShot(Item);
                 gameManager.NowMatchCount += 2;
+                hit.collider.gameObject.SetActive(false);
+            }
+            else
+            {
+                Debug.Log("‚±‚êˆÈãŽ‚Ä‚È‚¢");
             }
             //else { //Debug.Log("5ŒÂŽ‚Á‚Ä‚¢‚é‚æ");}
-            hit.collider.gameObject.SetActive(false);
+            
             //Debug.Log(gameManager.NowMatchCount);
         }
     }

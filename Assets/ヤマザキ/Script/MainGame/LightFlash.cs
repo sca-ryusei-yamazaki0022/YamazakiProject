@@ -8,10 +8,11 @@ public class LightFlash : MonoBehaviour
     private Light lt;
     string tag;
     int Oncount;
+    [SerializeField] private GameObject FlashLight;
     // Start is called before the first frame update
     void Start()
     {
-        lt = gameObject.GetComponent<Light>();
+        lt = FlashLight.GetComponent<Light>();
 
     }
     // Update is called once per frame
@@ -21,7 +22,7 @@ public class LightFlash : MonoBehaviour
         //tag=this.gameObject.tag;
         if (this.gameObject.tag == "LightOn" && Oncount == 0)
         {
-            this.lt.range = 15f;
+            lt.range = 15f;
             this.gameObject.layer = 8;
             Oncount++;
         }

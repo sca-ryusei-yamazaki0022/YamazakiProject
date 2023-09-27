@@ -36,8 +36,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text OPEDtext;
     [SerializeField] float novelSpeed;//一文字一文字の表示する速さ
     int novelListIndex = 0; //現在表示中の会話文の配列
-
-
+    float volume;
+    float defaultvolume;
+    float lastVolume;
     private void Awake()
     {
 
@@ -56,9 +57,14 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Cursor.visible = false;
-        audioSource.PlayOneShot(First);
+        
+        Pstop=true;
         StartCoroutine(Novel());
         //PlayerPrefs.SetInt("count", count);
+        volume = PlayerPrefs.GetFloat("SoundVolume");
+        audioSource.volume = audioSource.volume * volume / 100;
+
+       
     }
 
     // Update is called once per frame
@@ -138,6 +144,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator Novel()
     {
+        audioSource.PlayOneShot(First);
         int messageCount = 0; //現在表示中の文字数
         OPEDtext.text = ""; //テキストのリセット
         while (messageList[novelListIndex].Length > messageCount)//文字をすべて表示していない場合ループ
@@ -150,7 +157,9 @@ public class GameManager : MonoBehaviour
         novelListIndex++; //次の会話文配列
         if (novelListIndex < messageList.Count)//全ての会話を表示したか
         {
-            
+            yield return new WaitForSeconds(1.0f);
+            Pstop=false;
+            OPEDtext.text = "";
         }
     }
 
