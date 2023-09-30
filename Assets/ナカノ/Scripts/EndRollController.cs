@@ -224,7 +224,7 @@ public class EndRollController : MonoBehaviour
             }
         }
 
-        if (textsNum == epilogueTexts.Length - 1)
+        if (textsNum == epilogueTexts.Length - 1 && Input.GetMouseButtonDown(0))
         {
             StartCoroutine("waitTime");
         }
