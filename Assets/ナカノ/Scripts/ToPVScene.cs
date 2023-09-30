@@ -8,14 +8,17 @@ public class ToPVScene : MonoBehaviour
     [SerializeField, Header("PVçƒê∂Ç‹Ç≈ (ïb)")] private float changeTime;
     private float nowTime;
 
+    bool isCount;
+
     void Start()
     {
+        isCount = true;
         nowTime = 0;
     }
 
     void Update()
     {
-        if(SceneManager.GetActiveScene().name == "TitleScene")
+        if(isCount)
         {
             nowTime += Time.deltaTime;
         }
@@ -34,5 +37,15 @@ public class ToPVScene : MonoBehaviour
         {
             nowTime = 0;
         }
+    }
+
+    public void countStart()
+    {
+        isCount = true;
+    }
+
+    public void countStop()
+    {
+        isCount = false;
     }
 }
