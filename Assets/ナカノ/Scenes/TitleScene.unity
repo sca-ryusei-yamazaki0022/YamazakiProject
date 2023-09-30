@@ -568,7 +568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9074854912799200571, guid: ec1b02b5a8bdc3b43895d21eda0fabe2, type: 3}
       propertyPath: m_Text
-      value: "\u601D\u308F\u305A\u5165\u3063\u3066\u3057\u307E\u3063\u305F\u3051\u3069\u30B3\u30EC\u666E\u901A\u306B\u8003\u3048\u3066\u72AF\u7F6A\u3060\u3088\u306D\u3002\u3002\u623B\u308D\u3046\u304B\u306A"
+      value: "\u5B57\u5E55\u30B5\u30A4\u30BA\u30B5\u30F3\u30D7\u30EB"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec1b02b5a8bdc3b43895d21eda0fabe2, type: 3}
