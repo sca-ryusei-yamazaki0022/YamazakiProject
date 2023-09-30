@@ -10,10 +10,14 @@ public class PoseEnabled : MonoBehaviour
     Animator poseAnim;
     [SerializeField] private GameManager gameManager;
 
+    [SerializeField] Image backGround;
+
     void Start()
     {
         poseWindow.SetActive(false);
-        poseAnim = poseImage.GetComponent<Animator>();   
+        poseAnim = poseImage.GetComponent<Animator>();
+
+        backGround.enabled = false;
     }
 
     void Update()
@@ -22,6 +26,7 @@ public class PoseEnabled : MonoBehaviour
         {
             poseWindow.SetActive(true);
             StartCoroutine(poseAnimation());
+            backGround.enabled = true;
         }
     }
 
