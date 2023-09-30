@@ -22,7 +22,7 @@ public class PoseWindow : MonoBehaviour
 
     void Start()
     {
-        backGround.enabled = false;
+        //backGround.enabled = false;
         setting.SetActive(false);
         title.SetActive(false);
         RestartButton.SetActive(false);
@@ -48,7 +48,7 @@ public class PoseWindow : MonoBehaviour
     {
         restartButtonImage.color = new Color(255, 255, 255, 1);
         restartButtonImage.sprite = lightFrame[1];
-    }
+    } //鏡にカーソル重なったときライトを付ける
 
     public void LightOff()
     {
@@ -65,7 +65,7 @@ public class PoseWindow : MonoBehaviour
         Cursor.visible = true;
     }
 
-    public void GameRestart()
+    public void GameRestart() //ゲームに戻る
     {
         backGround.enabled = false;
         setting.SetActive(false);
@@ -73,10 +73,10 @@ public class PoseWindow : MonoBehaviour
         RestartButton.SetActive(false);
         poseAnim.SetTrigger("Expansion");
 
-        //Cursor.visible = false;
+        Cursor.visible = false;
     }
 
-    public void PoseDontEnabled()
+    public void PoseDontEnabled() //ゲームに戻るとき、拡大アニメーション終了後、ポーズ画面を無効化
     {
         poseWindow.SetActive(false);
     }

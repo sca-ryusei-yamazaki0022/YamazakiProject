@@ -16,9 +16,8 @@ public class TitleAnimController : MonoBehaviour
     [SerializeField] GameObject title;
     [SerializeField] float waitTime;
     AudioSource audioSource;
-    [SerializeField] AudioClip zoomSound;
-    [SerializeField] AudioClip openSound;
-    [SerializeField] float zoomSoundVolume;
+    [SerializeField] AudioSource zoomSound;
+    [SerializeField] AudioSource openSound;
     bool isPlay;
 
     [SerializeField] GameObject setting;
@@ -48,8 +47,7 @@ public class TitleAnimController : MonoBehaviour
             text.SetActive(false);
             if (isPlay)
             {
-                audioSource.volume = zoomSoundVolume;
-                audioSource.PlayOneShot(zoomSound);
+                zoomSound.Play();
                 isPlay = false;
             }
             tmp += acceleration;
@@ -71,7 +69,7 @@ public class TitleAnimController : MonoBehaviour
         anim.SetBool("highlighted", true);
         if(!isPush)
         {
-            audioSource.PlayOneShot(openSound);
+            openSound.Play();
         }
     }
 
