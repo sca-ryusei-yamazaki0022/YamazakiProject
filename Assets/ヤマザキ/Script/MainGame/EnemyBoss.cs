@@ -49,6 +49,7 @@ public class EnemyBoss : MonoBehaviour
     [SerializeField] private AudioClip Shout;//‹©‚Ô
     [SerializeField] private AudioClip Flinch;//‹¯‚Þ
     [SerializeField] private AudioClip Walk;//•à‚­
+    [SerializeField] private AudioClip CaptureSound;//•à‚­
     //[SerializeField] private AudioSource audioSource;
     //[SerializeField] private AudioClip AA;//Žg‚¤
     bool walk = true;
@@ -428,7 +429,7 @@ public class EnemyBoss : MonoBehaviour
         
         else if (Onecount && UseE)
         {
-           
+            audioSourceBig.PlayOneShot(CaptureSound,0.5f);
             PAnimator.SetBool("GameOver", true);
             player.transform.position=new Vector3(GameOverPlayer.gameObject.transform.position.x, player.gameObject.transform.position.y,GameOverPlayer.gameObject.transform.position.z);
             Invoke("SceneGameover", 3.6f);

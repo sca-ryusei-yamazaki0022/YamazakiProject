@@ -147,19 +147,22 @@ public class GameManager : MonoBehaviour
         audioSource.PlayOneShot(First);
         int messageCount = 0; //現在表示中の文字数
         OPEDtext.text = ""; //テキストのリセット
-        while (messageList[novelListIndex].Length > messageCount)//文字をすべて表示していない場合ループ
-        {
-            OPEDtext.text += messageList[novelListIndex][messageCount];//一文字追加
-            messageCount++;//現在の文字数
-            yield return new WaitForSeconds(novelSpeed);//任意の時間待つ
-        }
+        if(Pstop)
+        { 
+            while (messageList[novelListIndex].Length > messageCount)//文字をすべて表示していない場合ループ
+            {
+                OPEDtext.text += messageList[novelListIndex][messageCount];//一文字追加
+                messageCount++;//現在の文字数
+                yield return new WaitForSeconds(novelSpeed);//任意の時間待つ
+            }
 
-        novelListIndex++; //次の会話文配列
-        if (novelListIndex < messageList.Count)//全ての会話を表示したか
-        {
-            yield return new WaitForSeconds(1.0f);
-            Pstop=false;
-            OPEDtext.text = "";
+            novelListIndex++; //次の会話文配列
+            if (novelListIndex < messageList.Count)//全ての会話を表示したか
+            {
+                yield return new WaitForSeconds(1.0f);
+                Pstop=false;
+                OPEDtext.text = "";
+            }
         }
     }
 

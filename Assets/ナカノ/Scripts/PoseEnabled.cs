@@ -8,6 +8,7 @@ public class PoseEnabled : MonoBehaviour
     [SerializeField] GameObject poseWindow;
     [SerializeField] Image poseImage;
     Animator poseAnim;
+    [SerializeField] private GameManager gameManager;
 
     void Start()
     {
@@ -17,7 +18,7 @@ public class PoseEnabled : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape)&&gameManager.Pstop==false)
         {
             poseWindow.SetActive(true);
             StartCoroutine(poseAnimation());
@@ -26,6 +27,7 @@ public class PoseEnabled : MonoBehaviour
 
     IEnumerator poseAnimation()
     {
+        gameManager.Pstop = true;
         yield return new WaitForEndOfFrame();
         poseAnim.SetTrigger("Reduction");
         yield break;
