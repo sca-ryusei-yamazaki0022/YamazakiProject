@@ -201,12 +201,11 @@ public class EndRollController : MonoBehaviour
             {
                 textAlpha += 0.5f * Time.deltaTime;
                 epilogue.color = new Color(255, 255, 255, textAlpha);
-
-                if (Input.GetMouseButtonDown(0) && textsNum < epilogueTexts.Length)
-                {
-                    isFadein = false;
-                    isFadeout = true;
-                }
+            }
+            if (Input.GetMouseButtonDown(0) && textsNum < epilogueTexts.Length)
+            {
+                isFadein = false;
+                isFadeout = true;
             }
         }
 
