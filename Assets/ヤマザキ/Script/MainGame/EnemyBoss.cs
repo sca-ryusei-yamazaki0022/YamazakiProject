@@ -65,6 +65,14 @@ public class EnemyBoss : MonoBehaviour
     bool EnemyOne;
     float Speed=0.0f;
     float volume;
+    bool enemyStop;
+
+    public bool EnemyStop
+    {
+        get { return enemyStop; }
+        set { enemyStop = value; }
+    }
+
     public enum Enemy
     {
         Patrol,//巡回
@@ -103,6 +111,8 @@ public class EnemyBoss : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(!EnemyStop)
+        { 
         if (wasVisible)
         {
             Mirror.SetActive(false);
@@ -132,8 +142,7 @@ public class EnemyBoss : MonoBehaviour
                 gameManager.MBreak+=1;
                 break;
         }
-        //Debug.Log(gameManager.MBreak);
-        //this.agent.speed = 2f;
+
         Camera();
         //Debug.Log(EnemyState);
         switch (EnemyState)
@@ -227,8 +236,7 @@ public class EnemyBoss : MonoBehaviour
         {
             agent.speed = Speed;
         }
-        //agent.velocity = (agent.steeringTarget - transform.position).normalized * agent.speed;
-        //transform.forward = agent.steeringTarget - transform.position;
+        }
     }
     // Update is called once per frame
     void Update()
@@ -457,7 +465,7 @@ public class EnemyBoss : MonoBehaviour
     }
     void Camera()
     {
-        Debug.Log("ボス移動");
+        //Debug.Log("ボス移動");
         if (targetCamera == null || targetObject == null)
         {
             return;
@@ -469,8 +477,6 @@ public class EnemyBoss : MonoBehaviour
         if (viewportPosition.x < 0 || viewportPosition.x > 1 || viewportPosition.y < 0 || viewportPosition.y > 1 || viewportPosition.z < 0 || viewportPosition.z > targetCamera.farClipPlane)
         {
             flag = false; // オブジェクトがカメラの描画外に出たらフラグを下ろす
-            //EnemyState = Enemy.Patrol;
-            //return;
         }
 
         bool isVisible = IsVisibleFromCamera(targetObject) && !IsBehindCamera(targetPosition) && !IsObstacleBetweenCamera(targetPosition);
@@ -489,7 +495,7 @@ public class EnemyBoss : MonoBehaviour
     void EnemyFrightening()//捕食時にアイテムを使われた
     {
 
-        Debug.Log("ひるませるよ");
+        //Debug.Log("ひるませるよ");
         animator.SetBool("MissAttack", true);
         StartCoroutine(MissAttackDelay());
     }

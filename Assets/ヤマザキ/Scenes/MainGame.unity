@@ -11553,10 +11553,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1669290965690693143, guid: 7ca71c67a53bec044b8b4b151724e596, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1906178185780404909, guid: 7ca71c67a53bec044b8b4b151724e596, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961243465070476551, guid: 7ca71c67a53bec044b8b4b151724e596, type: 3}
+      propertyPath: enemyBoss
+      value: 
+      objectReference: {fileID: 226519740}
+    - target: {fileID: 4961243465070476551, guid: 7ca71c67a53bec044b8b4b151724e596, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 769309497}
     - target: {fileID: 4961243465393636752, guid: 7ca71c67a53bec044b8b4b151724e596, type: 3}
       propertyPath: m_Name
       value: Pose
       objectReference: {fileID: 0}
+    - target: {fileID: 4961243465393636753, guid: 7ca71c67a53bec044b8b4b151724e596, type: 3}
+      propertyPath: enemyBoss
+      value: 
+      objectReference: {fileID: 226519740}
     - target: {fileID: 4961243465393636753, guid: 7ca71c67a53bec044b8b4b151724e596, type: 3}
       propertyPath: gameManager
       value: 

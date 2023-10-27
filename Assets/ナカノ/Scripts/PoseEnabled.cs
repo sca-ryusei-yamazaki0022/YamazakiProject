@@ -12,6 +12,8 @@ public class PoseEnabled : MonoBehaviour
 
     [SerializeField] Image backGround;
 
+    [SerializeField] private EnemyBoss enemyBoss;
+
     void Start()
     {
         poseWindow.SetActive(false);
@@ -32,6 +34,7 @@ public class PoseEnabled : MonoBehaviour
 
     IEnumerator poseAnimation()
     {
+        enemyBoss.EnemyStop = true;
         gameManager.Pstop = true;
         yield return new WaitForEndOfFrame();
         poseAnim.SetTrigger("Reduction");

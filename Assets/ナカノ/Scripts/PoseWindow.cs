@@ -20,6 +20,9 @@ public class PoseWindow : MonoBehaviour
 
     [SerializeField] GameObject poseWindow;
 
+    [SerializeField] GameManager gameManager;
+    [SerializeField] EnemyBoss enemyBoss;
+
     void Start()
     {
         //backGround.enabled = false;
@@ -78,6 +81,8 @@ public class PoseWindow : MonoBehaviour
 
     public void PoseDontEnabled() //ゲームに戻るとき、拡大アニメーション終了後、ポーズ画面を無効化
     {
+        enemyBoss.EnemyStop = false;
+        gameManager.Pstop = false;
         poseWindow.SetActive(false);
     }
 

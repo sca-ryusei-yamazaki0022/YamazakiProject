@@ -128,13 +128,13 @@ public class GameManager : MonoBehaviour
         switch(mirrorBreakCount)
         {
             case 1:
-                text.text="Å~1";
+                text.text="Å~2";
                 break;
             case 2:
-                text.text = "Å~2";
+                text.text = "Å~1";
                 break;
             case 3:
-                text.text = "Å~3";
+                text.text = "Å~0";
                 closingDoor.SetActive(false);
                 StartCoroutine(Novel());
                 break;
