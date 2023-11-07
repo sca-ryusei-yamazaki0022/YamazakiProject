@@ -132,7 +132,7 @@ namespace FPS
 			else
             {
 				charaController.Move(moveDir * Time.fixedDeltaTime * walkSpeed);
-				Debug.Log("‘–‚ê‚È‚¢");
+				//Debug.Log("‘–‚ê‚È‚¢");
             }
 		}
 

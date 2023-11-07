@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Slider slider;
     [SerializeField] private GameObject closingDoor;
     [SerializeField] private Text text;
-    
+    [SerializeField] private Image test;
+
 
     private bool mirrorUIActive = false;
     private bool pauseGame = false;
@@ -136,6 +137,7 @@ public class GameManager : MonoBehaviour
             case 3:
                 text.text = "Å~0";
                 closingDoor.SetActive(false);
+                test.enabled = true;
                 StartCoroutine(Novel());
                 break;
         }
