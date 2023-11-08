@@ -182,14 +182,15 @@ public class EnemyBoss : MonoBehaviour
 
             case Enemy.Frightening://怯み
                 EnemyFrightening();
-                audioSourceSmall.loop = false;
+                    gameManager.Pstop = false;
+                    audioSourceSmall.loop = false;
                 audioSourceSmall.PlayOneShot(Flinch);
                 //Debug.Log("プレイヤーアイテム使用");
                 break;
 
             case Enemy.ItemFrightening://アイテムでの怯み
                                        //Debug.Log("入ってる");
-                    gameManager.Pstop = false;
+                    
                     StartCoroutine(EnemyItemiFrightening());
                 break;
             case Enemy.Capture://捕獲
